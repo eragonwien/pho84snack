@@ -9,7 +9,7 @@ GO
 CREATE TABLE [Restaurant] (
     [Id] int NOT NULL IDENTITY,
 	[Name] nvarchar(50) UNIQUE NOT NULL,
-	[IsActive] bit NOT NULL,
+	[IsActive] bit NOT NULL DEFAULT 0,
 	[WelcomeTitle] nvarchar(max),
     [WelcomeText] nvarchar(max),
     CONSTRAINT [PK_Restaurant] PRIMARY KEY ([Id])
@@ -26,7 +26,7 @@ CREATE TABLE [Contact] (
     [Phone] nvarchar(20),
     [Facebook] nvarchar(50),
     [Email] nvarchar(50),
-	[IsActive] bit NOT NULL,
+	[IsActive] bit NOT NULL DEFAULT 0,
     CONSTRAINT [PK_Contact] PRIMARY KEY ([Id]),
 	CONSTRAINT [FK_Contact_Restaurant_RestaurantId] FOREIGN KEY ([RestaurantId]) REFERENCES [Restaurant] ([Id])
 );
@@ -47,7 +47,7 @@ GO
 CREATE TABLE [Role] (
     [Id] int NOT NULL IDENTITY,
     [Title] nvarchar(30),
-	[IsActive] bit NOT NULL,
+	[IsActive] bit NOT NULL DEFAULT 0,
     [Description] nvarchar(max),
     CONSTRAINT [PK_Role] PRIMARY KEY ([Id])
 );
@@ -61,7 +61,7 @@ CREATE TABLE [User] (
     [Password] nvarchar(max) NOT NULL,
     [Description] nvarchar(max),
     [ExtraInfo] nvarchar(max),
-    [IsActive] bit NOT NULL,
+    [IsActive] bit NOT NULL DEFAULT 0,
     [RoleId] int NOT NULL,
     CONSTRAINT [PK_User] PRIMARY KEY ([Id]),
 	CONSTRAINT [FK_User_Role_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [Role] ([Id])
@@ -73,7 +73,7 @@ CREATE TABLE [Image] (
 	[Data] nvarchar(max),
 	[Name] nvarchar(max),
 	[MimeType] nvarchar(64),
-	[IsActive] bit NOT NULL,
+	[IsActive] bit NOT NULL DEFAULT 0,
     CONSTRAINT [PK_Image] PRIMARY KEY ([Id])
 );
 GO
@@ -83,8 +83,7 @@ CREATE TABLE [Category] (
     [RestaurantId] int,
 	[ImageId] int,
 	[Name] nvarchar(50),
-	[IsSubcategory] bit NOT NULL DEFAULT 0,
-	[IsActive] bit NOT NULL,
+	[IsActive] bit NOT NULL DEFAULT 0,
     CONSTRAINT [PK_Category] PRIMARY KEY ([Id]),
 	CONSTRAINT [FK_Category_Restaurant_RestaurantId] FOREIGN KEY ([RestaurantId]) REFERENCES [Restaurant] ([Id]),
 	CONSTRAINT [FK_Category_Image_ImageId] FOREIGN KEY ([ImageId]) REFERENCES [Image] ([Id])
@@ -98,9 +97,9 @@ CREATE TABLE [Product] (
     [Name] nvarchar(50),
     [Description] nvarchar(max),
     [Price] money NOT NULL,
-    [Currency] nvarchar(10) NOT NULL,
+    [Currency] nvarchar(3) NOT NULL,
     [IsFeatured] bit,
-	[IsActive] bit NOT NULL,
+	[IsActive] bit NOT NULL DEFAULT 0,
     CONSTRAINT [PK_Product] PRIMARY KEY ([Id]),
 	CONSTRAINT [FK_Product_Category_CategoryId] FOREIGN KEY ([CategoryId]) REFERENCES [Category] ([Id]),
 	CONSTRAINT [FK_Product_Image_ImageId] FOREIGN KEY ([ImageId]) REFERENCES [Image] ([Id])
@@ -114,10 +113,11 @@ CREATE TABLE [Menu] (
     [Name] nvarchar(50),
     [Description] nvarchar(max),
     [Price] money NOT NULL,
-    [Currency] nvarchar(10) NOT NULL,
-    [IsFeatured] bit,
-	[IsActive] bit NOT NULL,
+    [Currency] nvarchar(3) NOT NULL,
+    [IsFeatured] bit NOT NULL DEFAULT 0,
+	[IsActive] bit NOT NULL DEFAULT 0,
     CONSTRAINT [PK_Menu] PRIMARY KEY ([Id]),
+	CONSTRAINT [FK_Menu_Restaurant_RestaurantId] FOREIGN KEY ([RestaurantId]) REFERENCES [Restaurant] ([Id]),
 	CONSTRAINT [FK_Menu_Image_ImageId] FOREIGN KEY ([ImageId]) REFERENCES [Image] ([Id])
 );
 GO
@@ -128,8 +128,8 @@ CREATE TABLE [MenuProduct] (
     [Name] nvarchar(50),
     [Description] nvarchar(max),
     [Price] money NOT NULL,
-    [Currency] nvarchar(10) NOT NULL,
-	[IsActive] bit NOT NULL,
+    [Currency] nvarchar(3) NOT NULL,
+	[IsActive] bit NOT NULL  DEFAULT 0,
     CONSTRAINT [PK_MenuProducts] PRIMARY KEY ([MenuId], [ProductId]),
 	CONSTRAINT [FK_MenuProducts_Product] FOREIGN KEY ([ProductId]) REFERENCES [Product] ([Id]),
 	CONSTRAINT [FK_MenuProducts_Menu] FOREIGN KEY ([MenuId]) REFERENCES [Menu] ([Id])
