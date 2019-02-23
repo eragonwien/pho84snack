@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PwaUpdateService } from "./services/pwa-update.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'pho84-snack-web';
+
+  constructor(private update: PwaUpdateService) { }
 }

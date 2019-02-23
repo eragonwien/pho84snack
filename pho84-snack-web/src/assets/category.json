@@ -1,0 +1,41 @@
+[{
+    "name": "Test Category",
+    "image": "Test",
+    "products": [{
+      "name": "Brot",
+      "alias": "Banh my",
+      "description": "Banh My",
+      "price": "2.99",
+      "currency": "EUR",
+      "image": "banhmy",
+      "featured": "true"
+    }]
+  },
+  {
+    "name": "Breakfast",
+    "alias": "Frühstück",
+    "description": "Frühstück einfach",
+    "price": "3.99",
+    "currency": "EUR",
+    "image": "breakfast",
+    "products": [{
+        "name": "Brot",
+        "alias": "Banh my",
+        "description": "Banh My",
+        "price": "2.99",
+        "currency": "EUR",
+        "image": "banhmy",
+        "featured": "true"
+      },
+      {
+        "name": "Cola0.5l",
+        "alias": "",
+        "description": "Coca Cola 0.5l",
+        "price": "1.99",
+        "currency": "EUR",
+        "image": "cola0.5l",
+        "featured": "true"
+      }
+    ]
+  }
+]

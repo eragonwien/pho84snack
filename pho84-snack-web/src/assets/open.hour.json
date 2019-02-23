@@ -1,0 +1,43 @@
+[{
+    "day": "Mo.",
+    "from": "8:00",
+    "to": "12:00",
+    "close": "false"
+  },
+  {
+    "day": "Di.",
+    "from": "8:00",
+    "to": "12:00",
+    "close": "false"
+  },
+  {
+    "day": "Mi.",
+    "from": "8:00",
+    "to": "12:00",
+    "close": "false"
+  },
+  {
+    "day": "Do.",
+    "from": "8:00",
+    "to": "12:00",
+    "close": "false"
+  },
+  {
+    "day": "Fr.",
+    "from": "8:00",
+    "to": "12:00",
+    "close": "false"
+  },
+  {
+    "day": "Sa.",
+    "from": "8:00",
+    "to": "12:00",
+    "close": "false"
+  },
+  {
+    "day": "So.",
+    "from": "8:00",
+    "to": "12:00",
+    "close": "false"
+  }
+]

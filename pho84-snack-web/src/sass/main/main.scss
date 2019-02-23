@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+@import "../../../node_modules/bulma/bulma.sass";
+
+//@import "../custom";
+
+body {
+  margin: 0;
+}
+
+.hero-body {
+  min-height: 100%;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    background-image: url('/assets/images/hero.jpg');
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    content: '';
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    will-change: transform;
+    z-index: -1;
+  }
+
+  h1.title {
+    text-shadow: 0 0 5px black;
+  }
+}
