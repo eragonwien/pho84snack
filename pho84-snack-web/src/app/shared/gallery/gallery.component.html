@@ -1,0 +1,9 @@
+<section id="gallery">
+  <div class="columns is-multiline is-gapless">
+    <div *ngFor="let image of gallery; let i = index" [ngClass]="{'column' : true, 'is-6': gallery.length%2 === 0 || i < gallery.length - 1 }">
+      <figure class="image is-16by9">
+        <img [src]="image">
+      </figure>
+    </div>
+  </div>
+</section>

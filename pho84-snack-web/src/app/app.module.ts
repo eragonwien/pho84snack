@@ -13,6 +13,11 @@ import { ContactComponent } from './contact/contact.component';
 import { MenuComponent } from './menu/menu.component';
 import { ProductComponent } from './product/product.component';
 import { AboutComponent } from './about/about.component';
+import { HomeFeaturedComponent } from './home/home-featured/home-featured.component';
+import { HeroComponent } from './shared/hero/hero.component';
+import { NavbarBottomComponent } from './shared/navbar-bottom/navbar-bottom.component';
+import { GalleryComponent } from './shared/gallery/gallery.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +27,12 @@ import { AboutComponent } from './about/about.component';
     ContactComponent,
     MenuComponent,
     ProductComponent,
-    AboutComponent
+    AboutComponent,
+    HomeFeaturedComponent,
+    HeroComponent,
+    NavbarBottomComponent,
+    GalleryComponent,
+    FooterComponent
   ],
   imports: [
     SharedModule.forRoot(),

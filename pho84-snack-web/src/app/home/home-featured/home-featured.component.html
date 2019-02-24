@@ -1,0 +1,61 @@
+<section id="home-features">
+  <div class="hero is-medium is-primary is-bold" *ngFor="let feature of features" [style.backgroundImage]="backgroundImg(feature)">
+    <div class="hero-body">
+      <!-- LEFT -->
+      <div class="tile is-ancestor" *ngIf="feature.alignLeft == 'true'">
+        <!-- LEFT SIDE -->
+        <div class="tile is-4 is-parent">
+          <div class="tile is-child box has-background-primary-faded is-radiusless">
+            <h1 class="title">{{ feature.title }}</h1>
+            <h3 class="subtitle">{{ feature.subtitle }}</h3>
+            <p class="has-text-white">{{ feature.description }}</p>
+            <button class="button">
+              {{ feature.button }}
+            </button>
+          </div>
+        </div>
+
+        <!-- SPACE -->
+        <div class="tile is-4"></div>
+
+        <!-- RIGHT SIDE -->
+        <div class="tile is-4 is-vertical is-parent">
+          <div class="tile is-child"></div>
+          <div class="tile is-child box has-background-info-faded is-radiusless">
+            <h1 class="title">{{ feature.imageTitle }}</h1>
+            <h1 class="subtitle">{{ feature.imageSubtitle }}</h1>
+            <p class="has-text-white">{{ feature.imageDescription }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="tile is-ancestor" *ngIf="feature.alignLeft == 'false'">
+        <!-- LEFT SIDE -->
+        <div class="tile is-4 is-vertical is-parent">
+          <div class="tile is-child"></div>
+          <div class="tile is-child box has-background-info-faded is-radiusless">
+            <h1 class="title">{{ feature.imageTitle }}</h1>
+            <h1 class="subtitle">{{ feature.imageSubtitle }}</h1>
+            <p class="has-text-white">{{ feature.imageDescription }}</p>
+          </div>
+        </div>
+
+        <!-- SPACE -->
+        <div class="tile is-4"></div>
+
+        <!-- RIGHT SIDE -->
+        <div class="tile is-4 is-parent">
+          <div class="tile is-child box has-background-primary-faded is-radiusless">
+            <h1 class="title">{{ feature.title }}</h1>
+            <h3 class="subtitle">{{ feature.subtitle }}</h3>
+            <p class="has-text-white">{{ feature.description }}</p>
+            <button class="button">
+              {{ feature.button }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

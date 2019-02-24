@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Restaurant, Contact, Category } from '../models';
+import { Restaurant, Contact, Category, Feature } from '../models';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -9,24 +9,9 @@ import { DataService } from '../services/data.service';
 })
 export class HomeComponent implements OnInit {
 
-  restaurant: Restaurant;
-  contact: Contact;
-  categories: Category[];
-
   constructor(private ds: DataService) { }
 
   ngOnInit() {
-    this.ds.restaurant.subscribe((res: Restaurant) => {
-      this.restaurant = res;
-    });
-
-    this.ds.contact.subscribe((res: Contact) => {
-      this.contact = res;
-    });
-
-    this.ds.category.subscribe((res: Category[]) => {
-      this.categories = res;
-    });
   }
 
 }

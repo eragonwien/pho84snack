@@ -1,37 +1,91 @@
 @charset "utf-8";
-
 // Import a Google Font
-@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+// Brand colours
+$primary: #2e3c4f;
+$info: #7c6748;
+$light: white;
+
+// Colours overrides
+$family-sans-serif: 'Montserrat',
+sans-serif;
+
+// Navbar
+$navbar-item-img-max-height: 2.5rem;
+$navbar-item-color: $light;
+$navbar-item-hover-color: $light;
+$navbar-item-active-color: $light;
+$navbar-item-hover-background-color: $info;
+$navbar-item-active-background-color: $info;
+
+// Bottom Navbar
+$tabs-link-color: grey;
+$tabs-link-hover-color: $light;
+$tabs-link-active-color: $light;
+$tabs-toggle-link-border-width: 0px;
+$tabs-toggle-link-hover-background-color: $primary;
+$tabs-toggle-link-active-background-color: $primary;
+$tabs-toggle-link-active-color: $light;
 
 @import "../../../node_modules/bulma/bulma.sass";
 
-//@import "../custom";
+// All
+
+html,
+body {
+  height: 100%;
+}
 
 body {
   margin: 0;
 }
 
-.hero-body {
-  min-height: 100%;
-  position: relative;
-  overflow: hidden;
+.has-background-primary-faded {
+  background-color: rgba($color: $primary, $alpha: 0.7);
+}
 
-  &::before {
-    background-image: url('/assets/images/hero.jpg');
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: cover;
-    content: '';
-    height: 100%;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    will-change: transform;
-    z-index: -1;
+.has-background-info-faded {
+  background-color: rgba($color: $info, $alpha: 0.7);
+}
+
+// NAVBAR
+#navbar-bottom {
+
+  .tabs,
+  ul,
+  li,
+  a {
+    min-height: 3.5rem;
   }
 
-  h1.title {
-    text-shadow: 0 0 5px black;
+  a.is-active {
+    color: $light;
+  }
+}
+
+.hero {
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+}
+
+
+
+.hero-body h1.title {
+  text-shadow: 0 0 5px black;
+}
+
+// Main
+#main {
+  @media (max-width: 768px) {
+    margin-bottom: 3rem;
+  }
+}
+
+#home-features {
+  button {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 }

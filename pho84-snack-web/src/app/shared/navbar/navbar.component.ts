@@ -7,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  homeActive: string;
+
   constructor() { }
 
   ngOnInit() {
   }
-
 }

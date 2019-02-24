@@ -46,3 +46,18 @@ export interface Product {
   image: string,
   featured: boolean
 }
+
+export interface Feature {
+  id: number,
+  title: string,
+  subtitle: string,
+  description: string,
+  button: string,
+  route: string,
+  image: string,
+  imageTitle: string,
+  imageSubtitle: string,
+  imageDescription: string,
+  price: string,
+  alignLeft: boolean
+}

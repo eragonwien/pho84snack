@@ -7,7 +7,7 @@ import { ProductComponent } from './product/product.component';
 import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
-  { path: "", component: HomeComponent, pathMatch: "full" },
+  { path: "", pathMatch: "full", redirectTo: "/home" },
   { path: "kontakt", component: ContactComponent },
   { path: "menu", component: MenuComponent },
   { path: "home", component: HomeComponent },
@@ -15,7 +15,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "0",
+    "title": "Frühstück",
+    "subtitle": "Breakfast",
+    "subtitle2": "An sang",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata ",
+    "button": "Zu Speisekarte",
+    "route": "menu",
+    "image": "bread",
+    "imageTitle": "Banh my",
+    "imageSubtitle": "Kein Semmeln",
+    "imageDescription": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata",
+    "price": "€ 2.99",
+    "alignLeft": "true"
+  },
+  {
+    "id": "2",
+    "title": "Frühstück 2",
+    "subtitle": "Breakfast 2",
+    "subtitle2": "An sang 2",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata ",
+    "button": "Zu Speisekarte 2",
+    "route": "menu 2",
+    "image": "bread",
+    "imageTitle": "Banh my 2",
+    "imageSubtitle": "Kein Semmeln 2",
+    "imageDescription": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata",
+    "price": "€ 2.99",
+    "alignLeft": "false"
+  }
+]
