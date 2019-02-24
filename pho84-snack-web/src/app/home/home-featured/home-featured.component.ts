@@ -23,4 +23,8 @@ export class HomeFeaturedComponent implements OnInit {
   {
     return "url('/assets/images/compressed/" + feature.image + ".jpg')";
   }
+
+  img(feature: Feature) {
+    return "/assets/images/compressed/" + feature.image + ".jpg";
+  }
 }

@@ -7,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  homeActive: string;
+  openBurger: boolean = false;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  toggleBurger() {
+    this.openBurger = !this.openBurger;
   }
 }

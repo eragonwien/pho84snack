@@ -1,12 +1,18 @@
-<header class="navbar has-background-primary">
+<header class="navbar has-background-primary" id="navbar-top">
   <div class="container">
     <div class="navbar-brand">
       <a class="navbar-item" routerLink="">
         <img src="assets/icons/icon-512x512.png" height="100">
       </a>
+
+      <a role="button" class="navbar-burger" [ngClass]="{'is-active': openBurger}" (click)="toggleBurger()" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
 
-    <div id="navbar-menu-top" class="navbar-menu is-active is-hidden-mobile is-hidden-touch">
+    <div id="navbar-menu-top" class="navbar-menu" [ngClass]="{'is-active': openBurger}">
       <div class="navbar-end">
         <a class="navbar-item" routerLink="menu" routerLinkActive="is-active">Menu</a>
         <a class="navbar-item" routerLink="kontakt" routerLinkActive="is-active">Kontakt</a>

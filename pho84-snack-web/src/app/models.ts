@@ -10,7 +10,8 @@ export interface Contact {
   city: string,
   phone: string,
   email: string,
-  facebook: string
+  facebook: string,
+  facebookUrl: string
 }
 
 export interface OpenHour {

@@ -1,27 +1,44 @@
 <footer class="footer has-background-primary has-text-info">
   <div class="tile is-vertical is-ancestor">
     <div class="tile is-parent" id="footer-info">
-      <div class="tile is-child">
-        <p>PHO84 Snack</p>
+      <div class="tile is-child" *ngIf="restaurant">
+        <h1 class="title has-text-info">
+          {{ restaurant.name }}
+        </h1>
       </div>
-      <div class="tile is-child">
-        <p>Öffnungzeiten</p>
-        <p>Mo. : 12.00 - 18.00</p>
-        <p>Di. - Fr.: 12.00 - 18.00</p>
-        <p>Sa. & So. : 12.00 - 18.00</p>
+      <div class="tile is-child" *ngIf="openHours">
+        <h1 class="title has-text-info">
+          Öffnungszeiten
+        </h1>
+        <p *ngFor="let hour of openHours">
+          <span *ngIf="hour.close === 'true'">
+            {{ hour.day + ": geschlossen" }}
+          </span>
+          <span *ngIf="hour.close === 'false'">
+            {{ hour.day + ": " + hour.from + " - " + hour.to }}
+          </span>
+        </p>
       </div>
-      <div class="tile is-child">
+      <div class="tile is-child" *ngIf="contact">
+        <p>
+          <span class="icon is-medium"><i class="fas fa-map-marker-alt"></i></span>
+          <span>
+            {{ contact.address1 + ", " + contact.plz + " " + contact.city }}
+          </span>
+        </p>
         <p>
           <span class="icon is-medium"><i class="fas fa-phone"></i></span>
-          <span>+123456789</span>
+          <span>{{ contact.phone }}</span>
         </p>
         <p>
           <span class="icon is-medium"><i class="fas fa-at"></i></span>
-          <span>mail@mail.to</span>
+          <span>{{ contact.email }}</span>
         </p>
         <p>
-          <span class="icon is-medium"><i class="fab fa-facebook"></i></span>
-          <span>facebook link</span>
+          <a [href]="contact.facebookUrl" target="_blank" class="has-text-info">
+            <span class="icon is-medium"><i class="fab fa-facebook"></i></span>
+            <span>{{ contact.facebook }}</span>
+          </a>
         </p>
       </div>
     </div>

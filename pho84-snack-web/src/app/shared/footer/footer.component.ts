@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from 'src/app/services/data.service';
+import { Restaurant, Contact, OpenHour } from 'src/app/models';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  restaurant: Restaurant;
+  contact: Contact;
+  openHours: OpenHour[];
+
+  constructor(private ds: DataService) { }
 
   ngOnInit() {
-  }
+    this.ds.restaurant.subscribe((res: Restaurant) => {
+      this.restaurant = res;
+    });
 
+    this.ds.contact.subscribe((res: Contact) => {
+      this.contact = res;
+    });
+
+    this.ds.openHours.subscribe((res: OpenHour[]) => {
+      this.openHours = res;
+    });
+  }
 }

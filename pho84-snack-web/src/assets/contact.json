@@ -3,6 +3,8 @@
   "address2": "",
   "plz": "1070",
   "city": "Wien",
+  "phone": "+123456789",
   "email": "tuyetviena@gmail.com",
-  "facebook": "tuyetvienna"
+  "facebook": "tuyetvienna",
+  "facebookUrl": "https://www.google.at/"
 }

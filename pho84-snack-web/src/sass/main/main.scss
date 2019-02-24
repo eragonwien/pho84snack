@@ -12,12 +12,16 @@ $family-sans-serif: 'Montserrat',
 sans-serif;
 
 // Navbar
+$navbar-background-color: $primary;
 $navbar-item-img-max-height: 2.5rem;
 $navbar-item-color: $light;
 $navbar-item-hover-color: $light;
 $navbar-item-active-color: $light;
 $navbar-item-hover-background-color: $info;
 $navbar-item-active-background-color: $info;
+$navbar-dropdown-background-color: $info;
+$navbar-dropdown-item-active-background-color: $info;
+$navbar-dropdown-item-hover-background-color: $info;
 
 // Bottom Navbar
 $tabs-link-color: grey;
@@ -27,6 +31,10 @@ $tabs-toggle-link-border-width: 0px;
 $tabs-toggle-link-hover-background-color: $primary;
 $tabs-toggle-link-active-background-color: $primary;
 $tabs-toggle-link-active-color: $light;
+
+// Box
+$box-color: $info;
+$box-background-color: $primary;
 
 @import "../../../node_modules/bulma/bulma.sass";
 
@@ -49,7 +57,31 @@ body {
   background-color: rgba($color: $info, $alpha: 0.7);
 }
 
+.has-border-info {
+  border-color: $info;
+}
+
+.has-background-hidden-mobile {
+  @media (max-width: 768px) {
+    background-image: none !important;
+
+    .tile {
+      box-shadow: none;
+    }
+  }
+}
+
 // NAVBAR
+
+#navbar-top {
+
+  .navbar-burger,
+  .navbar-burger:active,
+  .navbar-burger:hover {
+    color: $navbar-item-color;
+  }
+}
+
 #navbar-bottom {
 
   .tabs,
@@ -57,6 +89,17 @@ body {
   li,
   a {
     min-height: 3.5rem;
+  }
+
+  // Fix for bottom navbar on iphone X
+  @supports (-webkit-overflow-scrolling: touch) {
+
+    .tabs,
+    ul,
+    li,
+    a {
+      min-height: 4.5rem;
+    }
   }
 
   a.is-active {
@@ -70,18 +113,17 @@ body {
   background-size: cover;
 }
 
-
-
 .hero-body h1.title {
   text-shadow: 0 0 5px black;
 }
 
 // Main
-#main {
-  @media (max-width: 768px) {
-    margin-bottom: 3rem;
-  }
-}
+
+// #main {
+//   @media (max-width: 768px) {
+//     margin-bottom: 3rem;
+//   }
+// }
 
 #home-features {
   button {
