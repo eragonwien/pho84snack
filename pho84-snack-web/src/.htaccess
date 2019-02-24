@@ -1,4 +1,4 @@
 RewriteEngine On
-RewriteBase /
-RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www.pho84snack.at [NC]
+RewriteRule ^(.*)$ http://pho84snack.at/$1 [L,R=301]
