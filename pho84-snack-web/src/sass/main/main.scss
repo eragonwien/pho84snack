@@ -7,6 +7,8 @@ $primary: #2e3c4f;
 $info: #7c6748;
 $light: white;
 
+$screen-sm: 768px;
+
 // Colours overrides
 $family-sans-serif: 'Montserrat',
 sans-serif;
@@ -32,10 +34,6 @@ $tabs-toggle-link-hover-background-color: $primary;
 $tabs-toggle-link-active-background-color: $primary;
 $tabs-toggle-link-active-color: $light;
 
-// Box
-$box-color: $info;
-$box-background-color: $primary;
-
 @import "../../../node_modules/bulma/bulma.sass";
 
 // All
@@ -57,6 +55,10 @@ body {
   background-color: rgba($color: $info, $alpha: 0.7);
 }
 
+.has-background-white-faded {
+  background-color: rgba($color: $white, $alpha: 0.7);
+}
+
 .has-border-info {
   border-color: $info;
 }
@@ -68,6 +70,13 @@ body {
     .tile {
       box-shadow: none;
     }
+  }
+}
+
+// Responsive
+.is-hidden-mobile-only {
+  @media (min-width: $screen-sm) {
+    display: none;
   }
 }
 
@@ -118,16 +127,19 @@ body {
 }
 
 // Main
-
-// #main {
-//   @media (max-width: 768px) {
-//     margin-bottom: 3rem;
-//   }
-// }
-
 #home-features {
   button {
     margin-top: 2rem;
     margin-bottom: 2rem;
+  }
+
+  .tile.is-ancestor, .tile.is-parent {
+    margin: 0;
+    padding: 0;
+  }
+
+  .tile.is-ancestor {
+    background: no-repeat center;
+    background-size: cover;
   }
 }
