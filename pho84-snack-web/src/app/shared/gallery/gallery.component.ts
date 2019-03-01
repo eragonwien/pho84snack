@@ -22,7 +22,6 @@ export class GalleryComponent implements OnInit {
 
   // check if number of entry excess limit
   offLimit(index: number): boolean {
-    console.log("LIMIT: " + this.limit + " Index: " + index + " Result: " + !(this.limit == 0 || index < this.limit));
     return !(this.limit == 0 || index < this.limit);
   }
 }
