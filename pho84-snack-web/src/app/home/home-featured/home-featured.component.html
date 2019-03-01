@@ -1,31 +1,17 @@
 <section id="home-features">
-  <div class="tile is-ancestor" *ngFor="let feature of features" [style.backgroundImage]="backgroundImg(feature)">
-    <div class="tile is-parent is-4" *ngIf="feature.alignLeft === 'true'">
-      <div class="tile is-child box has-background-white-faded is-radiusless">
-        <h1 class="title">{{ feature.title }}</h1>
-        <h3 class="subtitle">{{ feature.subtitle }}</h3>
-        <p class="has-text-primary">{{ feature.description }}</p>
-        <button class="button is-info">
-          {{ feature.button }}
-        </button>
-      </div>
-    </div>
-    <div class="tile is-parent">
-      <div class="tile is-child">
-        <figure class="image is-16by9 is-hidden-mobile-only">
-          <img [src]="img(feature)">
-        </figure>
-      </div>
-    </div>
-    <div class="tile is-parent is-4" *ngIf="feature.alignLeft === 'false'">
-      <div class="tile is-child box has-background-white-faded is-radiusless">
-        <h1 class="title">{{ feature.title }}</h1>
-        <h3 class="subtitle">{{ feature.subtitle }}</h3>
-        <p class="has-text-primary">{{ feature.description }}</p>
-        <button class="button is-info">
-          {{ feature.button }}
-        </button>
-      </div>
-    </div>
+  <div class="section has-text-centered">
+    <h1 class="title has-text-white is-size-2">Menu</h1>
+    <h2 class="subtitle has-text-info is-size-3"></h2>
   </div>
+
+  <app-hcard
+    *ngFor="let feature of features"
+    [title]="feature.title"
+    [subtitle]="feature.subtitle"
+    [text]="feature.description"
+    [buttonText]="feature.button"
+    [buttonUrl]="feature.url"
+    [image]="feature.image"
+    [align]="feature.align"
+  ></app-hcard>
 </section>

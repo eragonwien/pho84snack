@@ -54,11 +54,11 @@ export interface Feature {
   subtitle: string,
   description: string,
   button: string,
-  route: string,
+  url: string,
   image: string,
   imageTitle: string,
   imageSubtitle: string,
   imageDescription: string,
   price: string,
-  alignLeft: boolean
+  align: string
 }

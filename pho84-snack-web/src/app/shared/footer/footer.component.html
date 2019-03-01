@@ -1,58 +1,45 @@
-<footer class="footer has-background-primary has-text-info">
-  <div class="tile is-vertical is-ancestor">
-    <div class="tile is-parent" id="footer-info">
-      <div class="tile is-child" *ngIf="restaurant">
-        <h1 class="title has-text-info">
-          {{ restaurant.name }}
-        </h1>
+<footer class="footer has-background-primary has-text-info has-text-centered">
+  <div class="columns">
+    <div class="column is-4">
+      <div class="content" id="footer-restaurant-info" *ngIf="restaurant">
+        <h1 class="title has-text-info">{{ restaurant.name }}</h1>
+        <p class="has-text-info">{{ restaurant.description }}</p>
       </div>
-      <div class="tile is-child" *ngIf="openHours">
-        <h1 class="title has-text-info">
-          Öffnungszeiten
-        </h1>
+    </div>
+    <div class="column is-4">
+      <div class="content" id="footer-opening-hours">
+        <h1 class="title has-text-info">Öffnungszeiten</h1>
         <p *ngFor="let hour of openHours">
-          <span *ngIf="hour.close === 'true'">
-            {{ hour.day + ": geschlossen" }}
-          </span>
-          <span *ngIf="hour.close === 'false'">
-            {{ hour.day + ": " + hour.from + " - " + hour.to }}
-          </span>
-        </p>
-      </div>
-      <div class="tile is-child" *ngIf="contact">
-        <p>
-          <span class="icon is-medium"><i class="fas fa-map-marker-alt"></i></span>
-          <span>
-            {{ contact.address1 + ", " + contact.plz + " " + contact.city }}
-          </span>
-        </p>
-        <p>
-          <span class="icon is-medium"><i class="fas fa-phone"></i></span>
-          <span>{{ contact.phone }}</span>
-        </p>
-        <p>
-          <span class="icon is-medium"><i class="fas fa-at"></i></span>
-          <span>{{ contact.email }}</span>
-        </p>
-        <p>
-          <a [href]="contact.facebookUrl" target="_blank" class="has-text-info">
-            <span class="icon is-medium"><i class="fab fa-facebook"></i></span>
-            <span>{{ contact.facebook }}</span>
-          </a>
+          <span *ngIf="hour.close === 'true'">{{ hour.day + ": geschlossen" }}</span>
+          <span *ngIf="hour.close === 'false'">{{ hour.day + ": " + hour.from + " - " + hour.to }}</span>
         </p>
       </div>
     </div>
-    <div class="tile is-parent" id="footer-links" *ngIf="false">
-      <div class="tile is-child">
-
-      </div>
+    <div class="column is-4" id="footer-contact" *ngIf="contact">
+      <p>
+        <span class="icon is-medium"><i class="fas fa-map-marker-alt"></i></span>
+        <span>{{ contact.address1 + ", " + contact.plz + " " + contact.city }}</span>
+      </p>
+      <p>
+        <span class="icon is-medium"><i class="fas fa-phone"></i></span>
+        <span>{{ contact.phone }}</span>
+      </p>
+      <p>
+        <span class="icon is-medium"><i class="fas fa-at"></i></span>
+        <span>{{ contact.email }}</span>
+      </p>
+      <p>
+        <a [href]="contact.facebookUrl" target="_blank" class="has-text-info">
+          <span class="icon is-medium"><i class="fab fa-facebook"></i></span>
+          <span>{{ contact.facebook }}</span>
+        </a>
+      </p>
     </div>
-    <div class="tile is-parent">
-      <div class="tile is-child has-text-centered" id="footer-copyrights">
-        <p class="is-size-7">
-          © PHO84 SNACK 2019. All Rights Reserved.
-        </p>
-      </div>
-    </div>
+  </div>
+  <div class="content" id="footer-links">
+    <p>Link</p>
+  </div>
+  <div class="content" id="footer-copyrights">
+    <p class="is-size-7">© PHO84 SNACK 2019. All Rights Reserved.</p>
   </div>
 </footer>

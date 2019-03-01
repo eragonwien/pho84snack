@@ -18,6 +18,8 @@ import { HeroComponent } from './shared/hero/hero.component';
 import { NavbarBottomComponent } from './shared/navbar-bottom/navbar-bottom.component';
 import { GalleryComponent } from './shared/gallery/gallery.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { HcardComponent } from './shared/hcard/hcard.component';
+import { DisplayEvenPipe } from './shared/display-even.pipe';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { FooterComponent } from './shared/footer/footer.component';
     HeroComponent,
     NavbarBottomComponent,
     GalleryComponent,
-    FooterComponent
+    FooterComponent,
+    HcardComponent,
+    DisplayEvenPipe
   ],
   imports: [
     SharedModule.forRoot(),

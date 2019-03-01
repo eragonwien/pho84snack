@@ -1,0 +1,33 @@
+<div class="tile is-ancestor" [style.backgroundImage]="backgroundImage" style="min-height: 35rem;">
+  <div class="tile is-parent is-4" *ngIf="align === 'left'">
+    <div class="tile is-child box has-background-white-faded is-radiusless is-vertical-centered">
+      <article>
+        <h1 class="title">{{ title }}</h1>
+        <h3 class="subtitle">{{ subtitle }}</h3>
+        <p class="has-text-primary">{{ text }}</p>
+        <button class="button is-info" [routerLink]="buttonUrl">
+          {{ buttonText }}
+        </button>
+      </article>
+    </div>
+  </div>
+  <div class="tile is-parent">
+    <div class="tile is-child">
+      <figure class="image is-16by9 is-hidden-mobile-only">
+        <img [src]="image" />
+      </figure>
+    </div>
+  </div>
+  <div class="tile is-parent is-4" *ngIf="align === 'right'">
+    <div class="tile is-child box has-background-white-faded is-radiusless is-vertical-centered">
+      <article>
+        <h1 class="title">{{ title }}</h1>
+        <h3 class="subtitle">{{ subtitle }}</h3>
+        <p class="has-text-primary">{{ text }}</p>
+        <button class="button is-info" [routerLink]="buttonUrl">
+          {{ buttonText }}
+        </button>
+      </article>
+    </div>
+  </div>
+</div>
