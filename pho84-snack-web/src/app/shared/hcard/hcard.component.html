@@ -2,12 +2,14 @@
   <div class="tile is-parent is-4" *ngIf="align === 'left'">
     <div class="tile is-child box has-background-white-faded is-radiusless is-vertical-centered">
       <article>
-        <h1 class="title">{{ title }}</h1>
-        <h3 class="subtitle">{{ subtitle }}</h3>
-        <p class="has-text-info">{{ text }}</p>
-        <button class="button is-info" [routerLink]="buttonUrl">
-          {{ buttonText }}
-        </button>
+        <h1 class="title has-text-success">{{ title }}</h1>
+        <h3 class="subtitle has-text-success">{{ subtitle }}</h3>
+        <p class="has-text-primary">{{ text }}</p>
+        <div class="has-text-left">
+          <button class="button is-success" [routerLink]="buttonUrl">
+            {{ buttonText }}
+          </button>
+        </div>
       </article>
     </div>
   </div>
@@ -21,12 +23,14 @@
   <div class="tile is-parent is-4" *ngIf="align === 'right'">
     <div class="tile is-child box has-background-white-faded is-radiusless is-vertical-centered">
       <article>
-        <h1 class="title">{{ title }}</h1>
-        <h3 class="subtitle">{{ subtitle }}</h3>
-        <p class="has-text-info">{{ text }}</p>
-        <button class="button is-info" [routerLink]="buttonUrl">
-          {{ buttonText }}
-        </button>
+        <h1 class="title has-text-success">{{ title }}</h1>
+        <h3 class="subtitle has-text-success">{{ subtitle }}</h3>
+        <p class="has-text-primary">{{ text }}</p>
+        <div class="has-text-left">
+          <button class="button is-success" [routerLink]="buttonUrl">
+            {{ buttonText }}
+          </button>
+        </div>
       </article>
     </div>
   </div>

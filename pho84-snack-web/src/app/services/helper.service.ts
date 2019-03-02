@@ -10,7 +10,7 @@ export class HelperService {
     if (!image) {
       image = this.DEFAULT_IMAGE;
     }
-    return "/assets/images/compressed/" + image + ".jpg";
+    return "/assets/images/" + image + ".jpg";
   }
 
   imageUrlPath(image: string): string {

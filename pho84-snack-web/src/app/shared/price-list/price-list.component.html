@@ -1,30 +1,29 @@
-<section class="has-background-primary has-text-info">
-  <div class="section">
-    <h1 class="title is-size-3 has-text-centered has-text-info">{{ title }}</h1>
-    <h2 class="subtitle is-size-4 has-text-info">{{ subtitle }}</h2>
+<section class="has-background-primary has-text-success price-list">
+  <div class="section price-list-header">
+    <h1 class="title is-size-3 has-text-centered has-text-success">{{ title }}</h1>
+    <h2 class="subtitle is-size-4 has-text-success">{{ subtitle }}</h2>
   </div>
-  <div class="section has-text-info">
+  <div class="section price-list-body has-text-success">
     <div class="container">
       <div class="columns is-multiline">
         <div class="column is-6" *ngFor="let product of products">
-          <div class="">
-            <div class="columns is-mobile">
-              <div class="column is-9">
-                <h3 class="title is-size-4 has-text-info">
-                  <strong>{{ product.name }}</strong>
-                </h3>
-                <h4 class="subtitle is-size-5">
-                  {{ product.alias }}
-                </h4>
-                <p class="is-size-6">{{ product.description }}</p>
-              </div>
-              <div class="column is-3">
-                <h3>
-                  <strong class="has-text-info is-size-4">{{ product.price }}</strong>
-                  {{ product.currency }}
-                </h3>
-              </div>
+          <div class="level is-mobile mb-0">
+            <div class="level-left">
+              <strong class="is-size-5 has-text-success has-text-left has-text-weight-bold">
+                {{ product.name }}
+              </strong>
             </div>
+            <div class="level-right">
+              <strong class="is-size-6 has-text-success has-text-weight-bold">
+                {{ product.price | currency: "EUR" }}
+              </strong>
+            </div>
+          </div>
+          <p class="is-size-6 has-text-success has-text-weight-semi-bold">
+            {{ product.alias }}
+          </p>
+          <div class="content">
+            <p class="is-size-7 has-text-weight-light">{{ product.description }}</p>
           </div>
         </div>
       </div>

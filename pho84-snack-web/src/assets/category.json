@@ -9,6 +9,45 @@
         "alias": "Banh my",
         "description": "Lorem ipsum dolor sit amet, conse",
         "price": "2.99",
+        "image": "breakfast",
+        "featured": "true"
+      },
+      {
+        "name": "Brot",
+        "alias": "Banh my",
+        "description": "Lorem ipsum dolor olokimata sanctus est Lorem ipsum dolor sit amet.",
+        "price": "2.99",
+        "image": "banhmy",
+        "featured": "true"
+      },
+      {
+        "name": "Brot",
+        "alias": "Banh my",
+        "description": "Loremr sit amet.",
+        "price": "2.99",
+        "image": "banhmy",
+        "featured": "true"
+      },
+      {
+        "name": "Brot",
+        "alias": "Banh my",
+        "description": "Lorem ipsum dolor sit ametyam erat, sedrem ipsum dolor sit amet.",
+        "price": "2.99",
+        "image": "breakfast",
+        "featured": "true"
+      }
+    ]
+  },
+  {
+    "name": "Test Category",
+    "image": "hero",
+    "type": "food",
+    "products": [
+      {
+        "name": "Brot",
+        "alias": "Banh my",
+        "description": "Lorem ipsum dolor sit amet, conse",
+        "price": "2.99",
         "currency": "EUR",
         "image": "banhmy",
         "featured": "true"

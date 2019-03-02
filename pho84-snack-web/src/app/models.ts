@@ -33,7 +33,6 @@ export interface Menu {
   alias: string;
   description: string;
   price: string;
-  currency: string;
   image: string;
   align: string;
 }
@@ -43,7 +42,6 @@ export interface Product {
   alias: string;
   description: string;
   price: string;
-  currency: string;
   image: string;
   featured: boolean;
 }
