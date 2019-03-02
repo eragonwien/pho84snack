@@ -1,0 +1,40 @@
+<section class="has-background-primary has-text-info">
+  <div class="section">
+    <h1 class="title is-size-3 has-text-centered has-text-info">{{ title }}</h1>
+    <h2 class="subtitle is-size-4 has-text-info">{{ subtitle }}</h2>
+  </div>
+  <div class="section has-text-info">
+    <div class="container">
+      <div class="columns is-multiline">
+        <div class="column is-6" *ngFor="let product of products">
+          <div class="">
+            <div class="columns is-mobile">
+              <div class="column is-9">
+                <h3 class="title is-size-4 has-text-info">
+                  <strong>{{ product.name }}</strong>
+                </h3>
+                <h4 class="subtitle is-size-5">
+                  {{ product.alias }}
+                </h4>
+                <p class="is-size-6">{{ product.description }}</p>
+              </div>
+              <div class="column is-3">
+                <h3>
+                  <strong class="has-text-info is-size-4">{{ product.price }}</strong>
+                  {{ product.currency }}
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section
+    class="hero is-medium is-primary is-bold has-background-image"
+    *ngIf="image"
+    [style.backgroundImage]="backgroundImage(image)"
+  >
+    <div class="hero-body"></div>
+  </section>
+</section>

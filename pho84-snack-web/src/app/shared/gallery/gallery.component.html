@@ -1,9 +1,12 @@
 <section id="gallery">
   <div class="section" *ngIf="title">
-    <h1 class="title is-size-2 has-text-centered has-text-white">{{ title }}</h1>
+    <h1 class="title is-size-2 has-text-centered has-text-info">{{ title }}</h1>
   </div>
   <div class="columns is-multiline is-gapless">
-    <div *ngFor="let image of gallery; let i = index" [ngClass]="{ column: true, 'is-6': i | displayEven: gallery.length }">
+    <div
+      *ngFor="let image of gallery; let i = index"
+      [ngClass]="{ column: true, 'is-6': i | displayEven: gallery.length }"
+    >
       <figure class="image is-16by9" *ngIf="!offLimit(i)">
         <img [src]="image" />
       </figure>

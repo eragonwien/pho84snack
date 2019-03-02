@@ -3,9 +3,11 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
 
 // Brand colours
-$primary: #2e3c4f;
+$primary: #bcc0c6;
 $info: #7c6748;
 $light: white;
+$primary-light: #dee4ed;
+$primary-dark: #81858c;
 
 $screen-sm: 768px;
 
@@ -15,7 +17,7 @@ $family-sans-serif: "Montserrat", sans-serif;
 // Navbar
 $navbar-background-color: $primary;
 $navbar-item-img-max-height: 2.5rem;
-$navbar-item-color: $light;
+$navbar-item-color: white;
 $navbar-item-hover-color: $light;
 $navbar-item-active-color: $light;
 $navbar-item-hover-background-color: $info;
@@ -23,15 +25,15 @@ $navbar-item-active-background-color: $info;
 $navbar-dropdown-background-color: $info;
 $navbar-dropdown-item-active-background-color: $info;
 $navbar-dropdown-item-hover-background-color: $info;
-
+$navbar-burger-color: red;
 // Bottom Navbar
-$tabs-link-color: grey;
-$tabs-link-hover-color: $light;
-$tabs-link-active-color: $light;
+$tabs-link-color: $primary-dark;
+$tabs-link-hover-color: $info;
+$tabs-link-active-color: $info;
 $tabs-toggle-link-border-width: 0px;
 $tabs-toggle-link-hover-background-color: $primary;
 $tabs-toggle-link-active-background-color: $primary;
-$tabs-toggle-link-active-color: $light;
+$tabs-toggle-link-active-color: $info;
 
 @import "../../../node_modules/bulma/bulma.sass";
 
@@ -46,16 +48,22 @@ body {
   margin: 0;
 }
 
+.has-background-image {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
 .has-background-primary-faded {
-  background-color: rgba($color: $primary, $alpha: 0.7);
+  background-color: rgba($color: $primary, $alpha: 0.8);
 }
 
 .has-background-info-faded {
-  background-color: rgba($color: $info, $alpha: 0.7);
+  background-color: rgba($color: $info, $alpha: 0.8);
 }
 
 .has-background-white-faded {
-  background-color: rgba($color: $white, $alpha: 0.7);
+  background-color: rgba($color: $white, $alpha: 0.8);
 }
 
 .has-border-info {
@@ -113,7 +121,7 @@ body {
   }
 
   a.is-active {
-    color: $light;
+    color: $info;
   }
 }
 

@@ -1,12 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from "@angular/core";
+import { HelperService } from "src/app/services/helper.service";
 
 @Component({
-  selector: 'app-hcard',
-  templateUrl: './hcard.component.html',
-  styleUrls: ['./hcard.component.css']
+  selector: "app-hcard",
+  templateUrl: "./hcard.component.html",
+  styleUrls: ["./hcard.component.css"]
 })
 export class HcardComponent implements OnInit {
-
   @Input() title: string;
   @Input() subtitle: string;
   @Input() text: string;
@@ -15,11 +15,13 @@ export class HcardComponent implements OnInit {
   @Input() image: string;
   @Input() align: string;
 
-  constructor() { }
+  constructor(private hs: HelperService) {}
 
   ngOnInit() {
-    this.image = "/assets/images/compressed/" + this.image + ".jpg";
+    this.image = this.hs.imagePath(this.image);
   }
 
-  get backgroundImage(): string { return "url('" + this.image + "')"}
+  get backgroundImage(): string {
+    return this.hs.imageUrlPath(this.image);
+  }
 }

@@ -2,20 +2,32 @@
   <div class="container">
     <div class="navbar-brand">
       <a class="navbar-item" routerLink="">
-        <img src="assets/icons/icon-512x512.png" height="100">
+        <img src="assets/icons/icon-512x512.png" height="100" />
       </a>
 
-      <a role="button" class="navbar-burger" [ngClass]="{'is-active': openBurger}" (click)="toggleBurger()" aria-label="menu" aria-expanded="false">
+      <a
+        role="button"
+        class="navbar-burger"
+        [ngClass]="{ 'is-active': openBurger }"
+        (click)="toggleBurger()"
+        aria-label="menu"
+        aria-expanded="false"
+      >
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
       </a>
     </div>
 
-    <div id="navbar-menu-top" class="navbar-menu" [ngClass]="{'is-active': openBurger}">
+    <div id="navbar-menu-top" class="navbar-menu" [ngClass]="{ 'is-active': openBurger }">
       <div class="navbar-end">
-        <a class="navbar-item" routerLink="menu" routerLinkActive="is-active">Menu</a>
-        <a class="navbar-item" routerLink="kontakt" routerLinkActive="is-active">Kontakt</a>
+        <!-- <a class="navbar-item" routerLink="/home" routerLinkActive="is-active">
+          <span class="icon"><i class="fas fa-home" aria-hidden="true"></i></span>
+        </a> -->
+        <a class="navbar-item" routerLink="/menu" routerLinkActive="is-active" (click)="closeBurger()">Menü</a>
+        <a class="navbar-item" routerLink="/essen" routerLinkActive="is-active" (click)="closeBurger()">Essen</a>
+        <a class="navbar-item" routerLink="/trinken" routerLinkActive="is-active" (click)="closeBurger()">Trinken</a>
+        <a class="navbar-item" routerLink="/kontakt" routerLinkActive="is-active" (click)="closeBurger()">Kontakt</a>
       </div>
     </div>
   </div>

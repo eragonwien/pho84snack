@@ -1,0 +1,9 @@
+<div class="container-fluid">
+  <app-hero image="hero" title="Speise-karte"></app-hero>
+  <app-price-list
+    *ngFor="let category of categories"
+    [title]="category.name"
+    [products]="category.products"
+    [image]="category.image"
+  ></app-price-list>
+</div>

@@ -20,6 +20,11 @@ import { GalleryComponent } from './shared/gallery/gallery.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HcardComponent } from './shared/hcard/hcard.component';
 import { DisplayEvenPipe } from './shared/display-even.pipe';
+import { CategoryBlockComponent } from './shared/category-block/category-block.component';
+import { PriceListComponent } from './shared/price-list/price-list.component';
+import { NewsComponent } from './shared/news/news.component';
+import { DrinksComponent } from './drinks/drinks.component';
+import { FoodComponent } from './food/food.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +41,12 @@ import { DisplayEvenPipe } from './shared/display-even.pipe';
     GalleryComponent,
     FooterComponent,
     HcardComponent,
-    DisplayEvenPipe
+    DisplayEvenPipe,
+    CategoryBlockComponent,
+    PriceListComponent,
+    NewsComponent,
+    DrinksComponent,
+    FoodComponent
   ],
   imports: [
     SharedModule.forRoot(),

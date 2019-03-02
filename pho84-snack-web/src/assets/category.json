@@ -1,27 +1,60 @@
-[{
+[
+  {
     "name": "Test Category",
-    "image": "Test",
-    "products": [{
-      "name": "Brot",
-      "alias": "Banh my",
-      "description": "Banh My",
-      "price": "2.99",
-      "currency": "EUR",
-      "image": "banhmy",
-      "featured": "true"
-    }]
+    "image": "hero",
+    "type": "food",
+    "products": [
+      {
+        "name": "Brot",
+        "alias": "Banh my",
+        "description": "Lorem ipsum dolor sit amet, conse",
+        "price": "2.99",
+        "currency": "EUR",
+        "image": "banhmy",
+        "featured": "true"
+      },
+      {
+        "name": "Brot",
+        "alias": "Banh my",
+        "description": "Lorem ipsum dolor olokimata sanctus est Lorem ipsum dolor sit amet.",
+        "price": "2.99",
+        "currency": "EUR",
+        "image": "banhmy",
+        "featured": "true"
+      },
+      {
+        "name": "Brot",
+        "alias": "Banh my",
+        "description": "Loremr sit amet.",
+        "price": "2.99",
+        "currency": "EUR",
+        "image": "banhmy",
+        "featured": "true"
+      },
+      {
+        "name": "Brot",
+        "alias": "Banh my",
+        "description": "Lorem ipsum dolor sit ametyam erat, sedrem ipsum dolor sit amet.",
+        "price": "2.99",
+        "currency": "EUR",
+        "image": "banhmy",
+        "featured": "true"
+      }
+    ]
   },
   {
     "name": "Breakfast",
     "alias": "Frühstück",
-    "description": "Frühstück einfach",
+    "type": "menu",
+    "description": "Loreccusam et m et justo duo dolores et ea rebum. Stet clita kasd gubergest Lorem ipsum dolor sit amet.",
     "price": "3.99",
     "currency": "EUR",
     "image": "breakfast",
-    "products": [{
+    "products": [
+      {
         "name": "Brot",
         "alias": "Banh my",
-        "description": "Banh My",
+        "description": "Lorem ipsvero eos et accusam , no sea takimata sanctus est Lorem ipsum dolor sit amet.",
         "price": "2.99",
         "currency": "EUR",
         "image": "banhmy",
@@ -30,10 +63,57 @@
       {
         "name": "Cola0.5l",
         "alias": "",
-        "description": "Coca Cola 0.5l",
+        "description": "Lorem ipsucum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
         "price": "1.99",
         "currency": "EUR",
         "image": "cola0.5l",
+        "featured": "true"
+      },
+      {
+        "name": "Brot",
+        "alias": "Banh my",
+        "description": "Lorem ipsvero eos et accusam , no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+        "price": "2.99",
+        "currency": "EUR",
+        "image": "banhmy",
+        "featured": "true"
+      }
+    ]
+  },
+  {
+    "name": "Breakfast",
+    "alias": "Frühstück",
+    "type": "drink",
+    "description": "Loreccusam et m et justo duo dolores et ea rebum. Stet clita kasd gubergest Lorem ipsum dolor sit amet.",
+    "price": "3.99",
+    "currency": "EUR",
+    "image": "breakfast",
+    "products": [
+      {
+        "name": "Brot",
+        "alias": "Banh my",
+        "description": "Lorem ipsvero eos et accusam , no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+        "price": "2.99",
+        "currency": "EUR",
+        "image": "banhmy",
+        "featured": "true"
+      },
+      {
+        "name": "Cola0.5l",
+        "alias": "",
+        "description": "Lorem ipsucum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+        "price": "1.99",
+        "currency": "EUR",
+        "image": "cola0.5l",
+        "featured": "true"
+      },
+      {
+        "name": "Brot",
+        "alias": "Banh my",
+        "description": "Lorem ipsvero eos et accusam , no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+        "price": "2.99",
+        "currency": "EUR",
+        "image": "banhmy",
         "featured": "true"
       }
     ]

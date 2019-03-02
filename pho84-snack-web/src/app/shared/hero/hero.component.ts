@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from "@angular/core";
+import { HelperService } from "src/app/services/helper.service";
 
 @Component({
-  selector: 'app-hero',
-  templateUrl: './hero.component.html',
-  styleUrls: ['./hero.component.css']
+  selector: "app-hero",
+  templateUrl: "./hero.component.html",
+  styleUrls: ["./hero.component.css"]
 })
 export class HeroComponent implements OnInit {
   @Input() image: string;
@@ -13,11 +14,11 @@ export class HeroComponent implements OnInit {
   background: string;
   heroClass: string;
 
-  constructor() { }
+  constructor(private hs: HelperService) {}
 
   ngOnInit() {
-    this.background = "url('/assets/images/compressed/" + this.image + ".jpg')";
+    this.image = this.hs.imagePath(this.image);
+    this.background = this.hs.imageUrlPath(this.image);
     this.heroClass = "hero primary " + (this.size ? this.size : "is-large");
   }
-
 }
