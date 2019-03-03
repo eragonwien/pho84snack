@@ -25,4 +25,8 @@ export class GalleryComponent implements OnInit {
   offLimit(index: number): boolean {
     return !(this.limit == 0 || index < this.limit);
   }
+
+  background(image: string) {
+    return this.hs.imageUrlPath(image);
+  }
 }

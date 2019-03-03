@@ -12,6 +12,7 @@ export class PriceListComponent implements OnInit {
   @Input() subtitle: string;
   @Input() image: string;
   @Input() products: Product[];
+  @Input() index: number;
 
   constructor(private hs: HelperService) {}
 
@@ -19,5 +20,9 @@ export class PriceListComponent implements OnInit {
 
   backgroundImage() {
     return this.hs.imageUrlPath(this.hs.imagePath(this.image));
+  }
+
+  get hasTextSuccess(): boolean {
+    return this.index % 2 === 0;
   }
 }

@@ -1,25 +1,27 @@
-<section class="has-background-primary has-text-success price-list">
+<section class="has-background-primary price-list" [ngClass]="{ 'has-text-success': hasTextSuccess, 'has-text-info': !hasTextSuccess }">
   <div class="section price-list-header">
-    <h1 class="title is-size-3 has-text-centered has-text-success">{{ title }}</h1>
-    <h2 class="subtitle is-size-4 has-text-success">{{ subtitle }}</h2>
+    <h1 class="title is-size-3 has-text-centered" [ngClass]="{ 'has-text-success': hasTextSuccess, 'has-text-info': !hasTextSuccess }">
+      {{ title }}
+    </h1>
+    <h2 class="subtitle is-size-4">{{ subtitle }}</h2>
   </div>
-  <div class="section price-list-body has-text-success">
+  <div class="section price-list-body">
     <div class="container">
       <div class="columns is-multiline">
         <div class="column is-6" *ngFor="let product of products">
           <div class="level is-mobile mb-0">
             <div class="level-left">
-              <strong class="is-size-5 has-text-success has-text-left has-text-weight-bold">
+              <span class="is-size-5 has-text-left has-text-weight-bold">
                 {{ product.name }}
-              </strong>
+              </span>
             </div>
             <div class="level-right">
-              <strong class="is-size-6 has-text-success has-text-weight-bold">
+              <span class="is-size-5 has-text-weight-bold">
                 {{ product.price | currency: "EUR" }}
-              </strong>
+              </span>
             </div>
           </div>
-          <p class="is-size-6 has-text-success has-text-weight-semi-bold">
+          <p class="is-size-6 has-text-weight-semi-bold">
             {{ product.alias }}
           </p>
           <div class="content">
@@ -29,11 +31,7 @@
       </div>
     </div>
   </div>
-  <section
-    class="hero is-medium is-primary is-bold has-background-image"
-    *ngIf="image"
-    [style.backgroundImage]="backgroundImage(image)"
-  >
+  <section class="hero is-medium is-primary is-bold has-background-image" *ngIf="image" [style.backgroundImage]="backgroundImage(image)">
     <div class="hero-body"></div>
   </section>
 </section>

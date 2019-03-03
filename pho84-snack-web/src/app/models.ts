@@ -32,9 +32,8 @@ export interface Menu {
   name: string;
   alias: string;
   description: string;
-  price: string;
   image: string;
-  align: string;
+  products: Product[];
 }
 
 export interface Product {
@@ -54,9 +53,4 @@ export interface Feature {
   button: string;
   url: string;
   image: string;
-  imageTitle: string;
-  imageSubtitle: string;
-  imageDescription: string;
-  price: string;
-  align: string;
 }

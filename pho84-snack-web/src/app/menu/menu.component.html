@@ -1,13 +1,16 @@
 <div class="container-fluid">
-  <app-hero image="hero" title="Menu"></app-hero>
-  <!-- <app-hcard
-    *ngFor="let category of categories"
-    [title]="category.name"
-    [subtitle]="category.alias"
-    [text]="feature.description"
-    [buttonText]="feature.button"
-    [buttonUrl]="feature.url"
-    [image]="feature.image"
-    [align]="feature.align"
-  ></app-hcard> -->
+  <app-hero image="hero" title="Menü"></app-hero>
+  <section id="home-features">
+    <!-- <div class="section has-text-centered">
+      <h1 class="title has-text-success is-size-2">Menu</h1>
+    </div> -->
+
+    <app-price-list
+      *ngFor="let menu of menus; let i = index"
+      [title]="menu.name"
+      [products]="menu.products"
+      [image]="menu.image"
+      [index]="i"
+    ></app-price-list>
+  </section>
 </div>

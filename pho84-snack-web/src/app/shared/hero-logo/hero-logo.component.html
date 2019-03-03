@@ -1,0 +1,16 @@
+<section [class]="heroClass" [style.backgroundImage]="background">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title is-size-1 has-text-white has-text-weight-semibold">
+        <span *ngIf="title && !title1 && !title2">{{ title }}</span>
+        <span *ngIf="title1 && title2">
+          <span class="has-text-success">{{ title1 }} </span>
+          <span class="has-text-info">{{ title2 }}</span>
+        </span>
+      </h1>
+      <h2 class="subtitle">
+        {{ subtitle }}
+      </h2>
+    </div>
+  </div>
+</section>

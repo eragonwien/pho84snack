@@ -1,3 +1,21 @@
-<app-hero image="hero" title="Pho84 Snack" size="is-fullheight"></app-hero>
-<app-home-featured></app-home-featured>
+<app-hero image="hero" logo="logo_round" size="is-large"></app-hero>
+<section id="home-features">
+  <div class="section has-text-centered">
+    <h1 class="title has-text-success is-size-2">
+      Entdecken Sie unsere Angebote
+    </h1>
+    <h2 class="subtitle has-text-success is-size-3"></h2>
+  </div>
+
+  <app-hcard
+    *ngFor="let feature of features; let i = index"
+    [title]="feature.title"
+    [subtitle]="feature.subtitle"
+    [text]="feature.description"
+    [buttonText]="feature.button"
+    [buttonUrl]="feature.url"
+    [image]="feature.image"
+    [index]="i"
+  ></app-hcard>
+</section>
 <app-gallery limit="4" title="Das Pho84 Snack"></app-gallery>

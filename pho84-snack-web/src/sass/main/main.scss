@@ -82,7 +82,7 @@ body {
 
 // Responsive
 .is-hidden-mobile-only {
-  @media (min-width: $screen-sm) {
+  @media (max-width: $screen-sm) {
     display: none;
   }
 }

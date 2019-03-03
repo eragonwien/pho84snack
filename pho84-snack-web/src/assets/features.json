@@ -8,11 +8,7 @@
     "button": "Zu Speisekarte",
     "url": "/menu",
     "image": "bread",
-    "imageTitle": "Banh my",
-    "imageSubtitle": "Kein Semmeln",
-    "imageDescription": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata",
-    "price": "€ 2.99",
-    "align": "left"
+    "price": "€ 2.99"
   },
   {
     "id": "2",
@@ -23,10 +19,6 @@
     "button": "Zu Speisekarte 2",
     "url": "/menu",
     "image": "bread",
-    "imageTitle": "Banh my 2",
-    "imageSubtitle": "Kein Semmeln 2",
-    "imageDescription": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata",
-    "price": "€ 2.99",
-    "align": "right"
+    "price": "€ 2.99"
   }
 ]

@@ -5,11 +5,14 @@
   <div class="columns is-multiline is-gapless">
     <div
       *ngFor="let image of gallery; let i = index"
+      class="has-background-image"
       [ngClass]="{ column: true, 'is-6': i | displayEven: gallery.length }"
+      [style.backgroundImage]="background(image)"
+      style="min-height:20rem;"
     >
-      <figure class="image is-16by9" *ngIf="!offLimit(i)">
+      <!-- <figure class="image is-16by9" *ngIf="!offLimit(i)">
         <img [src]="image" />
-      </figure>
+      </figure> -->
     </div>
   </div>
 </section>

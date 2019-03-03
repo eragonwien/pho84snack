@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "../services/data.service";
-import { Category } from "../models";
+import { Category, Menu } from "../models";
 
 @Component({
   selector: "app-menu",
@@ -8,12 +8,12 @@ import { Category } from "../models";
   styleUrls: ["./menu.component.css"]
 })
 export class MenuComponent implements OnInit {
-  categories: Category[];
+  menus: Menu[];
   constructor(private ds: DataService) {}
 
   ngOnInit() {
-    this.ds.category.subscribe((categories: Category[]) => {
-      this.categories = categories.filter(c => c.type === "menu");
+    this.ds.menu.subscribe((menus: Menu[]) => {
+      this.menus = menus;
     });
   }
 }

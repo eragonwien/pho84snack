@@ -13,7 +13,7 @@ export class HcardComponent implements OnInit {
   @Input() buttonText: string;
   @Input() buttonUrl: string;
   @Input() image: string;
-  @Input() align: string;
+  @Input() index: number;
 
   constructor(private hs: HelperService) {}
 
@@ -23,5 +23,9 @@ export class HcardComponent implements OnInit {
 
   get backgroundImage(): string {
     return this.hs.imageUrlPath(this.image);
+  }
+
+  get alignment(): string {
+    return this.index % 2 === 0 ? "left" : "right";
   }
 }
