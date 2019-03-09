@@ -1,9 +1,6 @@
-export interface Restaurant {
+export interface Contact {
   name: string;
   description: string;
-}
-
-export interface Contact {
   address1: string;
   address2: string;
   plz: number;

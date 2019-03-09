@@ -1,14 +1,11 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Restaurant, Contact, Category, Feature, OpenHour, Menu } from "../models";
+import { Contact, Category, Feature, OpenHour, Menu } from "../models";
 
 @Injectable()
 export class DataService {
   constructor(private http: HttpClient) {}
 
-  get restaurant() {
-    return this.http.get<Restaurant>("/assets/restaurant.json");
-  }
   get contact() {
     return this.http.get<Contact>("/assets/contact.json");
   }

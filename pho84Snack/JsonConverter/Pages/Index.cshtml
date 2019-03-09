@@ -1,0 +1,34 @@
+﻿@page
+@model IndexModel
+@using JsonConverter.Models
+
+@{
+    ViewData["Title"] = "Home page";
+    string alertType = Model.IsSuccess ? "alert-success" : "alert-danger";
+}
+
+<div class="container-fluid text-center">
+    <h1 class="display-4">Json Converter</h1>
+    @if (!string.IsNullOrWhiteSpace(Model.Message))
+    {
+        <div class="alert @alertType">
+            @Model.Message
+        </div>
+    }
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group row">
+                <div class="custom-file">
+                    <label for="control-file" class="custom-file-label" id="custom-file-label">Choose file</label>
+                    <input type="file" asp-for="Upload" class="custom-file-input" id="control-file">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="control-select">Select Type</label>
+                <select asp-for="Type" asp-items="Model.Types" class="form-control" id="control-select"></select>
+            </div>
+            <input type="submit" class="btn btn-success" value="Upload" asp-page-handler="upload" />
+            <input type="submit" class="btn btn-outline-info" value="Download" asp-page-handler="download" />
+        </form>
+    </div>
+</div>
