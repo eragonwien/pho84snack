@@ -1,20 +1,22 @@
-<footer class="footer has-background-primary has-text-success has-text-centered">
+<footer class="footer has-background-primary has-text-info has-text-centered">
   <div class="columns">
     <div class="column is-4">
       <div class="content" id="footer-contact-info" *ngIf="contact">
-        <h1 class="title has-text-success">{{ contact.name }}</h1>
-        <p class="has-text-success">{{ contact.description }}</p>
+        <h1 class="title has-text-info">{{ contact.name }}</h1>
+        <p class="has-text-info">{{ contact.description }}</p>
       </div>
     </div>
+    <div class="is-divider-vertical"></div>
     <div class="column is-4">
       <div class="content" id="footer-opening-hours">
-        <h1 class="title has-text-success">Öffnungszeiten</h1>
+        <h1 class="title has-text-info">Öffnungszeiten</h1>
         <p *ngFor="let hour of openHours">
-          <span *ngIf="hour.close === 'true'">{{ hour.day + ": geschlossen" }}</span>
-          <span *ngIf="hour.close === 'false'">{{ hour.day + ": " + hour.from + " - " + hour.to }}</span>
+          <span *ngIf="hour.close === true">{{ hour.day + " : geschlossen" }}</span>
+          <span *ngIf="hour.close === false">{{ hour.day + " : " + hour.from + " - " + hour.to }} Uhr</span>
         </p>
       </div>
     </div>
+    <div class="is-divider-vertical"></div>
     <div class="column is-4" id="footer-contact" *ngIf="contact">
       <p>
         <span class="icon is-medium"><i class="fas fa-map-marker-alt"></i></span>
@@ -29,7 +31,7 @@
         <span>{{ contact.email }}</span>
       </p>
       <p>
-        <a [href]="contact.facebookUrl" target="_blank" class="has-text-success">
+        <a [href]="contact.facebookUrl" target="_blank" class="has-text-info">
           <span class="icon is-medium"><i class="fab fa-facebook"></i></span>
           <span>{{ contact.facebook }}</span>
         </a>

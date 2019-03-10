@@ -9,7 +9,8 @@ namespace JsonConverter.Services
 {
     public interface IConvertService
     {
-        string ConvertFileToJsonAsync(string type, IFormFile file);
-        string SaveToFile(string type, string jsonData, string directory);
+        ConvertResult ConvertFileToJsonAsync(string type, IFormFile file);
+        ConvertResult SaveToFile(string type, string jsonData, string directory);
+        string GetFileName(string type);
     }
 }

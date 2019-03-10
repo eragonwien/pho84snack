@@ -51,3 +51,8 @@ export interface Feature {
   url: string;
   image: string;
 }
+
+export interface GalleryItem {
+  image: string;
+  text: string;
+}

@@ -1,0 +1,27 @@
+<div class="columns is-gapless">
+  <div class="column has-background-image img-container" [style.backgroundImage]="backgroundImage" style="height: 25rem;">
+    <div
+      class="section has-background-primary-faded is-hidden-mobile-only"
+      [ngClass]="{ 'img-text-center-left': alignment === 'left', 'img-text-center-right': alignment === 'right' }"
+    >
+      <article>
+        <h1 class="title has-text-info">{{ title }}</h1>
+        <h3 class="subtitle has-text-info">{{ subtitle }}</h3>
+        <p class="has-text-white">{{ text }}</p>
+        <div class="has-text-left" *ngIf="buttonText && buttonUrl" style="margin-top: 1rem;">
+          <a [routerLink]="buttonUrl" class="button is-info">{{ buttonText }}</a>
+        </div>
+      </article>
+    </div>
+  </div>
+  <div class="column is-hidden-tablet is-flex is-vertical-centered">
+    <article class="section">
+      <h1 class="title has-text-info">{{ title }}</h1>
+      <h3 class="subtitle has-text-info">{{ subtitle }}</h3>
+      <p class="has-text-white">{{ text }}</p>
+      <div class="has-text-left" *ngIf="buttonText && buttonUrl" style="margin-top: 1rem;">
+        <a [routerLink]="buttonUrl" class="button is-info">{{ buttonText }}</a>
+      </div>
+    </article>
+  </div>
+</div>

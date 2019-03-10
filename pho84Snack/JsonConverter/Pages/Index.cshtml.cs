@@ -37,6 +37,7 @@ namespace JsonConverter.Pages
                     new SelectListItem { Value = nameof(OpenHour), Text = nameof(OpenHour) },
                     new SelectListItem { Value = nameof(Menu), Text = nameof(Menu) },
                     new SelectListItem { Value = nameof(Category), Text = nameof(Category) },
+                    new SelectListItem { Value = nameof(GalleryItem), Text = "Gallery" },
                     new SelectListItem { Value = nameof(Feature), Text = nameof(Feature) }
                 };
             }
@@ -55,17 +56,17 @@ namespace JsonConverter.Pages
                 Message = "Upload is empty";
                 return Page();
             }
-            string result = cService.ConvertFileToJsonAsync(Type, Upload);
+            var result = cService.ConvertFileToJsonAsync(Type, Upload);
 
-            if (!string.IsNullOrEmpty(result))
+            if (result.IsSuccess)
             {
-                result = cService.SaveToFile(Type, result, Path.Combine(Environment.ContentRootPath, DIRECTORY));
-                Message = !string.IsNullOrEmpty(result) ? result : "File uploaded";
-                IsSuccess = string.IsNullOrEmpty(result);
+                result = cService.SaveToFile(Type, result.Content, Path.Combine(Environment.ContentRootPath, DIRECTORY));
+                Message = result.IsSuccess ? "File uploaded" : result.ErrorMessage;
+                IsSuccess = result.IsSuccess;
             }
             else
             {
-                Message = "Error converting file";
+                Message = $"Error converting file {result.ErrorMessage}";
                 IsSuccess = false;
             }
             
@@ -79,7 +80,7 @@ namespace JsonConverter.Pages
                 Message = "Choose a type";
                 return Page();
             }
-            string fileName = Type + ".json";
+            string fileName = cService.GetFileName(Type);
             string path = Path.Combine(Environment.ContentRootPath, DIRECTORY, fileName);
             if (System.IO.File.Exists(path))
             {

@@ -1,6 +1,7 @@
 ﻿using JsonConverter.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,44 +14,48 @@ namespace JsonConverter.Services
     {
         private const char SPLIT = ';';
 
-        public string ConvertFileToJsonAsync(string type, IFormFile file)
+        public ConvertResult ConvertFileToJsonAsync(string type, IFormFile file)
         {
-            string result = string.Empty;
-
+            ConvertResult result = new ConvertResult();
             try
             {
                 switch (type)
                 {
                     case nameof(Contact):
-                        result = GetContact(file);
+                        result.Content = GetContact(file);
                         break;
                     case nameof(OpenHour):
-                        result = GetOpenHour(file);
+                        result.Content = GetOpenHour(file);
                         break;
                     case nameof(Category):
-                        result = GetCategories(file);
+                        result.Content = GetCategories(file);
                         break;
                     case nameof(Menu):
-                        result = GetMenu(file);
+                        result.Content = GetMenu(file);
                         break;
                     case nameof(Feature):
-                        result = GetFeatures(file);
+                        result.Content = GetFeatures(file);
+                        break;
+                    case nameof(GalleryItem):
+                        result.Content = GetGallery(file);
                         break;
                     default:
-                        break;
+                        throw new Exception($"Funktion for {type} not found");
                 }
+                result.IsSuccess = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                result.IsSuccess = false;
+                result.ErrorMessage = ex.Message;
             }
 
             return result;
         }
 
-        public string SaveToFile(string type, string jsonData, string directory)
+        public ConvertResult SaveToFile(string type, string jsonData, string directory)
         {
-            string errorMessage = string.Empty;
+            ConvertResult result = new ConvertResult();
             try
             {
                 if (!Directory.Exists(directory))
@@ -58,7 +63,8 @@ namespace JsonConverter.Services
                     Directory.CreateDirectory(directory);
                 }
 
-                string fileName = $"{type}.json";
+                string fileName = GetFileName(type);
+
                 string filePath = Path.Combine(directory, fileName);
 
                 if (File.Exists(filePath))
@@ -71,13 +77,15 @@ namespace JsonConverter.Services
                     byte[] content = Encoding.UTF8.GetBytes(jsonData);
                     fs.Write(content, 0, content.Length);
                 }
+                result.IsSuccess = true;
             }
             catch (Exception ex)
             {
-                errorMessage = ex.Message;
+                result.IsSuccess = false;
+                result.ErrorMessage = ex.Message;
             }
 
-            return errorMessage;
+            return result;
         }
 
         private string GetContact(IFormFile file)
@@ -101,7 +109,7 @@ namespace JsonConverter.Services
                     Facebook = line[header.IndexOf(nameof(Contact.Facebook))],
                     FacebookUrl = line[header.IndexOf(nameof(Contact.FacebookUrl))]
                 };
-                result = JsonConvert.SerializeObject(contact);
+                result = JsonSerializeObject(contact);
             }
 
             return result;
@@ -133,8 +141,7 @@ namespace JsonConverter.Services
                         openHours.Add(openHour);
                     }
                 }
-
-                result = JsonConvert.SerializeObject(openHours);
+                result = JsonSerializeObject(openHours);
             }
 
             return result;
@@ -191,8 +198,7 @@ namespace JsonConverter.Services
                     };
                     menu.Products.Add(product);
                 }
-
-                result = JsonConvert.SerializeObject(menuList);
+                result = JsonSerializeObject(menuList);
             }
 
             return result;
@@ -246,7 +252,7 @@ namespace JsonConverter.Services
                     };
                     category.Products.Add(product);
                 }
-                result = JsonConvert.SerializeObject(categories);
+                result = JsonSerializeObject(categories);
             }
 
             return result;
@@ -274,14 +280,87 @@ namespace JsonConverter.Services
                         Image = line[header.IndexOf(nameof(Feature.Image))],
                         Description = line[header.IndexOf(nameof(Feature.Description))],
                         Button = line[header.IndexOf(nameof(Feature.Button))],
-                        ButtonUrl = line[header.IndexOf(nameof(Feature.ButtonUrl))]
+                        Url = line[header.IndexOf(nameof(Feature.Url))]
                     };
                     features.Add(feature);
                 }
-                result = JsonConvert.SerializeObject(features);
+                result = JsonSerializeObject(features);
             }
 
             return result;
         }
+
+        private string GetGallery(IFormFile file)
+        {
+            string result = string.Empty;
+
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                var header = reader.ReadLine().Split(SPLIT).ToList();
+
+                List<GalleryItem> gallery = new List<GalleryItem>();
+
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine().Split(SPLIT);
+
+                    GalleryItem item = new GalleryItem
+                    {
+                        Image = line[header.IndexOf(nameof(GalleryItem.Image))],
+                        Text = line[header.IndexOf(nameof(GalleryItem.Text))]
+                    };
+                    gallery.Add(item);
+                }
+                result = JsonSerializeObject(gallery);
+            }
+
+            return result;
+        }
+
+        public string GetFileName(string type)
+        {
+            string fileName;
+            switch (type)
+            {
+                case nameof(Contact):
+                    fileName = "contact.json";
+                    break;
+                case nameof(OpenHour):
+                    fileName = "open.hour.json";
+                    break;
+                case nameof(Category):
+                    fileName = "category.json";
+                    break;
+                case nameof(Menu):
+                    fileName = "menu.json";
+                    break;
+                case nameof(Feature):
+                    fileName = "features.json";
+                    break;
+                case nameof(GalleryItem):
+                    fileName = "gallery.json";
+                    break;
+                default:
+                    throw new Exception($"Type {type} not found");
+            }
+            return fileName;
+        }
+
+        private string JsonSerializeObject(object obj)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new LowercaseContractResolver()
+            };
+            return JsonConvert.SerializeObject(obj, settings);
+        }
+    }
+}
+
+public class LowercaseContractResolver : DefaultContractResolver
+{
+    protected override string ResolvePropertyName(string propertyName)
+    {
+        return propertyName.ToLower();
     }
 }

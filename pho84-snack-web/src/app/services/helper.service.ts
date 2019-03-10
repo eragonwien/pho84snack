@@ -19,4 +19,12 @@ export class HelperService {
     }
     return "url('" + image + "')";
   }
+
+  getPath(url: string): string {
+    url = url.split(",").join("/");
+    if (!url.startsWith("/")) {
+      url = "/" + url;
+    }
+    return url;
+  }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Contact, Category, Feature, OpenHour, Menu } from "../models";
+import { Contact, Category, Feature, OpenHour, Menu, GalleryItem } from "../models";
 
 @Injectable()
 export class DataService {
@@ -19,7 +19,7 @@ export class DataService {
     return this.http.get<Feature[]>("/assets/features.json");
   }
   get gallery() {
-    return this.http.get<string[]>("/assets/gallery.json");
+    return this.http.get<GalleryItem[]>("/assets/gallery.json");
   }
   get menu() {
     return this.http.get<Menu[]>("/assets/menu.json");

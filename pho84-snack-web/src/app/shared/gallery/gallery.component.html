@@ -1,18 +1,16 @@
 <section id="gallery">
   <div class="section" *ngIf="title">
-    <h1 class="title is-size-2 has-text-centered has-text-success">{{ title }}</h1>
+    <h1 class="title is-size-2 has-text-centered has-text-info">{{ title }}</h1>
   </div>
   <div class="columns is-multiline is-gapless">
     <div
-      *ngFor="let image of gallery; let i = index"
-      class="has-background-image"
-      [ngClass]="{ column: true, 'is-6': i | displayEven: gallery.length }"
-      [style.backgroundImage]="background(image)"
-      style="min-height:20rem;"
+      *ngFor="let item of gallery; let i = index"
+      class="column is-6 has-background-image img-container"
+      [style.backgroundImage]="background(item.image)"
     >
-      <!-- <figure class="image is-16by9" *ngIf="!offLimit(i)">
-        <img [src]="image" />
-      </figure> -->
+      <div class="section img-text-bottom-right has-background-primary has-text-info has-text-centered" *ngIf="item.text">
+        <span>{{ item.text }}</span>
+      </div>
     </div>
   </div>
 </section>

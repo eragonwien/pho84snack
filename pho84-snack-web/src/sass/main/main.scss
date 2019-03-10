@@ -1,6 +1,6 @@
 @charset "utf-8";
 // Import a Google Font
-@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import url("https://fonts.googleapis.com/css?family=Raleway");
 
 // Brand colours
 // $primary: #bcc0c6;
@@ -13,19 +13,19 @@ $primary-light: grey;
 $screen-sm: 768px;
 
 // Colours overrides
-$family-sans-serif: "Montserrat", sans-serif;
+$family-sans-serif: "Raleway", sans-serif;
 
 // Navbar
 $navbar-background-color: $primary;
 $navbar-item-img-max-height: 2.5rem;
-$navbar-item-color: $light;
+$navbar-item-color: $info;
 $navbar-item-hover-color: $light;
 $navbar-item-active-color: $light;
-$navbar-item-hover-background-color: $success;
-$navbar-item-active-background-color: $success;
-$navbar-dropdown-background-color: $success;
-$navbar-dropdown-item-active-background-color: $success;
-$navbar-dropdown-item-hover-background-color: $success;
+$navbar-item-hover-background-color: $info;
+$navbar-item-active-background-color: $info;
+$navbar-dropdown-background-color: $info;
+$navbar-dropdown-item-active-background-color: $info;
+$navbar-dropdown-item-hover-background-color: $info;
 // Bottom Navbar
 $tabs-link-color: $primary-light;
 $tabs-link-hover-color: $success;
@@ -35,10 +35,14 @@ $tabs-toggle-link-hover-background-color: $primary;
 $tabs-toggle-link-active-background-color: $primary;
 $tabs-toggle-link-active-color: $success;
 
+// Divider
+$divider-color: $info;
+$divider-background-color: $info;
+
 @import "../../../node_modules/bulma/bulma.sass";
+@import "../../../node_modules/bulma-extensions/bulma-divider/src/sass/index.sass";
 
 // All
-
 html,
 body {
   height: 100%;
@@ -139,28 +143,35 @@ body {
   text-shadow: 0 0 5px black;
 }
 
-// Main
-#home-features {
-  button {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .tile.is-ancestor,
-  .tile.is-parent {
-    margin: 0;
-    padding: 0;
-  }
-
-  .tile.is-ancestor {
-    background: no-repeat center;
-    background-size: cover;
-  }
-}
-
 // Price list
 .price-list {
   .price-list-body {
     padding-top: 0px;
   }
+}
+
+// Text over image
+.img-container {
+  position: relative;
+  min-height: 20rem;
+}
+
+.img-text-bottom-right {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.img-text-center-left {
+  position: absolute;
+  left: 1rem;
+  top: 15%;
+  right: 60%;
+}
+
+.img-text-center-right {
+  position: absolute;
+  right: 1rem;
+  top: 15%;
+  left: 60%;
 }

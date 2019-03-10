@@ -25,8 +25,9 @@ import { NewsComponent } from "./shared/news/news.component";
 import { DrinksComponent } from "./drinks/drinks.component";
 import { FoodComponent } from "./food/food.component";
 import { CCurrencyPipe } from "./shared/c-currency.pipe";
-import { TextTileComponent } from './shared/text-tile/text-tile.component';
-import { HeroLogoComponent } from './shared/hero-logo/hero-logo.component';
+import { TextTileComponent } from "./shared/text-tile/text-tile.component";
+import { HeroLogoComponent } from "./shared/hero-logo/hero-logo.component";
+import { FeatureComponent } from "./shared/feature/feature.component";
 
 registerLocaleData(localeDE);
 
@@ -50,7 +51,8 @@ registerLocaleData(localeDE);
     FoodComponent,
     CCurrencyPipe,
     TextTileComponent,
-    HeroLogoComponent
+    HeroLogoComponent,
+    FeatureComponent
   ],
   imports: [
     SharedModule.forRoot(),

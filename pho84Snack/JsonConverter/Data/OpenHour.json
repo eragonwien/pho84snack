@@ -1,1 +1,1 @@
-[{"Day":"Mo- Fr.","From":"10","To":"22","Close":false},{"Day":"Sa.","From":"12","To":"22","Close":false},{"Day":"So.","From":"","To":"","Close":true}]
+[{"day":"Mo- Fr.","from":"10","to":"22","close":false},{"day":"Sa.","from":"12","to":"22","close":false},{"day":"So.","from":"","to":"","close":true}]

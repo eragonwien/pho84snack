@@ -23,6 +23,6 @@ export class PriceListComponent implements OnInit {
   }
 
   get hasTextSuccess(): boolean {
-    return this.index % 2 === 0;
+    return this.index % 2 !== 0;
   }
 }

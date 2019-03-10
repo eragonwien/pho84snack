@@ -29,8 +29,8 @@ export class HeroComponent implements OnInit {
   }
 
   splitTitle() {
-    if (this.title && this.title.includes(";")) {
-      let index = this.title.indexOf(";");
+    if (this.title && this.title.includes("-")) {
+      let index = this.title.indexOf("-");
       this.title1 = this.title.substring(0, index);
       this.title2 = this.title.substring(index + 1);
     }

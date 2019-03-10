@@ -57,7 +57,20 @@ namespace JsonConverter.Models
         public string Subtitle { get; set; }
         public string Description { get; set; }
         public string Button { get; set; }
-        public string ButtonUrl { get; set; }
+        public string Url { get; set; }
         public string Image { get; set; }
+    }
+
+    public class GalleryItem
+    {
+        public string Image { get; set; }
+        public string Text { get; set; }
+    }
+
+    public class ConvertResult
+    {
+        public bool IsSuccess { get; set; }
+        public string ErrorMessage { get; set; }
+        public string Content { get; set; }
     }
 }
