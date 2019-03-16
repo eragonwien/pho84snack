@@ -1,4 +1,4 @@
-<div class="columns is-gapless">
+<!-- <div class="columns is-gapless">
   <div class="column has-background-image img-container" [style.backgroundImage]="backgroundImage" style="height: 25rem;">
     <div
       class="section has-background-primary-faded is-hidden-mobile-only"
@@ -23,5 +23,37 @@
         <a [routerLink]="buttonUrl" class="button is-info">{{ buttonText }}</a>
       </div>
     </article>
+  </div>
+</div> -->
+<div class="container is-hidden-tablet">
+  <div class="card" [ngClass]="{ 'has-background-primary-faded': !even, 'has-background-white-faded': even }">
+    <div class="card-content">
+      <h1 class="title has-text-info">{{ title }}</h1>
+      <h3 class="subtitle has-text-info">{{ subtitle }}</h3>
+      <p class="has-text-white" *ngIf="!even">{{ text }}</p>
+      <p class="has-text-primary" *ngIf="even">{{ text }}</p>
+      <div class="has-text-left" *ngIf="buttonText && buttonUrl" style="margin-top: 1rem;">
+        <a [routerLink]="buttonUrl" class="button is-info">{{ buttonText }}</a>
+      </div>
+    </div>
+    <div class="card-image">
+      <figure class="image is-16y9">
+        <img [src]="image" />
+      </figure>
+    </div>
+  </div>
+</div>
+<div class="columns is-gapless is-hidden-mobile-only">
+  <div class="column has-background-image img-container" [style.backgroundImage]="backgroundImage" style="min-height: 50rem;">
+    <div class="section has-background-primary-faded" [ngClass]="{ 'img-text-center-left': even, 'img-text-center-right': !even }">
+      <article>
+        <h1 class="title has-text-info">{{ title }}</h1>
+        <h3 class="subtitle has-text-info">{{ subtitle }}</h3>
+        <p class="has-text-white">{{ text }}</p>
+        <div class="has-text-left" *ngIf="buttonText && buttonUrl" style="margin-top: 1rem;">
+          <a [routerLink]="buttonUrl" class="button is-info">{{ buttonText }}</a>
+        </div>
+      </article>
+    </div>
   </div>
 </div>

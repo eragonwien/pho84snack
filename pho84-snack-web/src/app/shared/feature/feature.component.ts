@@ -26,7 +26,7 @@ export class FeatureComponent implements OnInit {
     return this.hs.imageUrlPath(this.image);
   }
 
-  get alignment(): string {
-    return this.index % 2 === 0 ? "left" : "right";
+  get even(): boolean {
+    return this.index % 2 === 0;
   }
 }

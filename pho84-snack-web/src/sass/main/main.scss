@@ -5,8 +5,10 @@
 // Brand colours
 // $primary: #bcc0c6;
 $primary: #211b1d;
-$info: #f78620;
+$info: #dd6c08;
+$info-light: #f78620;
 $success: #00a654;
+$success-light: #00cc66;
 $light: white;
 $primary-light: grey;
 
@@ -17,7 +19,7 @@ $family-sans-serif: "Raleway", sans-serif;
 
 // Navbar
 $navbar-background-color: $primary;
-$navbar-item-img-max-height: 2.5rem;
+$navbar-item-img-max-height: 3rem;
 $navbar-item-color: $info;
 $navbar-item-hover-color: $light;
 $navbar-item-active-color: $light;
@@ -39,6 +41,10 @@ $tabs-toggle-link-active-color: $success;
 $divider-color: $info;
 $divider-background-color: $info;
 
+// Card
+$card-background-color: $primary;
+$card-shadow: none;
+
 @import "../../../node_modules/bulma/bulma.sass";
 @import "../../../node_modules/bulma-extensions/bulma-divider/src/sass/index.sass";
 
@@ -55,6 +61,7 @@ body {
 .has-background-image {
   background-repeat: no-repeat;
   background-position: center center;
+  background-attachment: scroll;
   background-size: cover;
 }
 
@@ -84,6 +91,14 @@ body {
   }
 }
 
+.has-text-info-light {
+  color: $info-light;
+}
+
+.has-text-success-light {
+  color: $success-light;
+}
+
 // Responsive
 .is-hidden-mobile-only {
   @media (max-width: $screen-sm) {
@@ -98,6 +113,10 @@ body {
 
 .mb-0 {
   margin-bottom: 0px !important;
+}
+
+.is-size-xl {
+  font-size: 5.5rem !important;
 }
 
 // NAVBAR
@@ -133,12 +152,6 @@ body {
   }
 }
 
-.hero {
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: cover;
-}
-
 .hero-body h1.title {
   text-shadow: 0 0 5px black;
 }
@@ -165,13 +178,53 @@ body {
 .img-text-center-left {
   position: absolute;
   left: 1rem;
-  top: 15%;
+  top: 25%;
   right: 60%;
 }
 
 .img-text-center-right {
   position: absolute;
   right: 1rem;
-  top: 15%;
+  top: 25%;
   left: 60%;
+}
+
+// Home
+#home {
+  .hero {
+    background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/home.jpg) no-repeat center center;
+    background-size: cover;
+  }
+}
+
+// Menu
+#menu {
+  .hero {
+    background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/menu.jpg) no-repeat center center;
+    background-size: cover;
+  }
+}
+
+// Essen
+#essen {
+  .hero {
+    background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/essen.jpg) no-repeat center center;
+    background-size: cover;
+  }
+}
+
+// Trinken
+#trinken {
+  .hero {
+    background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/trinken.jpg) no-repeat center center;
+    background-size: cover;
+  }
+}
+
+// Contact
+#contact {
+  .hero {
+    background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/contact.jpg) no-repeat center center;
+    background-size: cover;
+  }
 }

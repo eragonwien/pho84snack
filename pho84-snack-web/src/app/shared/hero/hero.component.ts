@@ -7,12 +7,10 @@ import { HelperService } from "src/app/services/helper.service";
   styleUrls: ["./hero.component.css"]
 })
 export class HeroComponent implements OnInit {
-  @Input() image: string;
   @Input() title: string;
   @Input() subtitle: string;
   @Input() size: string;
-  @Input() logo: string;
-  background: string;
+  @Input() titleXl: boolean;
   heroClass: string;
 
   title1: string;
@@ -22,10 +20,8 @@ export class HeroComponent implements OnInit {
 
   ngOnInit() {
     this.splitTitle();
-    this.image = this.hs.imagePath(this.image);
-    this.logo = this.logo ? this.hs.imagePath(this.logo) : "";
-    this.background = this.hs.imageUrlPath(this.image);
-    this.heroClass = "hero primary " + (this.size ? this.size : "is-large");
+    this.size ? this.size : "is-large";
+    this.heroClass = "hero primary " + this.size;
   }
 
   splitTitle() {

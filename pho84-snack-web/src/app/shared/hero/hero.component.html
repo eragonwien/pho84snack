@@ -1,22 +1,17 @@
-<section [class]="heroClass" [style.backgroundImage]="background">
+<section [class]="heroClass">
+  <div class="hero-head">
+    <app-navbar></app-navbar>
+  </div>
+
   <div class="hero-body">
-    <div class="container has-text-centered">
-      <div class="columns">
-        <div class="column is-4 is-offset-4">
-          <figure class="image" *ngIf="logo">
-            <img class="is-rounded" [src]="logo" />
-          </figure>
-          <section class="section">
-            <h1 class="title is-size-1 has-text-white has-text-weight-semibold">
-              <span *ngIf="title && !title1 && !title2">{{ title }}</span>
-              <span *ngIf="title && title1 && title2">
-                <span class="has-text-success">{{ title1 }} </span>
-                <span class="has-text-info">{{ title2 }}</span>
-              </span>
-            </h1>
-          </section>
-        </div>
-      </div>
+    <div class="container">
+      <h1 class="title is-size-1 has-text-weight-semibold" [ngClass]="{ 'is-size-xl': titleXl }">
+        <span class="has-text-white" *ngIf="title && !title1 && !title2">{{ title }}</span>
+        <span *ngIf="title && title1 && title2">
+          <span class="has-text-success-light">{{ title1 }}</span>
+          <span class="has-text-info-light">{{ title2 }}</span>
+        </span>
+      </h1>
     </div>
   </div>
 </section>

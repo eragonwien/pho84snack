@@ -1,5 +1,5 @@
-<div class="container-fluid">
-  <app-hero image="hero" title="Trinken"></app-hero>
+<div class="container-fluid" id="trinken">
+  <app-hero title="Trinken" size="is-large"></app-hero>
   <app-price-list
     *ngFor="let category of categories; let i = index"
     [title]="category.name"
