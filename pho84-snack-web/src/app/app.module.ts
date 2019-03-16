@@ -1,5 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, LOCALE_ID } from "@angular/core";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { registerLocaleData } from "@angular/common";
 import localeDE from "@angular/common/locales/de";
 
@@ -26,7 +27,6 @@ import { DrinksComponent } from "./drinks/drinks.component";
 import { FoodComponent } from "./food/food.component";
 import { CCurrencyPipe } from "./shared/c-currency.pipe";
 import { TextTileComponent } from "./shared/text-tile/text-tile.component";
-import { HeroLogoComponent } from "./shared/hero-logo/hero-logo.component";
 import { FeatureComponent } from "./shared/feature/feature.component";
 
 registerLocaleData(localeDE);
@@ -51,7 +51,6 @@ registerLocaleData(localeDE);
     FoodComponent,
     CCurrencyPipe,
     TextTileComponent,
-    HeroLogoComponent,
     FeatureComponent
   ],
   imports: [
@@ -59,7 +58,8 @@ registerLocaleData(localeDE);
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ServiceWorkerModule.register("ngsw-worker.js", { enabled: environment.production })
+    ServiceWorkerModule.register("ngsw-worker.js", { enabled: environment.production }),
+    BrowserAnimationsModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: "de-DE" }],
   bootstrap: [AppComponent]

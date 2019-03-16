@@ -1,10 +1,12 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { HelperService } from "src/app/services/helper.service";
+import { fadeIn } from "../animations/fade.in";
 
 @Component({
   selector: "app-hero",
   templateUrl: "./hero.component.html",
-  styleUrls: ["./hero.component.css"]
+  styleUrls: ["./hero.component.css"],
+  animations: [fadeIn]
 })
 export class HeroComponent implements OnInit {
   @Input() title: string;
