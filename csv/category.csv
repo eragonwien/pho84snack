@@ -1,10 +1,54 @@
-Name;Alias;Description;Price;Image;CategoryName;CategoryImage;CategoryType
-Banh my Hoi An;banh my hoi an;vietnamesische Baguette mit gebratenes Schweinefleisch, hausgemachte Pate, Käse, Chili, Soße und Kräuter;3,5;;test;bread;food
-Banh my Ha Noi;banh my ha noi;vietnamesische Baguette mit Wurst, gebratenes Schweinefleisch, Käse, Tomaten Soße und Kräuter;3,5;;test;;
-banh my Thap cam;banh my thap cam;vietnamesische Baguette mit gebratenes Scheinefleisch, hausgemachte Pate, Ei, Käse, Chili und Kräuter;3,5;;test;;
-banh my trung op la;banh my trung op la;vietnamesische Baguette mit Spiegelei, Käse, Soße, Chili und Kräuter;3,5;;test;;
-Banh my Vegan;banh my vegan;vietnamesische Baguette mit Tofu, Kokosmilch, Sojasauce, Tomaten, Gurken und Kräuter;3,5;;test;;
-Banh bao;banh bao;hausgemachte Teigtasche mit Füllung aus Fleisch, Ei und Gemüse;3,5;;test;;
-Xoi;xoi;hausgemachte Kleberreis mit vietnamesische Wurst;3,5;;test;;
-Kem Xoi;kem xoi;hausgemachte Kleberreis mit Eis und trockene Kokosstücke;3,5;;test;;
-Kem Xoi;kem xoi;hausgemachte Kleberreis mit Eis und trockene Kokosstücke;3,5;;Test 2;bread;drink
+Name;Alias;Description;Price;PriceS;PriceM;PriceL;PriceK;Image;CategoryName;CategoryImage;CategoryType
+Avocado Smoothie;;Avocado mit Milch, Schlagobers und Kokosmilch;;;3,8;4,3;;;Vietnam Smoothie;category_vietnam_smoothie;drink
+Limette Smoothie;;Limette mit Milch, Schlagobers, und Crasheis;;;3,8;4,3;;;Vietnam Smoothie;;
+Maracuja Smoothie;;Maracuja mit Milch und Joghurt;;;3,8;4,3;;;Vietnam Smoothie;;
+Erdbeer Smoothie;;Erdbeer mit Milch, Joghurt und Zucker;;;4;4,5;;;Vietnam Smoothie;;
+Matcha Smoothie;;Matcha mit Milch, Joghurt und Zucker;;;4;4,5;;;Vietnam Smoothie;;
+Clementine Smoothie;;Clementine mit Milch, Joghurt und Zucker;;;3,8;4,3;;;Vietnam Smoothie;;
+Alovera Smoothie;;Alovera mit Milch, Joghurt und Zucker;;;4;4,5;;;Vietnam Smoothie;;
+;;;;;;;;;;;
+Gemischte Dessert;;Dessert mit grüne Bohnen, rote Bohnen, schwarze Bohnen, Kokos Padding, Milch, Kokosmilch und Zucker;4,2;;;;;;Vietnamesische Dessert;category_vietnamesische_dessert;drink
+Longan Lotussamen Dessert;;Lotussamen, Longan mit Kokos Pudding, Kokosmilch und Zucker;4,2;;;;;;Vietnamesische Dessert;;
+Mango Dessert;;Mango mit Kokos Pudding, Kokosmilch und Schlagobers;3,9;;;;;;Vietnamesische Dessert;;
+Avocado Dessert;;Avocado mit Kokos Pudding, Milch und Schlagobers;3,9;;;;;;Vietnamesische Dessert;;
+;;;;;;;;;;;
+Obst Kokos Joghurt;;Kokosmilch mit gemischte Obst, Wassermelone, Apfel, Birne, Erdbeer, Avocado, Longan, Jackfrucht, Trauben, Joghurt und Schlagobers;3,5;;;;;;Kokos Joghurt;category_kokos_joghurt;drink
+Kaffee Kokos Joghurt;;Kokosmilch mit Kaffee, Milch, Joghurt und Schlagobers;3,2;;;;;;Kokos Joghurt;;
+Alovera Kokos Joghurt;;Kokosmilch mit Alovera, Milch, Joghurt und Schlagobers;3,2;;;;;;Kokos Joghurt;;
+Maracuja Kokos Joghurt;;Kokosmilch mit Maracuja, Milch, Joghurt und Schlagobers;3,5;;;;;;Kokos Joghurt;;
+Longan Jackfrucht Kokos Joghurt;;Kokosmilch mit Longan, Jackfrucht, Kokos Pudding, Milch, Joghurt und Schlagobers;3,5;;;;;;Kokos Joghurt;;
+Mango Kokos Joghurt;;Kokosmilch mit Mango, Milch, Kokos Pudding, Joghurt und Schlagobers;3,2;;;;;;Kokos Joghurt;;
+;;;;;;;;;;;
+Kaffee nâu đá;;Vietnamesische brauner Kaffee mit Kondensmilch und Eiswürfel;3,5;;;;;;Spezial vietnamesische Kaffee Pho84;category_spezial_vietnamesische_kaffee_pho84;drink
+Kaffee đen đá;;Vietnamesische schwarze Kaffee mit Zucker und Eiswürfel;3,5;;;;;;Spezial vietnamesische Kaffee Pho84;;
+Kaffee phin Việt Nam nâu nóng;;Vietnamesische brauner Filter Kaffee mit Kondensmilch;3,9;;;;;;Spezial vietnamesische Kaffee Pho84;;
+Kaffee phin Việt Nam nâu đá;;Vietnamesische brauner Filter Kaffee mit Kondensmilch und Eiswürfel;3,9;;;;;;Spezial vietnamesische Kaffee Pho84;;
+Bọt sữa đá;;Schwarze Kaffee mit Kondensmilch, Schlagobers und Einwürfel;4,2;;;;;;Spezial vietnamesische Kaffee Pho84;;
+Kaffee đá xay;;Schwarze Kaffee mit Kondensmilch und Eiswürfel;4,2;;;;;;Spezial vietnamesische Kaffee Pho84;;
+;;;;;;;;;;;
+Wassermelone;;Frisch gepresste Wassermelone mit Zucker und Eiswürfel;;;3,8;4,3;;;Frisch gepresste Säfte;category_frisch_gepresste_saefte;drink
+Ananas;;Frisch gepresste Ananas mit Zucker und Eiswürfel;;;3,8;4,3;;;Frisch gepresste Säfte;;
+Orange;;Frisch gepresste Orange mit Zucker und Eiswürfel;;;3,8;4,3;;;Frisch gepresste Säfte;;
+Orange und Karotte;;Frisch gepresste Orange und Karotte mit Zucker und Eiswürfel;;;3,8;4,3;;;Frisch gepresste Säfte;;
+Limette und Clementine;;Frisch gepresste Limette mit Clementine und Zucker;;;3,8;4,3;;;Frisch gepresste Säfte;;
+;;;;;;;;;;;
+Heiße Schokolade;;Schokolade mit Milch und Schlagobers;;3,5;;4;;;Getränke;category_getraenke;drink
+Eis Schokolade;;Schokolade mit Milch, Schlagobers und Crasheis;;3,8;;4,3;;;Getränke;;
+Heiße Kakao;;Kakao mit Milch und Schlagobers;;3,5;;4;;;Getränke;;
+Eis Kakao;;Kakao mit Milch, Schlagobers und Crasheis;;3,8;;4,3;;;Getränke;;
+;;;;;;;;;;;
+Ingwer Tee;;Grüne Tee mit Ingwer, Honig und Zucker;3,2;;;;;;Spezial vietnamesische Tee;category_spezial_vietnamesische_tee;drink
+Limette Tee;;Grüne Tee mit Limette und Zucker;3,2;;;;;;Spezial vietnamesische Tee;;
+Lipton Tee;;Vietnamesische Tee mit Zucker;3,2;;;;;;Spezial vietnamesische Tee;;
+Lipton Milch Tee;;Vietnamesische Tee mit Milch und Zucker;3,5;;;;;;Spezial vietnamesische Tee;;
+Pfirsich Tee;;Vietnamesische Tee mit Pfirsich und Zucker;3,5;;;;;;Spezial vietnamesische Tee;;
+Limette Honig Tee;;Grüne Tee mit Honig, Limette und Zucker;3,2;;;;;;Spezial vietnamesische Tee;;
+Milch Tee;;Vietnamesische Tee mit Milch und Eiswürfel;3,2;;;;;;Spezial vietnamesische Tee;;
+Jasmin Tee;;Vietnamesische Jasmin Tee mit Zucker;3,2;;;;;;Spezial vietnamesische Tee;;
+;;;;;;;;;;;
+Bánh mỳ Hội An;;vietamesische Baguette mit gebratenes Schweinefleisch, hausgemachte Pate, Käse, Chili Soße und Kräuter;3,9;;;;5,9;;Vietnamesische Frühstück;category_vietnamesische_fruehstueck;food
+Bánh mỳ Hà Nội;;vietnamesische Baguette mit Wurst, gebratenes Schweinefleisch, Käse, Tomaten Soße und Kräuter;4,2;;;;6,2;;Vietnamesische Frühstück;;
+Bánh mỳ trứng ốp la;;vietnamesische Baguette mit Spiegelei, Käse, Chili Soße und Kräuter;3,9;;;;5,4;;Vietnamesische Frühstück;;
+Bánh mỳ Vegan;;vietnamesische Baguette mit Todu, Kokosmilch, Sojasauce, Tomaten, Gurken und Kräuter;3,9;;;;5,4;;Vietnamesische Frühstück;;
+Bánh bao;;hausgemachte Teigtasche mit Füllung aus Fleisch, Ei und Gemüse;3,9;;;;5,4;;Vietnamesische Frühstück;;
+Xôi;;hausgemachte Kleber-Reis mit vietnamesische Wurst und Crispy Fried Shallots;3,9;;;;5,4;;Vietnamesische Frühstück;;

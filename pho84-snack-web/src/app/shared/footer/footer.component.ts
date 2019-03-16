@@ -16,6 +16,9 @@ export class FooterComponent implements OnInit {
   ngOnInit() {
     this.ds.contact.subscribe((res: Contact) => {
       this.contact = res;
+      if (this.contact.phone && !this.contact.phone.startsWith("0")) {
+        this.contact.phone = "0" + this.contact.phone;
+      }
     });
 
     this.ds.openHours.subscribe((res: OpenHour[]) => {

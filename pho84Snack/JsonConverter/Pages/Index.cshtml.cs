@@ -35,8 +35,7 @@ namespace JsonConverter.Pages
                 {
                     new SelectListItem { Value = nameof(Contact), Text = nameof(Contact) },
                     new SelectListItem { Value = nameof(OpenHour), Text = nameof(OpenHour) },
-                    new SelectListItem { Value = nameof(Menu), Text = nameof(Menu) },
-                    new SelectListItem { Value = nameof(Category), Text = nameof(Category) },
+                    new SelectListItem { Value = nameof(Category), Text = nameof(Product) },
                     new SelectListItem { Value = nameof(GalleryItem), Text = "Gallery" },
                     new SelectListItem { Value = nameof(Feature), Text = nameof(Feature) }
                 };

@@ -1,11 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { Category } from "../models";
 import { DataService } from "../services/data.service";
+import { fadeInOut } from "../shared/animations";
 
 @Component({
   selector: "app-food",
   templateUrl: "./food.component.html",
-  styleUrls: ["./food.component.css"]
+  styleUrls: ["./food.component.css"],
+  animations: [fadeInOut]
 })
 export class FoodComponent implements OnInit {
   categories: Category[];

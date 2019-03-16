@@ -1,4 +1,3 @@
 Day;From;To;Close
-Mo- Fr.;10;22;false
-Sa.;12;22;false
-So.;;;true
+Mo – Sa.;7;21;false
+So. & Feiertage;7;13;false

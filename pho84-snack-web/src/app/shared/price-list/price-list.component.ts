@@ -18,7 +18,7 @@ export class PriceListComponent implements OnInit {
 
   ngOnInit() {}
 
-  backgroundImage() {
+  get backgroundImage() {
     return this.hs.imageUrlPath(this.hs.imagePath(this.image));
   }
 

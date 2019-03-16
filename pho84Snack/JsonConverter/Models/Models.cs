@@ -47,6 +47,10 @@ namespace JsonConverter.Models
         public string Alias { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public decimal PriceS { get; set; }
+        public decimal PriceM { get; set; }
+        public decimal PriceL { get; set; }
+        public decimal PriceK { get; set; }
         public string Image { get; set; }
     }
 

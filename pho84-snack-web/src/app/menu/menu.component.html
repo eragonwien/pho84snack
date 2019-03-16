@@ -1,10 +1,6 @@
-<div class="container-fluid" id="menu">
+<div class="container-fluid" id="menu" [@fadeInOut]>
   <app-hero image="hero" title="Menü" size="is-large"></app-hero>
   <section id="home-features">
-    <!-- <div class="section has-text-centered">
-      <h1 class="title has-text-success is-size-2">Menu</h1>
-    </div> -->
-
     <app-price-list
       *ngFor="let menu of menus; let i = index"
       [title]="menu.name"

@@ -221,6 +221,12 @@ namespace JsonConverter.Services
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine().Split(SPLIT);
+
+                    if (line.All(l => string.IsNullOrWhiteSpace(l)))
+                    {
+                        continue; // empty string
+                    }
+
                     string categoryName = line[header.IndexOf(CATEGORY_NAME)];
 
                     // Create new category
@@ -247,8 +253,11 @@ namespace JsonConverter.Services
                         Alias = line[header.IndexOf(nameof(Product.Alias))],
                         Description = line[header.IndexOf(nameof(Product.Description))],
                         Image = line[header.IndexOf(nameof(Product.Image))],
-                        Price = !string.IsNullOrWhiteSpace(line[header.IndexOf(nameof(Product.Price))]) ?
-                            Convert.ToDecimal(line[header.IndexOf(nameof(Product.Price))]) : 0
+                        Price = ToDecimal(line[header.IndexOf(nameof(Product.Price))]),
+                        PriceS = ToDecimal(line[header.IndexOf(nameof(Product.PriceS))]),
+                        PriceM = ToDecimal(line[header.IndexOf(nameof(Product.PriceM))]),
+                        PriceL = ToDecimal(line[header.IndexOf(nameof(Product.PriceL))]),
+                        PriceK = ToDecimal(line[header.IndexOf(nameof(Product.PriceK))]),
                     };
                     category.Products.Add(product);
                 }
@@ -353,6 +362,15 @@ namespace JsonConverter.Services
                 ContractResolver = new LowercaseContractResolver()
             };
             return JsonConvert.SerializeObject(obj, settings);
+        }
+
+        private decimal ToDecimal(string str, decimal defaultValue = 0)
+        {
+            if (!decimal.TryParse(str, out decimal result))
+            {
+                result = defaultValue;
+            }
+            return result;
         }
     }
 }

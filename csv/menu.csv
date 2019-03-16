@@ -1,10 +1,7 @@
-Name;Alias;Description;Price;Image;MenuName;MenuAlias;MenuDescription;MenuImage
-Banh my Hoi An;banh my hoi an;vietnamesische Baguette mit gebratenes Schweinefleisch, hausgemachte Pate, Käse, Chili, Soße und Kräuter;3,5;;Frühstück;frühstück;;breakfast
-Banh my Ha Noi;banh my ha noi;vietnamesische Baguette mit Wurst, gebratenes Schweinefleisch, Käse, Tomaten Soße und Kräuter;3,5;;Frühstück;;;
-banh my Thap cam;banh my thap cam;vietnamesische Baguette mit gebratenes Scheinefleisch, hausgemachte Pate, Ei, Käse, Chili und Kräuter;3,5;;Frühstück;;;
-banh my trung op la;banh my trung op la;vietnamesische Baguette mit Spiegelei, Käse, Soße, Chili und Kräuter;3,5;;Frühstück;;;
-Banh my Vegan;banh my vegan;vietnamesische Baguette mit Tofu, Kokosmilch, Sojasauce, Tomaten, Gurken und Kräuter;3,5;;Frühstück;;;
-Banh bao;banh bao;hausgemachte Teigtasche mit Füllung aus Fleisch, Ei und Gemüse;3,5;;Frühstück;;;
-Xoi;xoi;hausgemachte Kleberreis mit vietnamesische Wurst;3,5;;Frühstück;;;
-Kem Xoi;kem xoi;hausgemachte Kleberreis mit Eis und trockene Kokosstücke;3,5;;Frühstück;;;
-Kem Xoi;kem xoi;hausgemachte Kleberreis mit Eis und trockene Kokosstücke;3,5;;Frühstück test;frühstück;test;breakfast
+Name;Alias;Description;Price;PriceMenu;Image;MenuName;MenuAlias;MenuDescription;MenuImage
+Bánh mỳ Hội An;;vietamesische Baguette mit gebratenes Schweinefleisch, hausgemachte Pate, Käse, Chili Soße und Kräuter;3,9;5,9;banh_my_hoi_an;Vietnamesische Frühstück;;;menu_fruehstueck
+Bánh mỳ Hà Nội;;vietnamesische Baguette mit Wurst, gebratenes Schweinefleisch, Käse, Tomaten Soße und Kräuter;4,2;6,5;banh_my_ha_noi;;;;
+Bánh mỳ trứng ốp la;;vietnamesische Baguette mit Spiegelei, Käse, Chili Soße und Kräuter;3,9;5,4;banh_my_trung_op_la;;;;
+Bánh mỳ Vegan;;hausgemachte Teigtasche mit Füllung aus Fleisch, Ei und Gemüse;3,9;5,4;banh_bao;;;;
+Bánh bao;;hausgemachte Kleber-Reis mit vietnamesische Wurst und Crispy Fried Shallots;3,9;5,4;xoi;;;;
+Xôi;;;;;;;;;
