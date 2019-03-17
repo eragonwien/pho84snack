@@ -5,13 +5,16 @@
 
   <div class="hero-body">
     <div class="container">
-      <h1 class="title is-size-1 has-text-weight-semibold" [ngClass]="{ 'is-size-xl': titleXl }">
+      <h1 class="title is-size-1 has-text-weight-bold has-text-centered" [ngClass]="{ 'is-size-xl': titleXl }">
         <span class="has-text-white" *ngIf="title && !title1 && !title2">{{ title }}</span>
         <span *ngIf="title && title1 && title2">
           <span class="has-text-success-light">{{ title1 }}</span>
           <span class="has-text-info-light">{{ title2 }}</span>
         </span>
       </h1>
+      <h2 class="subtitle is-size-2 has-text-weight-semibold has-text-centered" *ngIf="subtitle">
+        {{ subtitle }}
+      </h2>
     </div>
   </div>
 </section>

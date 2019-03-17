@@ -9,29 +9,23 @@ import { GalleryItem } from "src/app/models";
   styleUrls: ["./gallery.component.css"]
 })
 export class GalleryComponent implements OnInit {
-  @Input() title: string;
-  @Input() limit: number;
-  gallery: GalleryItem[];
+  @Input() gallery: GalleryItem[];
+  @Input() itemPerRow: number = 3;
 
   constructor(private ds: DataService, private hs: HelperService) {}
 
   ngOnInit() {
-    this.limit = this.limit ? this.limit : 0;
-    this.ds.gallery.subscribe((res: GalleryItem[]) => {
-      this.gallery = res;
-
-      this.gallery.forEach(g => {
-        g.image = this.hs.imagePath(g.image);
-      });
+    this.gallery.forEach(g => {
+      g.image = this.hs.imageSquare(g.image);
     });
+    this.gallery = this.gallery.slice(0, this.count);
   }
 
-  // check if number of entry excess limit
-  offLimit(index: number): boolean {
-    return !(this.limit == 0 || index < this.limit);
-  }
-
-  background(image: string) {
-    return this.hs.imageUrlPath(image);
+  get count(): number {
+    if (this.gallery.length <= this.itemPerRow || this.gallery.length % this.itemPerRow === 0) {
+      return this.gallery.length;
+    } else {
+      return Math.floor(this.gallery.length / this.itemPerRow) * this.itemPerRow;
+    }
   }
 }

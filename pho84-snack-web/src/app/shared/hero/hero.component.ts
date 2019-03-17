@@ -28,7 +28,7 @@ export class HeroComponent implements OnInit {
     if (this.title && this.title.includes("-")) {
       let index = this.title.indexOf("-");
       this.title1 = this.title.substring(0, index);
-      this.title2 = this.title.substring(index + 1);
+      this.title2 = " " + this.title.substring(index + 1);
     }
   }
 }

@@ -18,7 +18,7 @@ export class FeatureComponent implements OnInit {
   constructor(private hs: HelperService) {}
 
   ngOnInit() {
-    this.image = this.hs.imagePath(this.image);
+    this.image = this.hs.image(this.image);
     this.buttonUrl = this.hs.getPath(this.buttonUrl);
   }
 

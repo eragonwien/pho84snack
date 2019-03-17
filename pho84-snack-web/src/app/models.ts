@@ -8,7 +8,7 @@ export interface Contact {
   phone: string;
   email: string;
   facebook: string;
-  facebookurl: string;
+  directions: string[];
 }
 
 export interface OpenHour {
@@ -37,11 +37,11 @@ export interface Product {
   name: string;
   alias: string;
   description: string;
-  price: string;
-  prices: string;
-  pricem: string;
-  pricel: string;
-  pricek: string;
+  price: number;
+  prices: number;
+  pricem: number;
+  pricel: number;
+  pricek: number;
   image: string;
   featured: boolean;
 }

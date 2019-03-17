@@ -13,21 +13,19 @@ import { HomeComponent } from "./home/home.component";
 import { NavbarComponent } from "./shared/navbar/navbar.component";
 import { HttpClientModule } from "@angular/common/http";
 import { ContactComponent } from "./contact/contact.component";
-import { MenuComponent } from "./menu/menu.component";
 import { AboutComponent } from "./about/about.component";
 import { HeroComponent } from "./shared/hero/hero.component";
 import { NavbarBottomComponent } from "./shared/navbar-bottom/navbar-bottom.component";
 import { GalleryComponent } from "./shared/gallery/gallery.component";
 import { FooterComponent } from "./shared/footer/footer.component";
-import { HcardComponent } from "./shared/hcard/hcard.component";
 import { DisplayEvenPipe } from "./shared/display-even.pipe";
 import { PriceListComponent } from "./shared/price-list/price-list.component";
 import { NewsComponent } from "./shared/news/news.component";
 import { DrinksComponent } from "./drinks/drinks.component";
 import { FoodComponent } from "./food/food.component";
 import { CCurrencyPipe } from "./shared/c-currency.pipe";
-import { TextTileComponent } from "./shared/text-tile/text-tile.component";
 import { FeatureComponent } from "./shared/feature/feature.component";
+import { PriceListBodyComponent } from "./shared/price-list-body/price-list-body.component";
 
 registerLocaleData(localeDE);
 
@@ -37,21 +35,19 @@ registerLocaleData(localeDE);
     HomeComponent,
     NavbarComponent,
     ContactComponent,
-    MenuComponent,
     AboutComponent,
     HeroComponent,
     NavbarBottomComponent,
     GalleryComponent,
     FooterComponent,
-    HcardComponent,
     DisplayEvenPipe,
     PriceListComponent,
     NewsComponent,
     DrinksComponent,
     FoodComponent,
     CCurrencyPipe,
-    TextTileComponent,
-    FeatureComponent
+    FeatureComponent,
+    PriceListBodyComponent
   ],
   imports: [
     SharedModule.forRoot(),

@@ -1,16 +1,16 @@
-<section id="gallery">
-  <div class="section" *ngIf="title">
-    <h1 class="title is-size-2 has-text-centered has-text-info">{{ title }}</h1>
-  </div>
-  <div class="columns is-multiline is-gapless">
-    <div
-      *ngFor="let item of gallery; let i = index"
-      class="column is-6 has-background-image img-container"
-      [style.backgroundImage]="background(item.image)"
-    >
-      <div class="section img-text-bottom-right has-background-primary has-text-info has-text-centered" *ngIf="item.text">
-        <span>{{ item.text }}</span>
+<div class="columns is-multiline">
+  <div class="column is-6-tablet is-4-desktop" *ngFor="let item of gallery">
+    <div class="card">
+      <div class="card-image">
+        <figure class="image is-square">
+          <img [src]="item.image" />
+        </figure>
+      </div>
+      <div class="card-content is-overlay" *ngIf="item.text">
+        <span class="tag is-primary is-size-4 has-text-info">
+          {{ item.text }}
+        </span>
       </div>
     </div>
   </div>
-</section>
+</div>

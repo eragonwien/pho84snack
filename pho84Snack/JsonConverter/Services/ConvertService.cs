@@ -96,6 +96,8 @@ namespace JsonConverter.Services
             {
                 var header = reader.ReadLine().Split(SPLIT).ToList();
                 var line = reader.ReadLine().Split(SPLIT);
+
+                string directionStr = line[header.IndexOf(nameof(Contact.Directions))];
                 Contact contact = new Contact
                 {
                     Name = line[header.IndexOf(nameof(Contact.Name))],
@@ -107,7 +109,7 @@ namespace JsonConverter.Services
                     Phone = line[header.IndexOf(nameof(Contact.Phone))],
                     Email = line[header.IndexOf(nameof(Contact.Email))],
                     Facebook = line[header.IndexOf(nameof(Contact.Facebook))],
-                    FacebookUrl = line[header.IndexOf(nameof(Contact.FacebookUrl))]
+                    Directions = !string.IsNullOrWhiteSpace(directionStr) ? directionStr.Split('|').ToList() : new List<string>()
                 };
                 result = JsonSerializeObject(contact);
             }
@@ -228,6 +230,7 @@ namespace JsonConverter.Services
                     }
 
                     string categoryName = line[header.IndexOf(CATEGORY_NAME)];
+                    string categoryImage = line[header.IndexOf(CATEGORY_IMAGE)];
 
                     // Create new category
                     if (!categories.Any(m => m.Name.Equals(categoryName)))
@@ -236,7 +239,7 @@ namespace JsonConverter.Services
                         {
                             Name = categoryName,
                             Type = line[header.IndexOf(CATEGORY_TYPE)],
-                            Image = line[header.IndexOf(CATEGORY_IMAGE)],
+                            Images = new List<string>{ categoryImage },
                             Products = new List<Product>()
                         });
                     }
@@ -244,7 +247,10 @@ namespace JsonConverter.Services
                     // Update category description
                     Category category = categories.Single(c => c.Name.Equals(categoryName));
                     category.Type = !string.IsNullOrWhiteSpace(category.Type) ? category.Type : line[header.IndexOf(CATEGORY_TYPE)];
-                    category.Image = !string.IsNullOrWhiteSpace(category.Image) ? category.Image : line[header.IndexOf(CATEGORY_IMAGE)];
+                    if (!category.Images.Contains(categoryImage))
+                    {
+                        category.Images.Add(categoryImage);
+                    }
 
                     // Add new product
                     Product product = new Product
@@ -259,6 +265,12 @@ namespace JsonConverter.Services
                         PriceL = ToDecimal(line[header.IndexOf(nameof(Product.PriceL))]),
                         PriceK = ToDecimal(line[header.IndexOf(nameof(Product.PriceK))]),
                     };
+
+                    if (!string.IsNullOrWhiteSpace(product.Image) && !category.Images.Contains(product.Image))
+                    {
+                        category.Images.Add(product.Image);
+                    }
+
                     category.Products.Add(product);
                 }
                 result = JsonSerializeObject(categories);

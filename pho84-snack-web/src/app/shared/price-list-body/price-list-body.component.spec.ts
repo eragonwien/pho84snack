@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HcardComponent } from './hcard.component';
+import { PriceListBodyComponent } from './price-list-body.component';
 
-describe('HcardComponent', () => {
-  let component: HcardComponent;
-  let fixture: ComponentFixture<HcardComponent>;
+describe('PriceListBodyComponent', () => {
+  let component: PriceListBodyComponent;
+  let fixture: ComponentFixture<PriceListBodyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HcardComponent ]
+      declarations: [ PriceListBodyComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HcardComponent);
+    fixture = TestBed.createComponent(PriceListBodyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

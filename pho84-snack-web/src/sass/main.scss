@@ -46,8 +46,16 @@ $divider-background-color: $info;
 $card-background-color: $primary;
 $card-shadow: none;
 
-@import "../../../node_modules/bulma/bulma.sass";
-@import "../../../node_modules/bulma-extensions/bulma-divider/src/sass/index.sass";
+// Table
+$table-background-color: $primary;
+$table-cell-border: 1px solid $info;
+$table-cell-heading-color: $info;
+$table-head-cell-color: $info;
+$table-color: $info;
+
+@import "../../node_modules/bulma/bulma.sass";
+
+@import "../../node_modules/bulma-extensions/bulma-divider/src/sass/index.sass";
 
 // All
 html,
@@ -116,6 +124,10 @@ body {
   margin-bottom: 0px !important;
 }
 
+.price-col {
+  width: 3vw !important;
+}
+
 .is-size-xl {
   font-size: 5.5rem !important;
 }
@@ -157,13 +169,6 @@ body {
   text-shadow: 0 0 5px black;
 }
 
-// Price list
-.price-list {
-  .price-list-body {
-    padding-top: 0px;
-  }
-}
-
 // Text over image
 .img-container {
   position: relative;
@@ -193,15 +198,10 @@ body {
 // Home
 #home {
   .hero {
-    background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/home.jpg) no-repeat center center;
-    background-size: cover;
-  }
-}
-
-// Menu
-#menu {
-  .hero {
-    background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/menu.jpg) no-repeat center center;
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/home.jpg);
+    // background-image: url(/assets/images/home.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
     background-size: cover;
   }
 }
@@ -209,7 +209,11 @@ body {
 // Essen
 #essen {
   .hero {
-    background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/essen.jpg) no-repeat center center;
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/essen.jpg);
+    // background-image: url(/assets/images/essen.jpg);
+    background-color: $primary;
+    background-repeat: no-repeat;
+    background-position: center center;
     background-size: cover;
   }
 }
@@ -217,7 +221,10 @@ body {
 // Trinken
 #trinken {
   .hero {
-    background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/trinken.jpg) no-repeat center center;
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/trinken.jpg);
+    // background-image: url(/assets/images/trinken.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
     background-size: cover;
   }
 }
@@ -225,7 +232,11 @@ body {
 // Contact
 #contact {
   .hero {
-    background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/contact.jpg) no-repeat center center;
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/contact.jpg);
+    // background-image: url(/assets/images/contact.jpg);
+    background-color: $primary;
+    background-repeat: no-repeat;
+    background-position: center center;
     background-size: cover;
   }
 }

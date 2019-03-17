@@ -1,0 +1,28 @@
+<table class="table is-fullwidth has-text-info">
+  <thead>
+    <tr>
+      <th></th>
+      <th *ngIf="isPrice"></th>
+      <th class="price-col" *ngIf="isPriceS">S</th>
+      <th class="price-col" *ngIf="isPriceM">M</th>
+      <th class="price-col" *ngIf="isPriceL">L</th>
+      <th class="price-col" *ngIf="isPriceK">Mit Kaffee</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>
+        <p class="is-size-5 has-font-weight-semibold">
+          <strong class="has-text-info">{{ product.name }}</strong>
+        </p>
+        <p class="is-size-7">{{ product.description }}</p>
+      </td>
+      <td class="price-col is-size-6" *ngIf="isPrice">{{ product.price | currency: "EUR" }}</td>
+      <td class="price-col is-size-6" *ngIf="isPriceS">{{ product.prices | currency: "EUR" }}</td>
+      <td class="price-col is-size-6" *ngIf="isPriceM">{{ product.pricem | currency: "EUR" }}</td>
+      <td class="price-col is-size-6" *ngIf="isPriceL">{{ product.pricel | currency: "EUR" }}</td>
+      <td class="price-col is-size-6" *ngIf="isPriceK">{{ product.pricek | currency: "EUR" }}</td>
+    </tr>
+  </tbody>
+</table>
+<app-gallery [gallery]="gallery"></app-gallery>

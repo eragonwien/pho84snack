@@ -10,17 +10,13 @@ import { HelperService } from "src/app/services/helper.service";
 export class PriceListComponent implements OnInit {
   @Input() title: string;
   @Input() subtitle: string;
-  @Input() image: string;
+  @Input() images: string;
   @Input() products: Product[];
   @Input() index: number;
 
   constructor(private hs: HelperService) {}
 
   ngOnInit() {}
-
-  get backgroundImage() {
-    return this.hs.imageUrlPath(this.hs.imagePath(this.image));
-  }
 
   get hasTextSuccess(): boolean {
     return this.index % 2 !== 0;

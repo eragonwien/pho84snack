@@ -13,7 +13,7 @@ namespace JsonConverter.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Facebook { get; set; }
-        public string FacebookUrl { get; set; }
+        public List<string> Directions { get; set; }
     }
 
     public class OpenHour
@@ -27,7 +27,7 @@ namespace JsonConverter.Models
     public class Category
     {
         public string Name { get; set; }
-        public string Image { get; set; }
+        public List<string> Images { get; set; }
         public string Type { get; set; }
         public List<Product> Products { get; set; }
     }
