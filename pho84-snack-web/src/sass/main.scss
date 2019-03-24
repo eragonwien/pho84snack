@@ -1,6 +1,6 @@
 @charset "utf-8";
 // Import a Google Font
-@import url("https://fonts.googleapis.com/css?family=Raleway");
+@import url("https://fonts.googleapis.com/css?family=Muli");
 
 // Brand colours
 // $primary: #bcc0c6;
@@ -15,7 +15,7 @@ $primary-light: grey;
 $screen-sm: 768px;
 
 // Colours overrides
-$family-sans-serif: "Raleway", sans-serif;
+$family-sans-serif: "Muli", serif;
 
 // Navbar
 $navbar-background-color: $primary;
@@ -86,6 +86,12 @@ body {
   background-color: rgba($color: $white, $alpha: 0.9);
 }
 
+.background-fixed {
+  @media (min-width: 768px) {
+    background-attachment: fixed;
+  }
+}
+
 .has-border-info {
   border-color: $success;
 }
@@ -132,6 +138,20 @@ body {
   font-size: 5.5rem !important;
 }
 
+.mh-50 {
+  min-height: 50rem !important;
+}
+
+.px-3 {
+  padding-left: 3rem !important;
+  padding-right: 3rem !important;
+}
+
+.py-3 {
+  padding-top: 3rem !important;
+  padding-bottom: 3rem !important;
+}
+
 // NAVBAR
 
 #navbar-top {
@@ -175,22 +195,30 @@ body {
   min-height: 20rem;
 }
 
+.img-text-bottom-left {
+  position: absolute;
+  left: 5%;
+  top: 50%;
+  right: 60%;
+}
+
 .img-text-bottom-right {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+  right: 5%;
+  top: 50%;
+  left: 60%;
 }
 
 .img-text-center-left {
   position: absolute;
-  left: 1rem;
+  left: 5%;
   top: 25%;
   right: 60%;
 }
 
 .img-text-center-right {
   position: absolute;
-  right: 1rem;
+  right: 5%;
   top: 25%;
   left: 60%;
 }
@@ -198,7 +226,8 @@ body {
 // Home
 #home {
   .hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/home.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+      url(/assets/images/home.jpg);
     // background-image: url(/assets/images/home.jpg);
     background-repeat: no-repeat;
     background-position: center center;
@@ -209,7 +238,8 @@ body {
 // Essen
 #essen {
   .hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/essen.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+      url(/assets/images/essen.jpg);
     // background-image: url(/assets/images/essen.jpg);
     background-color: $primary;
     background-repeat: no-repeat;
@@ -221,7 +251,8 @@ body {
 // Trinken
 #trinken {
   .hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/trinken.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+      url(/assets/images/trinken.jpg);
     // background-image: url(/assets/images/trinken.jpg);
     background-repeat: no-repeat;
     background-position: center center;
@@ -232,7 +263,8 @@ body {
 // Contact
 #contact {
   .hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(/assets/images/contact.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+      url(/assets/images/contact.jpg);
     // background-image: url(/assets/images/contact.jpg);
     background-color: $primary;
     background-repeat: no-repeat;

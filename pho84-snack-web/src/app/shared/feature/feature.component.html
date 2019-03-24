@@ -1,31 +1,71 @@
-<div class="container is-hidden-tablet">
+<div class="container is-hidden-tablet is-block">
   <div class="card has-background-primary">
     <div class="card-content">
-      <h1 class="title has-text-info">{{ title }}</h1>
-      <h3 class="subtitle has-text-info">{{ subtitle }}</h3>
-      <p class="has-text-white">{{ text }}</p>
-      <div class="has-text-left" *ngIf="buttonText && buttonUrl" style="margin-top: 1rem;">
-        <a [routerLink]="buttonUrl" class="button is-info">{{ buttonText }}</a>
+      <div class="section">
+        <h1 class="title has-text-info">{{ feature.title }}</h1>
+        <h3 class="subtitle has-text-info">{{ feature.subtitle }}</h3>
+        <p class="has-text-white">{{ feature.description }}</p>
+        <div class="has-text-left" *ngIf="feature.button && feature.url" style="margin-top: 1rem;">
+          <a [routerLink]="feature.url" class="button is-info">{{ feature.button }}</a>
+        </div>
       </div>
     </div>
     <div class="card-image">
       <figure class="image is-16y9">
-        <img [src]="image" />
+        <img [src]="feature.image" />
       </figure>
+    </div>
+    <div class="card-content has-background-black">
+      <div class="section">
+        <h1 class="title has-text-info">{{ feature.productname }}</h1>
+        <h3 class="subtitle has-text-info">{{ feature.productprice }}</h3>
+        <p class="has-text-white">{{ feature.productdescription }}</p>
+      </div>
     </div>
   </div>
 </div>
 <div class="columns is-gapless is-hidden-mobile-only">
-  <div class="column has-background-image img-container" [style.backgroundImage]="backgroundImage" style="min-height: 50rem;">
-    <div class="section has-background-primary-faded" [ngClass]="{ 'img-text-center-left': even, 'img-text-center-right': !even }">
-      <article>
-        <h1 class="title has-text-info">{{ title }}</h1>
-        <h3 class="subtitle has-text-info">{{ subtitle }}</h3>
-        <p class="has-text-white">{{ text }}</p>
-        <div class="has-text-left" *ngIf="buttonText && buttonUrl" style="margin-top: 1rem;">
-          <a [routerLink]="buttonUrl" class="button is-info">{{ buttonText }}</a>
+  <div
+    class="column has-background-image img-container background-fixed mh-50"
+    [style.backgroundImage]="backgroundImage"
+  >
+    <div *ngIf="even">
+      <div class="section has-background-primary-faded img-text-center-left" [@slideInLeft]="scrollState">
+        <div class="section px-3 has-text-centered">
+          <h1 class="title has-text-info">{{ feature.title }}</h1>
+          <h2 class="subtitle has-text-info">{{ feature.subtitle }}</h2>
+          <p class="has-text-white">{{ feature.description }}</p>
+          <div class="has-text-centered" *ngIf="feature.button && feature.url" style="margin-top: 4rem;">
+            <a [routerLink]="feature.url" class="button is-info px-3 is-outlined">{{ feature.button }}</a>
+          </div>
         </div>
-      </article>
+      </div>
+      <div class="section has-background-primary-faded img-text-bottom-right" [@slideInRight]="scrollState">
+        <div class="section px-3 has-text-centered">
+          <h1 class="title has-text-info">{{ feature.productname }}</h1>
+          <h3 class="subtitle has-text-info">{{ feature.productprice }}</h3>
+          <p class="has-text-white">{{ feature.productdescription }}</p>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!even">
+      <div class="section has-background-primary-faded img-text-center-right" [@slideInRight]="scrollState">
+        <div class="section px-3 has-text-centered">
+          <h1 class="title has-text-info">{{ feature.title }}</h1>
+          <h2 class="subtitle has-text-info">{{ feature.subtitle }}</h2>
+          <p class="has-text-white">{{ feature.description }}</p>
+          <div class="has-text-centered" *ngIf="feature.button && feature.url" style="margin-top: 4rem;">
+            <a [routerLink]="feature.url" class="button is-info px-3 is-outlined">{{ feature.button }}</a>
+          </div>
+        </div>
+      </div>
+      <div class="section has-background-primary-faded img-text-bottom-left" [@slideInLeft]="scrollState">
+        <div class="section px-3 has-text-centered">
+          <h1 class="title has-text-info">{{ feature.productname }}</h1>
+          <h3 class="subtitle has-text-info">{{ feature.productprice }}</h3>
+          <p class="has-text-white">{{ feature.productdescription }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

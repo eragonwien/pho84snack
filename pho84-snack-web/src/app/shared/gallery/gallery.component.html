@@ -1,9 +1,9 @@
 <div class="columns is-multiline is-marginless">
-  <div class="column is-6-tablet is-4-desktop" *ngFor="let item of gallery">
+  <div class="column is-6-tablet is-4-desktop" *ngFor="let item of (gallery | slice: 0:count)">
     <div class="card">
       <div class="card-image">
         <figure class="image is-square">
-          <img [src]="item.image" />
+          <img [src]="imageSquare(item.image)" />
         </figure>
       </div>
       <div class="card-content is-overlay" *ngIf="item.text">
@@ -12,5 +12,10 @@
         </span>
       </div>
     </div>
+  </div>
+  <div class="column is-12" *ngIf="placeholderImage && (!gallery || count < itemPerRow)">
+    <figure class="image is-3by1">
+      <img [src]="image16by9(placeholderImage)" />
+    </figure>
   </div>
 </div>

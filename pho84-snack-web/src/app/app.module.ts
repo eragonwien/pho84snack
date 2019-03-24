@@ -13,7 +13,6 @@ import { HomeComponent } from "./home/home.component";
 import { NavbarComponent } from "./shared/navbar/navbar.component";
 import { HttpClientModule } from "@angular/common/http";
 import { ContactComponent } from "./contact/contact.component";
-import { AboutComponent } from "./about/about.component";
 import { HeroComponent } from "./shared/hero/hero.component";
 import { NavbarBottomComponent } from "./shared/navbar-bottom/navbar-bottom.component";
 import { GalleryComponent } from "./shared/gallery/gallery.component";
@@ -26,6 +25,7 @@ import { FoodComponent } from "./food/food.component";
 import { CCurrencyPipe } from "./shared/c-currency.pipe";
 import { FeatureComponent } from "./shared/feature/feature.component";
 import { PriceListBodyComponent } from "./shared/price-list-body/price-list-body.component";
+import { CarouselFeatureComponent } from "./shared/carousel-feature/carousel-feature.component";
 
 registerLocaleData(localeDE);
 
@@ -35,7 +35,6 @@ registerLocaleData(localeDE);
     HomeComponent,
     NavbarComponent,
     ContactComponent,
-    AboutComponent,
     HeroComponent,
     NavbarBottomComponent,
     GalleryComponent,
@@ -47,7 +46,8 @@ registerLocaleData(localeDE);
     FoodComponent,
     CCurrencyPipe,
     FeatureComponent,
-    PriceListBodyComponent
+    PriceListBodyComponent,
+    CarouselFeatureComponent
   ],
   imports: [
     SharedModule.forRoot(),

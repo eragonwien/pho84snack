@@ -1,10 +1,10 @@
-<div class="container-fluid has-background-white-faded" id="essen" [@fadeInOut]>
+<div class="container-fluid has-background-white-faded" id="essen">
   <app-hero title="" size="is-large"></app-hero>
   <app-price-list
     *ngFor="let category of categories; let i = index"
     [title]="category.name"
     [products]="category.products"
-    [images]="category.images"
+    [image]="category.image"
     [index]="i"
   ></app-price-list>
 </div>

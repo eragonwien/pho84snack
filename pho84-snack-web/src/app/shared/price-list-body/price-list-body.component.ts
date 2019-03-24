@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Product, GalleryItem } from "src/app/models";
+import { HelperService } from "src/app/services/helper.service";
 
 @Component({
   selector: "app-price-list-body",
@@ -8,8 +9,9 @@ import { Product, GalleryItem } from "src/app/models";
 })
 export class PriceListBodyComponent implements OnInit {
   @Input() products: Product[];
+  @Input() placeholderImage: string;
 
-  constructor() {}
+  constructor(private hs: HelperService) {}
 
   ngOnInit() {}
 

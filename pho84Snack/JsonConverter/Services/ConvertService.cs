@@ -30,9 +30,6 @@ namespace JsonConverter.Services
                     case nameof(Category):
                         result.Content = GetCategories(file);
                         break;
-                    case nameof(Menu):
-                        result.Content = GetMenu(file);
-                        break;
                     case nameof(Feature):
                         result.Content = GetFeatures(file);
                         break;
@@ -149,63 +146,6 @@ namespace JsonConverter.Services
             return result;
         }
 
-        private const string MENU_NAME = "MenuName";
-        private const string MENU_ALIAS = "MenuAlias";
-        private const string MENU_DESCRIPTION = "MenuDescription";
-        private const string MENU_IMAGE = "MenuImage";
-
-        private string GetMenu(IFormFile file)
-        {
-            string result = string.Empty;
-
-            using (var reader = new StreamReader(file.OpenReadStream()))
-            {
-                var header = reader.ReadLine().Split(SPLIT).ToList();
-
-                List<Menu> menuList = new List<Menu>();
-
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine().Split(SPLIT);
-                    string menuName = line[header.IndexOf(MENU_NAME)];
-
-                    // Create new menu
-                    if (!menuList.Any(m => m.Name.Equals(menuName)))
-                    {
-                        menuList.Add(new Menu
-                        {
-                            Name = menuName,
-                            Alias = line[header.IndexOf(MENU_ALIAS)],
-                            Description = line[header.IndexOf(MENU_DESCRIPTION)],
-                            Image = line[header.IndexOf(MENU_IMAGE)],
-                            Products = new List<Product>()
-                        });
-                    }
-
-                    // Update menu description
-                    Menu menu = menuList.Single(m => m.Name.Equals(menuName));
-                    menu.Alias = !string.IsNullOrWhiteSpace(menu.Alias) ? menu.Alias : line[header.IndexOf(MENU_ALIAS)];
-                    menu.Description = !string.IsNullOrWhiteSpace(menu.Description) ? menu.Description : line[header.IndexOf(MENU_DESCRIPTION)];
-                    menu.Image = !string.IsNullOrWhiteSpace(menu.Image) ? menu.Image : line[header.IndexOf(MENU_IMAGE)];
-
-                    // Add new product
-                    Product product = new Product
-                    {
-                        Name = line[header.IndexOf(nameof(Product.Name))],
-                        Alias = line[header.IndexOf(nameof(Product.Alias))],
-                        Description = line[header.IndexOf(nameof(Product.Description))],
-                        Image = line[header.IndexOf(nameof(Product.Image))],
-                        Price = !string.IsNullOrWhiteSpace(line[header.IndexOf(nameof(Product.Price))]) ?
-                            Convert.ToDecimal(line[header.IndexOf(nameof(Product.Price))]) : 0
-                    };
-                    menu.Products.Add(product);
-                }
-                result = JsonSerializeObject(menuList);
-            }
-
-            return result;
-        }
-
         private const string CATEGORY_NAME = "CategoryName";
         private const string CATEGORY_TYPE = "CategoryType";
         private const string CATEGORY_IMAGE = "CategoryImage";
@@ -230,7 +170,6 @@ namespace JsonConverter.Services
                     }
 
                     string categoryName = line[header.IndexOf(CATEGORY_NAME)];
-                    string categoryImage = line[header.IndexOf(CATEGORY_IMAGE)];
 
                     // Create new category
                     if (!categories.Any(m => m.Name.Equals(categoryName)))
@@ -239,7 +178,7 @@ namespace JsonConverter.Services
                         {
                             Name = categoryName,
                             Type = line[header.IndexOf(CATEGORY_TYPE)],
-                            Images = new List<string>{ categoryImage },
+                            Image = line[header.IndexOf(CATEGORY_IMAGE)],
                             Products = new List<Product>()
                         });
                     }
@@ -247,10 +186,7 @@ namespace JsonConverter.Services
                     // Update category description
                     Category category = categories.Single(c => c.Name.Equals(categoryName));
                     category.Type = !string.IsNullOrWhiteSpace(category.Type) ? category.Type : line[header.IndexOf(CATEGORY_TYPE)];
-                    if (!category.Images.Contains(categoryImage))
-                    {
-                        category.Images.Add(categoryImage);
-                    }
+                    category.Image = !string.IsNullOrWhiteSpace(category.Image) ? category.Image : line[header.IndexOf(CATEGORY_IMAGE)];
 
                     // Add new product
                     Product product = new Product
@@ -264,12 +200,8 @@ namespace JsonConverter.Services
                         PriceM = ToDecimal(line[header.IndexOf(nameof(Product.PriceM))]),
                         PriceL = ToDecimal(line[header.IndexOf(nameof(Product.PriceL))]),
                         PriceK = ToDecimal(line[header.IndexOf(nameof(Product.PriceK))]),
+                        Featured = line[header.IndexOf(nameof(Product.PriceK))] == bool.TrueString
                     };
-
-                    if (!string.IsNullOrWhiteSpace(product.Image) && !category.Images.Contains(product.Image))
-                    {
-                        category.Images.Add(product.Image);
-                    }
 
                     category.Products.Add(product);
                 }
@@ -301,7 +233,10 @@ namespace JsonConverter.Services
                         Image = line[header.IndexOf(nameof(Feature.Image))],
                         Description = line[header.IndexOf(nameof(Feature.Description))],
                         Button = line[header.IndexOf(nameof(Feature.Button))],
-                        Url = line[header.IndexOf(nameof(Feature.Url))]
+                        Url = line[header.IndexOf(nameof(Feature.Url))],
+                        ProductName = line[header.IndexOf(nameof(Feature.ProductName))],
+                        ProductPrice = line[header.IndexOf(nameof(Feature.ProductPrice))],
+                        ProductDescription = line[header.IndexOf(nameof(Feature.ProductDescription))]
                     };
                     features.Add(feature);
                 }
@@ -351,9 +286,6 @@ namespace JsonConverter.Services
                     break;
                 case nameof(Category):
                     fileName = "category.json";
-                    break;
-                case nameof(Menu):
-                    fileName = "menu.json";
                     break;
                 case nameof(Feature):
                     fileName = "features.json";

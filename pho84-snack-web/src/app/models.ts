@@ -54,6 +54,9 @@ export interface Feature {
   button: string;
   url: string;
   image: string;
+  productname: string;
+  productprice: string;
+  productdescription: string;
 }
 
 export interface GalleryItem {

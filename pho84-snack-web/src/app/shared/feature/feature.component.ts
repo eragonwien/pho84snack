@@ -1,32 +1,39 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, HostListener, ElementRef, ViewChild } from "@angular/core";
 import { HelperService } from "src/app/services/helper.service";
+import { Feature } from "src/app/models";
+import { slideInLeft, slideInRight } from "src/app/shared/animations";
 
 @Component({
   selector: "app-feature",
   templateUrl: "./feature.component.html",
-  styleUrls: ["./feature.component.css"]
+  styleUrls: ["./feature.component.css"],
+  animations: [slideInLeft, slideInRight]
 })
 export class FeatureComponent implements OnInit {
-  @Input() title: string;
-  @Input() subtitle: string;
-  @Input() text: string;
-  @Input() buttonText: string;
-  @Input() buttonUrl: string;
-  @Input() image: string;
   @Input() index: number;
+  @Input() feature: Feature;
 
-  constructor(private hs: HelperService) {}
+  @ViewChild("mainScreen") elementView: ElementRef;
+
+  scrollState: string = "hide";
+
+  constructor(private hs: HelperService, private el: ElementRef) {}
 
   ngOnInit() {
-    this.image = this.hs.image(this.image);
-    this.buttonUrl = this.hs.getPath(this.buttonUrl);
+    this.feature.image = this.hs.image(this.feature.image);
+    this.feature.url = this.hs.getPath(this.feature.url);
   }
 
   get backgroundImage(): string {
-    return this.hs.imageUrlPath(this.image);
+    return this.hs.imageUrlPath(this.feature.image);
   }
 
   get even(): boolean {
     return this.index % 2 === 0;
+  }
+
+  @HostListener("window:scroll", ["$event"])
+  checkScroll() {
+    this.scrollState = this.hs.getScrollState(this.scrollState, this.el);
   }
 }

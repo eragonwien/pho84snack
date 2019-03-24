@@ -27,17 +27,8 @@ namespace JsonConverter.Models
     public class Category
     {
         public string Name { get; set; }
-        public List<string> Images { get; set; }
-        public string Type { get; set; }
-        public List<Product> Products { get; set; }
-    }
-
-    public class Menu
-    {
-        public string Name { get; set; }
-        public string Alias { get; set; }
-        public string Description { get; set; }
         public string Image { get; set; }
+        public string Type { get; set; }
         public List<Product> Products { get; set; }
     }
 
@@ -52,6 +43,7 @@ namespace JsonConverter.Models
         public decimal PriceL { get; set; }
         public decimal PriceK { get; set; }
         public string Image { get; set; }
+        public bool Featured { get; set; }
     }
 
     public class Feature
@@ -63,6 +55,9 @@ namespace JsonConverter.Models
         public string Button { get; set; }
         public string Url { get; set; }
         public string Image { get; set; }
+        public string ProductName { get; set; }
+        public string ProductPrice { get; set; }
+        public string ProductDescription { get; set; }
     }
 
     public class GalleryItem
