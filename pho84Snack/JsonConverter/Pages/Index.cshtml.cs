@@ -74,6 +74,7 @@ namespace JsonConverter.Pages
 
         public IActionResult OnPostDownload()
         {
+            // Checks type
             if (string.IsNullOrEmpty(Type))
             {
                 Message = "Choose a type";

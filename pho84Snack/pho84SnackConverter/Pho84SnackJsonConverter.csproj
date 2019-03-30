@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Authors>Hoang Son Nguyen</Authors>
+    <Company>Pho84 Snack</Company>
+    <Description>Convert CSV to JSON for pho84snack</Description>
+  </PropertyGroup>
+
+</Project>
