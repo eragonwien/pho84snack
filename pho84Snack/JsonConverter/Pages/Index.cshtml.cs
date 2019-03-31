@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.IO;
+using Pho84SnackJsonConverter;
 
 namespace JsonConverter.Pages
 {
@@ -55,7 +56,7 @@ namespace JsonConverter.Pages
                 Message = "Upload is empty";
                 return Page();
             }
-            var result = cService.ConvertFileToJsonAsync(Type, Upload);
+            var result = cService.ConvertFileToJsonAsync(Type, Upload.ReadAsList());
 
             if (result.IsSuccess)
             {

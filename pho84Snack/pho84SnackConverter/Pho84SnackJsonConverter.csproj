@@ -5,6 +5,11 @@
     <Authors>Hoang Son Nguyen</Authors>
     <Company>Pho84 Snack</Company>
     <Description>Convert CSV to JSON for pho84snack</Description>
+    <Version>1.1.0</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
 
 </Project>
