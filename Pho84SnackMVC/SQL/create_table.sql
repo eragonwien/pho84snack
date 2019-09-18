@@ -4,7 +4,7 @@ drop table if exists ProductMap, Product, Category, Info;
 
 create table Info (
 	Id int not null auto_increment,
-    Name varchar(32) not null,
+    Name varchar(32) unique not null,
     Description varchar(256),
     Address varchar(64),
     AddressExtra varchar(64),
@@ -18,14 +18,14 @@ create table Info (
 
 create table Category (
 	Id int not null auto_increment,
-    Name varchar(32) not null,
+    Name varchar(32) unique not null,
     Description varchar(256),
     primary key (Id)
 );
 
 create table Product (
 	Id int not null auto_increment,
-    Name varchar(32) not null,
+    Name varchar(32) unique not null,
     Description varchar(256),
     primary key (Id)
 );

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pho84SnackMVC.Models;
+using Pho84SnackMVC.Services;
 
 namespace Pho84SnackMVC
 {
@@ -24,13 +26,8 @@ namespace Pho84SnackMVC
       // This method gets called by the runtime. Use this method to add services to the container.
       public void ConfigureServices(IServiceCollection services)
       {
-         services.Configure<CookiePolicyOptions>(options =>
-         {
-               // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-               options.CheckConsentNeeded = context => true;
-            options.MinimumSameSitePolicy = SameSiteMode.None;
-         });
-
+         services.Add(new ServiceDescriptor(typeof(Pho84SnackContext), new Pho84SnackContext(Configuration.GetConnectionString(Settings.DefaultConnectionString))));
+         services.AddScoped<ICategoryService, CategoryService>();
 
          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       }
