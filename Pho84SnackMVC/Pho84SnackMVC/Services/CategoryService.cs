@@ -13,7 +13,7 @@ namespace Pho84SnackMVC.Services
       IEnumerable<Category> GetAll();
       Category GetOne(int id);
       Category GetOne(string name);
-      int Create(Category category);
+      long Create(Category category);
       void Update(Category category);
       void Remove(int id);
       void Remove(string name);
@@ -44,17 +44,18 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public int Create(Category category)
+      public long Create(Category category)
       {
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "insert into CATEGORY(Name, Description) values(:Name, :Description); select LAST_INSERT_ID();";
+            string cmdStr = "insert into CATEGORY(Name, Description) values(@Name, @Description)";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("Name", category.Name));
-               cmd.Parameters.Add(new MySqlParameter("Description", category.Description));
-               return Convert.ToInt32(cmd.ExecuteScalar());
+               cmd.Parameters.Add(new MySqlParameter("@Name", category.Name));
+               cmd.Parameters.Add(new MySqlParameter("@Description", category.Description));
+               cmd.ExecuteNonQuery();
+               return cmd.LastInsertedId;
             }
          }
       }
@@ -64,10 +65,10 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "select count(*) from CATEGORY where Id=:Id";
+            string cmdStr = "select count(*) from CATEGORY where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("Id", id));
+               cmd.Parameters.Add(new MySqlParameter("@Id", id));
                return (Convert.ToInt16(cmd.ExecuteScalar())) > 0;
             }
          }
@@ -78,10 +79,10 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "select count(*) from CATEGORY where Name=:Name";
+            string cmdStr = "select count(*) from CATEGORY where Name=@Name";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("Name", name));
+               cmd.Parameters.Add(new MySqlParameter("@Name", name));
                return (Convert.ToInt16(cmd.ExecuteScalar())) > 0;
             }
          }
@@ -113,10 +114,10 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "select Id, Name, Description from CATEGORY where Id=:Id";
+            string cmdStr = "select Id, Name, Description from CATEGORY where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("Id", id));
+               cmd.Parameters.Add(new MySqlParameter("@Id", id));
                using (var odr = cmd.ExecuteReader())
                {
                   if (odr.Read())
@@ -134,10 +135,10 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "select Id, Name, Description from CATEGORY where Name=:Name";
+            string cmdStr = "select Id, Name, Description from CATEGORY where Name=@Name";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("Name", name));
+               cmd.Parameters.Add(new MySqlParameter("@Name", name));
                using (var odr = cmd.ExecuteReader())
                {
                   if (odr.Read())
@@ -155,10 +156,10 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "delete from CATEGORY where Id=:Id";
+            string cmdStr = "delete from CATEGORY where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("Id", id));
+               cmd.Parameters.Add(new MySqlParameter("@Id", id));
                cmd.ExecuteNonQuery();
             }
          }
@@ -169,10 +170,10 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "delete from CATEGORY where Name=:Name";
+            string cmdStr = "delete from CATEGORY where Name=@Name";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("Name", name));
+               cmd.Parameters.Add(new MySqlParameter("@Name", name));
                cmd.ExecuteNonQuery();
             }
          }
@@ -183,12 +184,12 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "update CATEGORY set Name=:Name, Description=:Description where Id=:Id";
+            string cmdStr = "update CATEGORY set Name=@Name, Description=@Description where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("Name", category.Id));
-               cmd.Parameters.Add(new MySqlParameter("Description", category.Name));
-               cmd.Parameters.Add(new MySqlParameter("Id", category.Id));
+               cmd.Parameters.Add(new MySqlParameter("@Name", category.Id));
+               cmd.Parameters.Add(new MySqlParameter("@Description", category.Name));
+               cmd.Parameters.Add(new MySqlParameter("@Id", category.Id));
                cmd.ExecuteNonQuery();
             }
          }

@@ -27,6 +27,7 @@ namespace Pho84SnackMVC
       public void ConfigureServices(IServiceCollection services)
       {
          services.Add(new ServiceDescriptor(typeof(Pho84SnackContext), new Pho84SnackContext(Configuration.GetConnectionString(Settings.DefaultConnectionString))));
+         services.AddScoped<ICompanyInfoService, CompanyInfoService>();
          services.AddScoped<ICategoryService, CategoryService>();
 
          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
