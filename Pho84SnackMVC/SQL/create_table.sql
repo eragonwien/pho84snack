@@ -1,8 +1,8 @@
 use pho84snack;
 
-drop table if exists ProductMap, Product, Category, Info;
+drop table if exists ProductMap, Product, Category, CompanyInfo;
 
-create table Info (
+create table CompanyInfo (
 	Id int not null auto_increment,
     Name varchar(32) unique not null,
     Description varchar(256),
