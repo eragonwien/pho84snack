@@ -41,7 +41,8 @@ namespace Pho84SnackMVC
             var services = scope.ServiceProvider;
             var companyInfoService = services.GetRequiredService<ICompanyInfoService>();
             var categoryService = services.GetRequiredService<ICategoryService>();
-            DbInitializer.Initialize(companyInfoService, categoryService);
+            var productService = services.GetRequiredService<IProductService>();
+            DbInitializer.Initialize(companyInfoService, categoryService, productService);
          }
       }
 

@@ -9,13 +9,8 @@ namespace Pho84SnackMVC.Models
 {
    public class DbInitializer
    {
-      public static void Initialize(ICompanyInfoService companyInfoService, ICategoryService categoryService)
+      public static void Initialize(ICompanyInfoService companyInfoService, ICategoryService categoryService, IProductService productService)
       {
-         if (categoryService.Count() == 0)
-         {
-            categoryService.Create(new Category("Test category", "A test category"));
-         }
-
          if (companyInfoService.Count() == 0)
          {
             companyInfoService.Create(new CompanyInfo
@@ -30,6 +25,16 @@ namespace Pho84SnackMVC.Models
                Phone = "+123456789",
                Zip = "12345"
             });
+         }
+
+         if (categoryService.Count() == 0)
+         {
+            categoryService.Create(new Category("Test category", "A test category"));
+         }
+
+         if (productService.Count() == 0)
+         {
+            productService.Create(new Product("Test roduct", "A test product"));
          }
       }
    }

@@ -2,19 +2,18 @@
 using Pho84SnackMVC.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Services
 {
-   public interface ICategoryService
+   public interface IProductService
    {
-      List<Category> GetAll();
-      Category GetOne(int id);
-      Category GetOne(string name);
-      long Create(Category category);
-      void Update(Category category);
+      List<Product> GetAll();
+      Product GetOne(int id);
+      Product GetOne(string name);
+      long Create(Product product);
+      void Update(Product product);
       void Remove(int id);
       void Remove(string name);
       bool Exists(int id);
@@ -22,11 +21,11 @@ namespace Pho84SnackMVC.Services
       int Count();
    }
 
-   public class CategoryService : ICategoryService
+   public class ProductService : IProductService
    {
       private readonly Pho84SnackContext context;
 
-      public CategoryService(Pho84SnackContext context)
+      public ProductService(Pho84SnackContext context)
       {
          this.context = context;
       }
@@ -36,7 +35,7 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "select count(*) from CATEGORY";
+            string cmdStr = "select count(*) from PRODUCT";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                return Convert.ToInt32(cmd.ExecuteScalar());
@@ -44,16 +43,16 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public long Create(Category category)
+      public long Create(Product product)
       {
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "insert into CATEGORY(Name, Description) values(@Name, @Description)";
+            string cmdStr = "insert into PRODUCT(Name, Description) values(@Name, @Description)";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("@Name", category.Name));
-               cmd.Parameters.Add(new MySqlParameter("@Description", category.Description));
+               cmd.Parameters.Add(new MySqlParameter("@Name", product.Name));
+               cmd.Parameters.Add(new MySqlParameter("@Description", product.Description));
                cmd.ExecuteNonQuery();
                return cmd.LastInsertedId;
             }
@@ -65,7 +64,7 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "select count(*) from CATEGORY where Id=@Id";
+            string cmdStr = "select count(*) from PRODUCT where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
@@ -79,7 +78,7 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "select count(*) from CATEGORY where Name=@Name";
+            string cmdStr = "select count(*) from PRODUCT where Name=@Name";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Name", name));
@@ -88,33 +87,33 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public List<Category> GetAll()
+      public List<Product> GetAll()
       {
-         List<Category> categories = new List<Category>();
+         List<Product> products = new List<Product>();
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "select Id, Name, Description from CATEGORY";
+            string cmdStr = "select Id, Name, Description from PRODUCT";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                using (var odr = cmd.ExecuteReader())
                {
                   while (odr.Read())
                   {
-                     categories.Add(new Category(odr.GetString("Name"), odr.GetString("Description"), odr.GetInt32("Id")));
+                     products.Add(new Product(odr.GetString("Name"), odr.GetString("Description"), odr.GetInt32("Id")));
                   }
                }
             }
          }
-         return categories;
+         return products;
       }
 
-      public Category GetOne(int id)
+      public Product GetOne(int id)
       {
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "select Id, Name, Description from CATEGORY where Id=@Id";
+            string cmdStr = "select Id, Name, Description from PRODUCT where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
@@ -122,7 +121,7 @@ namespace Pho84SnackMVC.Services
                {
                   if (odr.Read())
                   {
-                     return new Category(odr.GetString("Name"), odr.GetString("Description"), odr.GetInt32("Id"));
+                     return new Product(odr.GetString("Name"), odr.GetString("Description"), odr.GetInt32("Id"));
                   }
                }
             }
@@ -130,12 +129,12 @@ namespace Pho84SnackMVC.Services
          return null;
       }
 
-      public Category GetOne(string name)
+      public Product GetOne(string name)
       {
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "select Id, Name, Description from CATEGORY where Name=@Name";
+            string cmdStr = "select Id, Name, Description from PRODUCT where Name=@Name";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Name", name));
@@ -143,7 +142,7 @@ namespace Pho84SnackMVC.Services
                {
                   if (odr.Read())
                   {
-                     return new Category(odr.GetString("Name"), odr.GetString("Description"), odr.GetInt32("Id"));
+                     return new Product(odr.GetString("Name"), odr.GetString("Description"), odr.GetInt32("Id"));
                   }
                }
             }
@@ -156,7 +155,7 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "delete from CATEGORY where Id=@Id";
+            string cmdStr = "delete from PRODUCT where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
@@ -170,7 +169,7 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "delete from CATEGORY where Name=@Name";
+            string cmdStr = "delete from PRODUCT where Name=@Name";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Name", name));
@@ -179,17 +178,17 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public void Update(Category category)
+      public void Update(Product product)
       {
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "update CATEGORY set Name=@Name, Description=@Description where Id=@Id";
+            string cmdStr = "update PRODUCT set Name=@Name, Description=@Description where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("@Name", category.Id));
-               cmd.Parameters.Add(new MySqlParameter("@Description", category.Name));
-               cmd.Parameters.Add(new MySqlParameter("@Id", category.Id));
+               cmd.Parameters.Add(new MySqlParameter("@Name", product.Id));
+               cmd.Parameters.Add(new MySqlParameter("@Description", product.Name));
+               cmd.Parameters.Add(new MySqlParameter("@Id", product.Id));
                cmd.ExecuteNonQuery();
             }
          }

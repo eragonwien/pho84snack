@@ -7,7 +7,7 @@ namespace Pho84SnackMVC.Services
 {
    public interface ICompanyInfoService
    {
-      IEnumerable<CompanyInfo> GetAll();
+      List<CompanyInfo> GetAll();
       CompanyInfo GetOne(int id);
       CompanyInfo GetOne(string name);
       long Create(CompanyInfo companyInfo);
@@ -92,7 +92,7 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public IEnumerable<CompanyInfo> GetAll()
+      public List<CompanyInfo> GetAll()
       {
          List<CompanyInfo> companyInfos = new List<CompanyInfo>();
          using (var con = context.GetConnection())
