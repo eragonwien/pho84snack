@@ -1,0 +1,13 @@
+﻿@model Pho84SnackMVC.Models.ViewModels.CategoryListViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All categories</h1>
+<ul>
+   @foreach (Category category in Model.Categories)
+   {
+      <li><a asp-controller="category" asp-action="details" asp-route-id="@category.Id">@category.Name</a></li>
+   }
+</ul>
+

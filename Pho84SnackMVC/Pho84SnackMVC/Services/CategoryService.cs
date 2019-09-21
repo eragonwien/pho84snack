@@ -187,8 +187,8 @@ namespace Pho84SnackMVC.Services
             string cmdStr = "update CATEGORY set Name=@Name, Description=@Description where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("@Name", category.Id));
-               cmd.Parameters.Add(new MySqlParameter("@Description", category.Name));
+               cmd.Parameters.Add(new MySqlParameter("@Name", category.Name));
+               cmd.Parameters.Add(new MySqlParameter("@Description", category.Description));
                cmd.Parameters.Add(new MySqlParameter("@Id", category.Id));
                cmd.ExecuteNonQuery();
             }

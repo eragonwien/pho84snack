@@ -186,8 +186,8 @@ namespace Pho84SnackMVC.Services
             string cmdStr = "update PRODUCT set Name=@Name, Description=@Description where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("@Name", product.Id));
-               cmd.Parameters.Add(new MySqlParameter("@Description", product.Name));
+               cmd.Parameters.Add(new MySqlParameter("@Name", product.Name));
+               cmd.Parameters.Add(new MySqlParameter("@Description", product.Description));
                cmd.Parameters.Add(new MySqlParameter("@Id", product.Id));
                cmd.ExecuteNonQuery();
             }
