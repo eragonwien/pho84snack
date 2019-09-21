@@ -19,7 +19,6 @@ namespace Pho84SnackMVC
             logger = NLogBuilder.ConfigureNLog(Settings.NlogConfigFileName).GetCurrentClassLogger();
             logger.Info("Program's Initialization starts");
             var host = CreateWebHostBuilder(args).Build();
-            InitializeDb(host);
             host.Run();
             logger.Info("Program's Initialization completed without error");
          }
@@ -31,18 +30,6 @@ namespace Pho84SnackMVC
          finally
          {
             NLog.LogManager.Shutdown();
-         }
-      }
-
-      private static void InitializeDb(IWebHost host)
-      {
-         using (var scope = host.Services.CreateScope())
-         {
-            var services = scope.ServiceProvider;
-            var companyInfoService = services.GetRequiredService<ICompanyInfoService>();
-            var categoryService = services.GetRequiredService<ICategoryService>();
-            var productService = services.GetRequiredService<IProductService>();
-            DbInitializer.Initialize(companyInfoService, categoryService, productService);
          }
       }
 
