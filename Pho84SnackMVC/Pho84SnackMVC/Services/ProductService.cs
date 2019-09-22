@@ -15,7 +15,6 @@ namespace Pho84SnackMVC.Services
       long Create(Product product);
       void Update(Product product);
       void Remove(int id);
-      void Remove(string name);
       bool Exists(int id);
       bool Exists(string name);
       int Count();
@@ -155,25 +154,30 @@ namespace Pho84SnackMVC.Services
          using (var con = context.GetConnection())
          {
             con.Open();
-            string cmdStr = "delete from PRODUCT where Id=@Id";
-            using (var cmd = new MySqlCommand(cmdStr, con))
-            {
-               cmd.Parameters.Add(new MySqlParameter("@Id", id));
-               cmd.ExecuteNonQuery();
-            }
-         }
-      }
+            var transaction = con.BeginTransaction();
 
-      public void Remove(string name)
-      {
-         using (var con = context.GetConnection())
-         {
-            con.Open();
-            string cmdStr = "delete from PRODUCT where Name=@Name";
-            using (var cmd = new MySqlCommand(cmdStr, con))
+            try
             {
-               cmd.Parameters.Add(new MySqlParameter("@Name", name));
-               cmd.ExecuteNonQuery();
+               string deleteMappingCmdStr = "delete from PRODUCTMAP where ProductId=@Id";
+               using (var cmd = new MySqlCommand(deleteMappingCmdStr, con))
+               {
+                  cmd.Parameters.Add(new MySqlParameter("@Id", id));
+                  cmd.ExecuteNonQuery();
+               }
+
+               string deleteProductCmdStr = "delete from PRODUCT where Id=@Id";
+               using (var cmd = new MySqlCommand(deleteProductCmdStr, con))
+               {
+                  cmd.Parameters.Add(new MySqlParameter("@Id", id));
+                  cmd.ExecuteNonQuery();
+               }
+
+               transaction.Commit();
+            }
+            catch (Exception)
+            {
+               transaction.Rollback();
+               throw;
             }
          }
       }

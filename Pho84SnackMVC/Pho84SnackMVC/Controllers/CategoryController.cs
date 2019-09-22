@@ -4,17 +4,20 @@ using Pho84SnackMVC.Models;
 using Pho84SnackMVC.Models.ViewModels;
 using Pho84SnackMVC.Services;
 using System;
+using System.Linq;
 
 namespace Pho84SnackMVC.Controllers
 {
    public class CategoryController : DefaultController
    {
       private readonly ICategoryService categoryService;
+      private readonly IProductService productService;
       private readonly ILogger<CategoryController> log;
 
-      public CategoryController(ICategoryService categoryService, ILogger<CategoryController> log)
+      public CategoryController(ICategoryService categoryService, IProductService productService, ILogger<CategoryController> log)
       {
          this.categoryService = categoryService;
+         this.productService = productService;
          this.log = log;
       }
 
@@ -62,27 +65,30 @@ namespace Pho84SnackMVC.Controllers
       public IActionResult Edit(int id)
       {
          var category = categoryService.GetOne(id);
-         return View(category);
+         var availableProducts = productService.GetAll();
+         var model = new CategoryEditViewModel(category, availableProducts);
+         return View(model);
       }
 
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public IActionResult Edit([FromForm]Category category)
+      public IActionResult Edit([FromForm]CategoryEditViewModel model)
       {
          if (ModelState.IsValid)
          {
             try
             {
-               categoryService.Update(category);
+               var category = new Category(model.Name, model.Description, model.Id);
+               categoryService.Update(model);
                return RedirectToDetailPage(category.Id);
             }
             catch (Exception ex)
             {
-               log.LogError("Fehler bei Aktualisierung von Kategorie {0}-{1}: {2}", category.Id, category.Name, ex.Message);
+               log.LogError("Fehler bei Aktualisierung von Kategorie {0}-{1}: {2}", model.Id, model.Name, ex.Message);
                ModelState.AddModelError("", ex.Message);
             }
          }
-         return View(category);
+         return View(model);
       }
 
       // POST: Category/Delete/5
