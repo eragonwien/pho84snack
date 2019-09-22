@@ -11,7 +11,7 @@ using Pho84SnackMVC.Services;
 
 namespace Pho84SnackMVC.Controllers
 {
-   public class HomeController : Controller
+   public class HomeController : DefaultController
    {
       private readonly ICategoryService categoryService;
       private readonly ICompanyInfoService companyInfoService;

@@ -7,7 +7,7 @@ using System;
 
 namespace Pho84SnackMVC.Controllers
 {
-   public class CategoryController : Controller
+   public class CategoryController : DefaultController
    {
       private readonly ICategoryService categoryService;
       private readonly ILogger<CategoryController> log;
@@ -21,7 +21,7 @@ namespace Pho84SnackMVC.Controllers
       [HttpGet]
       public IActionResult Index()
       {
-         var model = new CategoryListViewModel(categoryService.GetAll());
+         var model = categoryService.GetAll();
          return View(model);
       }
 
@@ -33,6 +33,32 @@ namespace Pho84SnackMVC.Controllers
       }
 
       [HttpGet]
+      public ActionResult Create()
+      {
+         return View();
+      }
+
+      [HttpPost]
+      [ValidateAntiForgeryToken]
+      public ActionResult Create([FromForm]Category category)
+      {
+         if (ModelState.IsValid)
+         {
+            try
+            {
+               long id = categoryService.Create(category);
+               return RedirectToDetailPage(id);
+            }
+            catch (Exception ex)
+            {
+               log.LogError("Fehler bei Erstellung von Kategorie: {0}", ex.Message);
+               ModelState.AddModelError("", ex.Message);
+            }
+         }
+         return View(category);
+      }
+
+      [HttpGet]
       public IActionResult Edit(int id)
       {
          var category = categoryService.GetOne(id);
@@ -40,6 +66,7 @@ namespace Pho84SnackMVC.Controllers
       }
 
       [HttpPost]
+      [ValidateAntiForgeryToken]
       public IActionResult Edit([FromForm]Category category)
       {
          if (ModelState.IsValid)
@@ -47,7 +74,7 @@ namespace Pho84SnackMVC.Controllers
             try
             {
                categoryService.Update(category);
-               return RedirectToAction(nameof(Details), new { @id = category.Id });
+               return RedirectToDetailPage(category.Id);
             }
             catch (Exception ex)
             {
@@ -56,6 +83,22 @@ namespace Pho84SnackMVC.Controllers
             }
          }
          return View(category);
+      }
+
+      // POST: Category/Delete/5
+      [HttpPost]
+      [ValidateAntiForgeryToken]
+      public ActionResult Delete(int id)
+      {
+         try
+         {
+            categoryService.Remove(id);
+         }
+         catch (Exception ex)
+         {
+            log.LogError("Fehler bei Löschen von Kategorie {0}: {1}", id, ex.Message);
+         }
+         return RedirectToIndex();
       }
    }
 }

@@ -11,6 +11,11 @@ namespace Pho84SnackMVC.Models
       public string Name { get; set; }
       public string Description { get; set; }
 
+      public Product()
+      {
+
+      }
+
       public Product(string name, string description, int id = 0)
       {
          Id = id;
