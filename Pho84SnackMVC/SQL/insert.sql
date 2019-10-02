@@ -4,3 +4,8 @@ insert into companyinfo(name, description, address, zip, city, phone, email, fac
 insert into category(name, description) values('Test category', 'Test description category');
 insert into product(name, description) values('Test product', 'Test description product');
 insert into productmap(categoryid, productid) values((select id from category where name='Test category'), (select id from product where name='Test product'));
+
+insert into productsize(shortname, longname) values('S', 'Small');
+insert into productsize(shortname, longname) values('M', 'Medium');
+insert into productsize(shortname, longname) values('L', 'Large');
+insert into productsize(shortname, longname) values('R', 'Regular');

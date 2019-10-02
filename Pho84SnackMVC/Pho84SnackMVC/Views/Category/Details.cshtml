@@ -31,15 +31,23 @@
             <th>Id</th>
             <th>Name</th>
             <th>Description</th>
+            <th></th>
          </tr>
       </thead>
       <tbody>
+         @if (Model.Products.Count == 0)
+         {
+            <tr><td colspan="4" class="text-center">No product assigned</td></tr>
+         }
          @foreach (var product in Model.Products)
          {
             <tr>
                <td>@product.Id</td>
                <td>@product.Name</td>
                <td>@product.Description</td>
+               <td>
+                  <a asp-controller="product" asp-action="details" asp-route-id="@product.Id">Details</a> - <a asp-controller="product" asp-action="edit" asp-route-id="@product.Id">Edit</a>
+               </td>
             </tr>
          }
       </tbody>

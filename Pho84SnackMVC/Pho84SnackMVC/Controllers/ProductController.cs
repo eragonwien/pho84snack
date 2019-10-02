@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Pho84SnackMVC.Models;
+using Pho84SnackMVC.Models.ViewModels;
 using Pho84SnackMVC.Services;
 using System;
 
@@ -99,5 +100,38 @@ namespace Pho84SnackMVC.Controllers
          }
          return RedirectToIndex();
       }
+
+      #region Price
+
+      // GET: Product/CreatePrice
+      [HttpGet]
+      public ActionResult CreatePrice(int productId)
+      {
+         var model = new ProductSizeViewModel(productId, productService.GetProductSizes(productId));
+         return View(model);
+      }
+
+      // POST: Product/CreatePrice
+      [HttpPost]
+      [ValidateAntiForgeryToken]
+      public ActionResult CreatePrice([FromForm] ProductSizeViewModel model)
+      {
+         if (ModelState.IsValid)
+         {
+            try
+            {
+               long id = productService.AddPrice(model);
+               return RedirectToDetailPage(model.ProductId);
+            }
+            catch (Exception ex)
+            {
+               log.LogError("Fehler bei Hinzufügen vom Price in Produkt {0}: {1}", model.ProductId, ex.Message);
+               ModelState.AddModelError("", ex.Message);
+            }
+         }
+         return View(model);
+      }
+
+      #endregion
    }
 }
