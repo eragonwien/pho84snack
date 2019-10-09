@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MySql.Data.MySqlClient;
 using Pho84SnackMVC.Models;
 using Pho84SnackMVC.Models.ViewModels;
 using Pho84SnackMVC.Services;
@@ -61,37 +62,6 @@ namespace Pho84SnackMVC.Controllers
          return View(category);
       }
 
-      [HttpGet]
-      public IActionResult Edit(int id)
-      {
-         var category = categoryService.GetOne(id);
-         var availableProducts = productService.GetAll();
-         var model = new CategoryEditViewModel(category, availableProducts);
-         return View(model);
-      }
-
-      [HttpPost]
-      [ValidateAntiForgeryToken]
-      public IActionResult Edit([FromForm]CategoryEditViewModel model)
-      {
-         if (ModelState.IsValid)
-         {
-            try
-            {
-               var category = new Category(model.Name, model.Description, model.Id);
-               categoryService.Update(model);
-               return RedirectToDetailPage(category.Id);
-            }
-            catch (Exception ex)
-            {
-               log.LogError("Fehler bei Aktualisierung von Kategorie {0}-{1}: {2}", model.Id, model.Name, ex.Message);
-               ModelState.AddModelError("", ex.Message);
-            }
-         }
-         return View(model);
-      }
-
-      // POST: Category/Delete/5
       [HttpPost]
       [ValidateAntiForgeryToken]
       public ActionResult Delete(int id)
@@ -105,6 +75,31 @@ namespace Pho84SnackMVC.Controllers
             log.LogError("Fehler bei Löschen von Kategorie {0}: {1}", id, ex.Message);
          }
          return RedirectToIndex();
+      }
+
+      [HttpPost]
+      [ValidateAntiForgeryToken]
+      public IActionResult Patch([FromForm]Category category, [FromForm]string propertyName)
+      {
+         if (ModelState.IsValid)
+         {
+            try
+            {
+               string patchValue = GetPropertyValue(category, propertyName);
+               categoryService.Patch(category.Id, propertyName, patchValue);
+               return Ok(patchValue);
+            }
+            catch (MySqlException sqlex)
+            {
+               log.LogError("Fehler bei Aktualisierung von Kategorie {0}, Prop={1}: {2}", category.Id, propertyName, sqlex.Message);
+            }
+            catch (Exception ex)
+            {
+               log.LogError("Fehler bei Aktualisierung von Kategorie {0}, Prop={1}: {2}", category.Id, propertyName, ex.Message);
+               ModelState.AddModelError("", ex.Message);
+            }
+         }
+         return BadRequest(ModelState);
       }
    }
 }

@@ -2,6 +2,9 @@
 
 @{
    ViewData["Title"] = "Details";
+   var editNameForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Name), Model.Name, Url.Action("Patch", "Product", new { @id = Model.Id }), "text");
+   var editDescriptionForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Description), Model.Description, Url.Action("Patch", "Product", new { @id = Model.Id }), "text");
+
 }
 
 <h1>Details</h1>
@@ -9,24 +12,14 @@
 <div>
    <h4>Product</h4>
    <hr />
-   <dl class="row">
-      <dt class="col-sm-2">
-         @Html.DisplayNameFor(model => model.Name)
-      </dt>
-      <dd class="col-sm-10">
-         @Html.DisplayFor(model => model.Name)
-      </dd>
-      <dt class="col-sm-2">
-         @Html.DisplayNameFor(model => model.Description)
-      </dt>
-      <dd class="col-sm-10">
-         @Html.DisplayFor(model => model.Description)
-      </dd>
-   </dl>
+   <div class="mt-16 w-form">
+      <partial name="_EditFormSinglePartial" model="editNameForm" />
+      <partial name="_EditFormSinglePartial" model="editDescriptionForm" />
+   </div>
 </div>
 <hr />
 <h4>Pricing</h4>
-<p><a asp-controller="product" asp-action="createPrice" asp-route-productId="@Model.Id">Create new price</a></p>
+<p><a asp-controller="product" asp-action="createPrice" asp-route-productId="@Model.Id">Set new price</a></p>
 <table class="table table-bordered">
    <thead>
       <tr>
@@ -50,7 +43,7 @@
             <td>@pricing.LongName</td>
             <td>@pricing.Price</td>
             <td>
-               @Html.ActionLink("Edit", "EditPrice", new { pricing.Id }) |
+               @Html.ActionLink("Change", "EditPrice", new { pricing.Id }) |
                @Html.ActionLink("Delete", "DeletePrice", new { pricing.Id })
             </td>
          </tr>

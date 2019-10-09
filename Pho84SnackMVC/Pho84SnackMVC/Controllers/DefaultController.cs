@@ -22,5 +22,10 @@ namespace Pho84SnackMVC.Controllers
       {
          return RedirectToActionPermanent("Index");
       }
+
+      internal string GetPropertyValue(object src, string propName)
+      {
+         return src.GetType().GetProperty(propName).GetValue(src, null)?.ToString();
+      }
    }
 }
