@@ -26,7 +26,7 @@ namespace Pho84SnackMVC.Models
          Description = description;
       }
 
-      public Category(CategoryCreateViewModel model)
+      public Category(CreateViewModel model)
       {
          Name = model.Name;
          Description = model.Description;

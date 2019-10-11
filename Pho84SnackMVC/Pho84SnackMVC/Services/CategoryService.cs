@@ -3,19 +3,20 @@ using Pho84SnackMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Services
 {
    public interface ICategoryService
    {
-      List<Category> GetAll();
-      Category GetOne(long id);
-      long Create(Category category);
-      void Patch(long id, string property, string value);
-      void Remove(long id);
-      bool Exists(long id);
-      void Assign(long categoryId, long productId);
-      void RemoveAssigned(long categoryId, IEnumerable<long> assignedIds);
+      Task<List<Category>> GetAll();
+      Task<Category> GetOne(long id);
+      Task<long> Create(Category category);
+      Task Patch(long id, string property, string value);
+      Task Remove(long id);
+      Task<bool> Exists(long id);
+      Task Assign(long categoryId, long productId);
+      Task RemoveAssigned(long categoryId, IEnumerable<long> assignedIds);
    }
 
    public class CategoryService : ICategoryService
@@ -27,7 +28,7 @@ namespace Pho84SnackMVC.Services
          this.context = context;
       }
 
-      public List<Category> GetAll()
+      public async Task<List<Category>> GetAll()
       {
          List<Category> categories = new List<Category>();
          using (var con = context.GetConnection())
@@ -35,11 +36,12 @@ namespace Pho84SnackMVC.Services
             string cmdStr = "select Id, Name, Description from CATEGORY";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               using (var odr = cmd.ExecuteReader())
+               await con.OpenAsync();
+               using (var odr = await cmd.ExecuteReaderAsync())
                {
-                  while (odr.Read())
+                  while (await odr.ReadAsync())
                   {
-                     categories.Add(new Category(odr.ReadString("Name"), odr.ReadString("Description"), odr.GetInt32("Id")));
+                     categories.Add(new Category(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt32("Id")));
                   }
                }
             }
@@ -47,7 +49,7 @@ namespace Pho84SnackMVC.Services
          return categories;
       }
 
-      public Category GetOne(long id)
+      public async Task<Category> GetOne(long id)
       {
          Category category = null;
          using (var con = context.GetConnection())
@@ -56,17 +58,19 @@ namespace Pho84SnackMVC.Services
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
-               using (var odr = cmd.ExecuteReader())
+
+               await con.OpenAsync();
+               using (var odr = await cmd.ExecuteReaderAsync())
                {
                   while (odr.Read())
                   {
                      if (category == null)
                      {
-                        category = new Category(odr.ReadString("Name"), odr.ReadString("Description"), odr.GetInt32("Id"));
+                        category = new Category(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt32("Id"));
                      }
                      if (!odr.IsDBNull(odr.GetOrdinal("ProductId")))
                      {
-                        category.Products.Add(new Product(odr.ReadString("ProductName"), odr.ReadString("ProductDescription"), odr.GetInt32("ProductId")));
+                        category.Products.Add(new Product(odr.ReadString("ProductName"), odr.ReadString("ProductDescription"), odr.ReadInt32("ProductId")));
                      }
                   }
                }
@@ -75,7 +79,7 @@ namespace Pho84SnackMVC.Services
          return category;
       }
 
-      public long Create(Category category)
+      public async Task<long> Create(Category category)
       {
          using (var con = context.GetConnection())
          {
@@ -84,13 +88,14 @@ namespace Pho84SnackMVC.Services
             {
                cmd.Parameters.Add(new MySqlParameter("@Name", category.Name));
                cmd.Parameters.Add(new MySqlParameter("@Description", category.Description));
-               cmd.ExecuteNonQuery();
+               await con.OpenAsync();
+               await cmd.ExecuteNonQueryAsync();
                return cmd.LastInsertedId;
             }
          }
       }
 
-      public void Patch(long id, string property, string value)
+      public async Task Patch(long id, string property, string value)
       {
          using (var con = context.GetConnection())
          {
@@ -99,12 +104,13 @@ namespace Pho84SnackMVC.Services
             {
                cmd.Parameters.Add(new MySqlParameter("@Value", value));
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
-               cmd.ExecuteNonQuery();
+               await con.OpenAsync();
+               await cmd.ExecuteNonQueryAsync();
             }
          }
       }
 
-      public bool Exists(long id)
+      public async Task<bool> Exists(long id)
       {
          using (var con = context.GetConnection())
          {
@@ -112,12 +118,13 @@ namespace Pho84SnackMVC.Services
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
-               return (Convert.ToInt16(cmd.ExecuteScalar())) > 0;
+               await con.OpenAsync();
+               return await cmd.ReadScalarInt32() > 0;
             }
          }
       }
 
-      public void Remove(long id)
+      public async Task Remove(long id)
       {
          using (var con = context.GetConnection())
          {
@@ -125,18 +132,19 @@ namespace Pho84SnackMVC.Services
 
             try
             {
+               await con.OpenAsync();
                string deleteMapCmdStr = "delete from PRODUCTMAP where CategoryId=@Id";
                using (var cmd = new MySqlCommand(deleteMapCmdStr, con, transaction))
                {
                   cmd.Parameters.Add(new MySqlParameter("@Id", id));
-                  cmd.ExecuteNonQuery();
+                  await cmd.ExecuteNonQueryAsync();
                }
 
                string deleteCmdStr = "delete from CATEGORY where Id=@Id";
                using (var cmd = new MySqlCommand(deleteCmdStr, con, transaction))
                {
                   cmd.Parameters.Add(new MySqlParameter("@Id", id));
-                  cmd.ExecuteNonQuery();
+                  await cmd.ExecuteNonQueryAsync();
                }
 
                transaction.Commit();
@@ -149,9 +157,9 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public void Assign(long categoryId, long productId)
+      public async Task Assign(long categoryId, long productId)
       {
-         if (!AssignmentExists(categoryId, productId))
+         if (!await AssignmentExists(categoryId, productId))
          {
             using (var con = context.GetConnection())
             {
@@ -160,13 +168,14 @@ namespace Pho84SnackMVC.Services
                {
                   cmd.Parameters.Add(new MySqlParameter("@CategoryId", categoryId));
                   cmd.Parameters.Add(new MySqlParameter("@ProductId", productId));
-                  cmd.ExecuteNonQuery();
+                  await con.OpenAsync();
+                  await cmd.ExecuteNonQueryAsync();
                }
             }
          }
       }
 
-      private bool AssignmentExists(long id, long productId)
+      private async Task<bool> AssignmentExists(long id, long productId)
       {
          using (var con = context.GetConnection())
          {
@@ -175,12 +184,13 @@ namespace Pho84SnackMVC.Services
             {
                cmd.Parameters.Add(new MySqlParameter("@CategoryId", id));
                cmd.Parameters.Add(new MySqlParameter("@ProductId", productId));
-               return cmd.ReadScalarInt32() > 0;
+               await con.OpenAsync();
+               return await cmd.ReadScalarInt32() > 0;
             }
          }
       }
 
-      public void RemoveAssigned(long categoryId, IEnumerable<long> assignedIds)
+      public async Task RemoveAssigned(long categoryId, IEnumerable<long> assignedIds)
       {
          using (var con = context.GetConnection())
          {
@@ -192,7 +202,8 @@ namespace Pho84SnackMVC.Services
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@CategoryId", categoryId));
-               cmd.ExecuteNonQuery();
+               await con.OpenAsync();
+               await cmd.ExecuteNonQueryAsync();
             }
          }
       }

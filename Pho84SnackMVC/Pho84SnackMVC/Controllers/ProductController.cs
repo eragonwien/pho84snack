@@ -6,6 +6,7 @@ using Pho84SnackMVC.Models;
 using Pho84SnackMVC.Models.ViewModels;
 using Pho84SnackMVC.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Controllers
 {
@@ -23,15 +24,15 @@ namespace Pho84SnackMVC.Controllers
       }
 
       // GET: Product
-      public ActionResult Index()
+      public async Task<ActionResult> Index()
       {
-         return View(productService.GetAll());
+         return View(await productService.GetAll());
       }
 
       // GET: Product/Details/5
-      public ActionResult Details(long id)
+      public async Task<ActionResult> Details(long id)
       {
-         return View(productService.GetOne(id));
+         return View(await productService.GetOne(id));
       }
 
       // GET: Product/Create
@@ -43,48 +44,47 @@ namespace Pho84SnackMVC.Controllers
       // POST: Product/Create
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Create([FromForm] Product product)
+      public async Task<ActionResult> Create([FromForm] CreateViewModel model)
       {
          if (ModelState.IsValid)
          {
             try
             {
-               long id = productService.Create(product);
-               return RedirectToDetailPage(id);
+               Product product = new Product(model);
+               product.Id = await productService.Create(product);
+               return RedirectToDetailPage(product.Id);
             }
             catch (MySqlException sqlex)
             {
-               log.LogError("Fehler bei Zuweisung von Produkt {0} auf Kategorie {1}: {2}", productId, categoryId, sqlex.Message);
+               log.LogError("Fehler bei der Erstellung von Produkt {0}", model.Name, sqlex.Message);
                var modelerror = errorService.HandleException(sqlex);
                ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
-               hasError = true;
             }
             catch (Exception ex)
             {
-               log.LogError("Fehler bei Zuweisung von Produkt {0} auf Kategorie {1}: {2}", productId, categoryId, ex.Message);
+               log.LogError("Fehler bei der Erstellung von Produkt {0}", model.Name, ex.Message);
                ModelState.AddModelError("", ex.Message);
-               hasError = true;
             }
          }
-         return View(product);
+         return View(model);
       }
 
       // GET: Product/Edit/5
-      public ActionResult Edit(long id)
+      public async Task<ActionResult> Edit(long id)
       {
-         return View(productService.GetOne(id));
+         return View(await productService.GetOne(id));
       }
 
       // POST: Product/Edit/5
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Edit([FromForm] Product product)
+      public async Task<ActionResult> Edit([FromForm] Product product)
       {
          if (ModelState.IsValid)
          {
             try
             {
-               productService.Update(product);
+               await productService.Update(product);
                return RedirectToDetailPage(product.Id);
             }
             catch (Exception ex)
@@ -99,11 +99,11 @@ namespace Pho84SnackMVC.Controllers
       // POST: Product/Delete/5
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Delete(long id)
+      public async Task<ActionResult> Delete(long id)
       {
          try
          {
-            productService.Remove(id);
+            await productService.Remove(id);
          }
          catch (Exception ex)
          {
@@ -116,22 +116,22 @@ namespace Pho84SnackMVC.Controllers
 
       // GET: Product/CreatePrice
       [HttpGet]
-      public ActionResult CreatePrice(long productId)
+      public async Task<ActionResult> CreatePrice(long productId)
       {
-         var model = new ProductSizeViewModel(productId, productService.GetProductSizes(productId));
+         var model = new ProductSizeViewModel(productId, await productService.GetProductSizes(productId));
          return View(model);
       }
 
       // POST: Product/CreatePrice
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult CreatePrice([FromForm] ProductSizeViewModel model)
+      public async Task<ActionResult> CreatePrice([FromForm] ProductSizeViewModel model)
       {
          if (ModelState.IsValid)
          {
             try
             {
-               long id = productService.AddPrice(model);
+               long id = await productService.AddPrice(model);
                return RedirectToDetailPage(model.ProductId);
             }
             catch (Exception ex)

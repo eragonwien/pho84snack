@@ -3,24 +3,22 @@ using Pho84SnackMVC.Models;
 using Pho84SnackMVC.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Services
 {
    public interface IProductService
    {
-      List<Product> GetAll();
-      Product GetOne(long id);
-      Product GetOne(string name);
-      long Create(Product product);
-      void Update(Product product);
-      void Remove(long id);
-      bool Exists(long id);
-      bool Exists(string name);
-      long Count();
-      long AddPrice(ProductSizeViewModel model);
-      void UpdatePrice(ProductSizeViewModel model);
-      List<ProductSize> GetProductSizes(long productId);
-      List<Product> AssignableProducts(long categoryId);
+      Task<List<Product>> GetAll();
+      Task<Product> GetOne(long id);
+      Task<long> Create(Product product);
+      Task Update(Product product);
+      Task Remove(long id);
+      Task<bool> Exists(long id);
+      Task<long> AddPrice(ProductSizeViewModel model);
+      Task UpdatePrice(ProductSizeViewModel model);
+      Task<List<ProductSize>> GetProductSizes(long productId);
+      Task<List<Product>> AssignableProducts(long categoryId);
    }
 
    public class ProductService : IProductService
@@ -32,7 +30,7 @@ namespace Pho84SnackMVC.Services
          this.context = context;
       }
 
-      public long AddPrice(ProductSizeViewModel model)
+      public async Task<long> AddPrice(ProductSizeViewModel model)
       {
          using (var con = context.GetConnection())
          {
@@ -42,13 +40,14 @@ namespace Pho84SnackMVC.Services
                cmd.Parameters.Add(new MySqlParameter("@ProductId", model.ProductId));
                cmd.Parameters.Add(new MySqlParameter("@ProductSizeId", model.ProductSizeId));
                cmd.Parameters.Add(new MySqlParameter("@Price", model.Price));
-               cmd.ExecuteNonQuery();
+               await con.OpenAsync();
+               await cmd.ExecuteNonQueryAsync();
                return cmd.LastInsertedId;
             }
          }
       }
 
-      public List<Product> AssignableProducts(long categoryId)
+      public async Task<List<Product>> AssignableProducts(long categoryId)
       {
          List<Product> products = new List<Product>();
          using (var con = context.GetConnection())
@@ -57,11 +56,12 @@ namespace Pho84SnackMVC.Services
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@CategoryId", categoryId));
-               using (var odr = cmd.ExecuteReader())
+               await con.OpenAsync();
+               using (var odr = await cmd.ExecuteReaderAsync())
                {
-                  while (odr.Read())
+                  while (await odr.ReadAsync())
                   {
-                     products.Add(new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.GetInt32("Id")));
+                     products.Add(new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt32("Id")));
                   }
                }
             }
@@ -69,19 +69,7 @@ namespace Pho84SnackMVC.Services
          return products;
       }
 
-      public long Count()
-      {
-         using (var con = context.GetConnection())
-         {
-            string cmdStr = "select count(*) from PRODUCT";
-            using (var cmd = new MySqlCommand(cmdStr, con))
-            {
-               return Convert.ToInt64(cmd.ExecuteScalar());
-            }
-         }
-      }
-
-      public long Create(Product product)
+      public async Task<long> Create(Product product)
       {
          using (var con = context.GetConnection())
          {
@@ -90,13 +78,14 @@ namespace Pho84SnackMVC.Services
             {
                cmd.Parameters.Add(new MySqlParameter("@Name", product.Name));
                cmd.Parameters.Add(new MySqlParameter("@Description", product.Description));
-               cmd.ExecuteNonQuery();
+               await con.OpenAsync();
+               await cmd.ExecuteNonQueryAsync();
                return cmd.LastInsertedId;
             }
          }
       }
 
-      public bool Exists(long id)
+      public async Task<bool> Exists(long id)
       {
          using (var con = context.GetConnection())
          {
@@ -104,25 +93,13 @@ namespace Pho84SnackMVC.Services
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
-               return (Convert.ToInt16(cmd.ExecuteScalar())) > 0;
+               await con.OpenAsync();
+               return await cmd.ReadScalarInt32() > 0;
             }
          }
       }
 
-      public bool Exists(string name)
-      {
-         using (var con = context.GetConnection())
-         {
-            string cmdStr = "select count(*) from PRODUCT where Name=@Name";
-            using (var cmd = new MySqlCommand(cmdStr, con))
-            {
-               cmd.Parameters.Add(new MySqlParameter("@Name", name));
-               return (Convert.ToInt16(cmd.ExecuteScalar())) > 0;
-            }
-         }
-      }
-
-      public List<Product> GetAll()
+      public async Task<List<Product>> GetAll()
       {
          List<Product> products = new List<Product>();
          using (var con = context.GetConnection())
@@ -130,11 +107,12 @@ namespace Pho84SnackMVC.Services
             string cmdStr = "select Id, Name, Description from PRODUCT";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               using (var odr = cmd.ExecuteReader())
+               await con.OpenAsync();
+               using (var odr = await cmd.ExecuteReaderAsync())
                {
-                  while (odr.Read())
+                  while (await odr.ReadAsync())
                   {
-                     products.Add(new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.GetInt32("Id")));
+                     products.Add(new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt32("Id")));
                   }
                }
             }
@@ -142,7 +120,7 @@ namespace Pho84SnackMVC.Services
          return products;
       }
 
-      public Product GetOne(long id)
+      public async Task<Product> GetOne(long id)
       {
          Product product = null;
          using (var con = context.GetConnection())
@@ -151,15 +129,16 @@ namespace Pho84SnackMVC.Services
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
-               using (var odr = cmd.ExecuteReader())
+               await con.OpenAsync();
+               using (var odr = await cmd.ExecuteReaderAsync())
                {
-                  while (odr.Read())
+                  while (await odr.ReadAsync())
                   {
                      if (product == null)
                      {
-                        product = new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.GetInt32("Id"));
+                        product = new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt32("Id"));
                      }
-                     ProductPricing pricing = new ProductPricing(odr.GetInt32("PriceId"), odr.GetInt32("ProductId"), odr.GetInt32("ProductSizeId"), odr.ReadString("ShortName"), odr.ReadString("LongName"), odr.GetDecimal("Price"));
+                     ProductPricing pricing = new ProductPricing(odr.ReadInt32("PriceId"), odr.ReadInt32("ProductId"), odr.ReadInt32("ProductSizeId"), odr.ReadString("ShortName"), odr.ReadString("LongName"), odr.ReadDecimal("Price"));
                      product.PriceList.Add(pricing);
                   }
                }
@@ -168,27 +147,7 @@ namespace Pho84SnackMVC.Services
          return product;
       }
 
-      public Product GetOne(string name)
-      {
-         using (var con = context.GetConnection())
-         {
-            string cmdStr = "select Id, Name, Description from PRODUCT where Name=@Name";
-            using (var cmd = new MySqlCommand(cmdStr, con))
-            {
-               cmd.Parameters.Add(new MySqlParameter("@Name", name));
-               using (var odr = cmd.ExecuteReader())
-               {
-                  if (odr.Read())
-                  {
-                     return new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.GetInt32("Id"));
-                  }
-               }
-            }
-         }
-         return null;
-      }
-
-      public List<ProductSize> GetProductSizes(long productId)
+      public async Task<List<ProductSize>> GetProductSizes(long productId)
       {
          List<ProductSize> availableSizes = new List<ProductSize>();
          using (var con = context.GetConnection())
@@ -197,11 +156,12 @@ namespace Pho84SnackMVC.Services
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@ProductId", productId));
-               using (var odr = cmd.ExecuteReader())
+               await con.OpenAsync();
+               using (var odr = await cmd.ExecuteReaderAsync())
                {
-                  while (odr.Read())
+                  while (await odr.ReadAsync())
                   {
-                     availableSizes.Add(new ProductSize(odr.ReadString("ShortName"), odr.ReadString("LongName"), odr.GetInt32("Id")));
+                     availableSizes.Add(new ProductSize(odr.ReadString("ShortName"), odr.ReadString("LongName"), odr.ReadInt32("Id")));
                   }
                }
             }
@@ -209,25 +169,26 @@ namespace Pho84SnackMVC.Services
          return availableSizes;
       }
 
-      public void Remove(long id)
+      public async Task Remove(long id)
       {
          using (var con = context.GetConnection())
          {
             var transaction = con.BeginTransaction();
             try
             {
+               await con.OpenAsync();
                string deleteMappingCmdStr = "delete from PRODUCTMAP where ProductId=@Id";
                using (var cmd = new MySqlCommand(deleteMappingCmdStr, con))
                {
                   cmd.Parameters.Add(new MySqlParameter("@Id", id));
-                  cmd.ExecuteNonQuery();
+                  await cmd.ExecuteNonQueryAsync();
                }
 
                string deleteProductCmdStr = "delete from PRODUCT where Id=@Id";
                using (var cmd = new MySqlCommand(deleteProductCmdStr, con))
                {
                   cmd.Parameters.Add(new MySqlParameter("@Id", id));
-                  cmd.ExecuteNonQuery();
+                  await cmd.ExecuteNonQueryAsync();
                }
 
                transaction.Commit();
@@ -240,7 +201,7 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public void Update(Product product)
+      public async Task Update(Product product)
       {
          using (var con = context.GetConnection())
          {
@@ -250,12 +211,13 @@ namespace Pho84SnackMVC.Services
                cmd.Parameters.Add(new MySqlParameter("@Name", product.Name));
                cmd.Parameters.Add(new MySqlParameter("@Description", product.Description));
                cmd.Parameters.Add(new MySqlParameter("@Id", product.Id));
-               cmd.ExecuteNonQuery();
+               await con.OpenAsync();
+               await cmd.ExecuteNonQueryAsync();
             }
          }
       }
 
-      public void UpdatePrice(ProductSizeViewModel model)
+      public async Task UpdatePrice(ProductSizeViewModel model)
       {
          using (var con = context.GetConnection())
          {
@@ -265,7 +227,8 @@ namespace Pho84SnackMVC.Services
                cmd.Parameters.Add(new MySqlParameter("@Price", model.Price));
                cmd.Parameters.Add(new MySqlParameter("@ProductId", model.ProductId));
                cmd.Parameters.Add(new MySqlParameter("@ProductSizeId", model.ProductSizeId));
-               cmd.ExecuteNonQuery();
+               await con.OpenAsync();
+               await cmd.ExecuteNonQueryAsync();
             }
          }
       }

@@ -6,6 +6,7 @@ using Pho84SnackMVC.Models.ViewModels;
 using Pho84SnackMVC.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Controllers
 {
@@ -25,16 +26,16 @@ namespace Pho84SnackMVC.Controllers
       }
 
       [HttpGet]
-      public IActionResult Index()
+      public async Task<IActionResult> Index()
       {
-         var model = categoryService.GetAll();
+         var model = await categoryService.GetAll();
          return View(model);
       }
 
       [HttpGet]
-      public IActionResult Details(long id)
+      public async Task<IActionResult> Details(long id)
       {
-         var category = categoryService.GetOne(id);
+         var category = await categoryService.GetOne(id);
          ViewBag.AssignableProducts = productService.GetAll();
          return View(category);
       }
@@ -47,14 +48,14 @@ namespace Pho84SnackMVC.Controllers
 
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Create([FromForm]CategoryCreateViewModel model)
+      public async Task<ActionResult> Create([FromForm]CreateViewModel model)
       {
          if (ModelState.IsValid)
          {
             try
             {
                Category category = new Category(model);
-               category.Id = categoryService.Create(category);
+               category.Id = await categoryService.Create(category);
                return RedirectToDetailPage(category.Id);
             }
             catch (MySqlException sqlex)
@@ -74,11 +75,11 @@ namespace Pho84SnackMVC.Controllers
 
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Delete(long id)
+      public async Task<ActionResult> Delete(long id)
       {
          try
          {
-            categoryService.Remove(id);
+            await categoryService.Remove(id);
          }
          catch (Exception ex)
          {
@@ -89,14 +90,14 @@ namespace Pho84SnackMVC.Controllers
 
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public IActionResult Patch([FromForm]Category category, [FromForm]string propertyName)
+      public async Task<IActionResult> Patch([FromForm]Category category, [FromForm]string propertyName)
       {
          if (ModelState.IsValid)
          {
             try
             {
                string patchValue = GetPropertyValue(category, propertyName);
-               categoryService.Patch(category.Id, propertyName, patchValue);
+               await categoryService.Patch(category.Id, propertyName, patchValue);
                return Ok(patchValue);
             }
             catch (MySqlException sqlex)
@@ -116,7 +117,7 @@ namespace Pho84SnackMVC.Controllers
 
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Assign(long categoryId, IEnumerable<long> productIds)
+      public async Task<ActionResult> Assign(long categoryId, IEnumerable<long> productIds)
       {
          bool hasError = false;
 
@@ -125,7 +126,7 @@ namespace Pho84SnackMVC.Controllers
          {
             try
             {
-               categoryService.Assign(categoryId, productId);
+               await categoryService.Assign(categoryId, productId);
             }
             catch (MySqlException sqlex)
             {
@@ -147,7 +148,7 @@ namespace Pho84SnackMVC.Controllers
             // Entfernung von nicht-zugewiesenden Produkten
             try
             {
-               categoryService.RemoveAssigned(categoryId, productIds);
+               await categoryService.RemoveAssigned(categoryId, productIds);
             }
             catch (MySqlException sqlex)
             {

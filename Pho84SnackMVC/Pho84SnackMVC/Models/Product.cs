@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Pho84SnackMVC.Models.ViewModels;
 
 namespace Pho84SnackMVC.Models
 {
@@ -22,6 +23,12 @@ namespace Pho84SnackMVC.Models
          Id = id;
          Name = name;
          Description = description;
+      }
+
+      public Product(CreateViewModel model)
+      {
+         Name = model.Name;
+         Description = model.Description;
       }
    }
 }
