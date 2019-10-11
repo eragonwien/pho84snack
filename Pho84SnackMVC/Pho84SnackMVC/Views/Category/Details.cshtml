@@ -2,49 +2,64 @@
 
 @{
    ViewData["Title"] = "Details";
-   var editNameForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Name), Model.Name, Url.Action("Patch", "Category", new { @id = Model.Id }), "text");
-   var editDescriptionForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Description), Model.Description, Url.Action("Patch", "Category", new { @id = Model.Id }), "text");
+   var editNameForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Name), Model.Name, Url.Action("Patch", "Category", new { @id = Model.Id }), InputFieldType.text);
+   var editDescriptionForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Description), Model.Description, Url.Action("Patch", "Category", new { @id = Model.Id }), InputFieldType.textarea);
+   var productListTitle = new TitleWithRightActionsViewModel("Products", "modal#modal-assign-product");
+   List<Product> assignableProducts = ViewBag.AssignableProducts as List<Product>;
 }
 
-<h1 class="title">Details</h1>
-
-<div class="mt-16 w-form">
+<div class="w-form">
    <partial name="_EditFormSinglePartial" model="editNameForm" />
    <partial name="_EditFormSinglePartial" model="editDescriptionForm" />
 </div>
+<hr />
+<partial name="_TitleWithRightActionsPartials" model="productListTitle" />
+@if (Model.Products.Count > 0)
+{
+   <div class="panel">
+      @foreach (var product in Model.Products)
+      {
+         <a class="panel-block" asp-controller="product" asp-action="details" asp-route-id="@product.Id">@product.Name</a>
+      }
+   </div>
 
-<div>
-
-   <br />
-   <h5>Products</h5>
-   <table class="table table-bordered">
-      <thead>
-         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th></th>
-         </tr>
-      </thead>
-      <tbody>
-         @if (Model.Products.Count == 0)
-         {
-            <tr><td colspan="4" class="text-center">No product assigned</td></tr>
-         }
-         @foreach (var product in Model.Products)
-         {
-            <tr>
-               <td>@product.Id</td>
-               <td>@product.Name</td>
-               <td>@product.Description</td>
-               <td>
-                  <a asp-controller="product" asp-action="details" asp-route-id="@product.Id">Details</a> - <a asp-controller="product" asp-action="edit" asp-route-id="@product.Id">Edit</a>
-               </td>
-            </tr>
-         }
-      </tbody>
-   </table>
-</div>
+}
+else
+{
+   <p class="has-text-centered">No Product assigned</p>
+}
 <div>
    <a asp-action="Index">Back to List</a>
+</div>
+
+
+<div class="modal" id="modal-assign-product">
+   <div class="modal-background"></div>
+   <div class="modal-content">
+      <div class="box">
+         <form class="ajax-form" asp-action="assign" method="post">
+            <input type="hidden" name="categoryId" value="@Model.Id" />
+            <div class="panel">
+               @foreach (Product product in assignableProducts)
+               {
+                  bool assigned = Model.Products.Any(p => p.Id == product.Id);
+                  <label class="panel-block">
+                     <input type="checkbox" name="productIds" value="@product.Id" @(assigned ? "checked" : "")>@product.Name
+                  </label>
+               }
+            </div>
+            <div class="field is-grouped">
+               <div class="control">
+                  <button type="submit" class="button is-link">
+                     <span>OK</span>
+                  </button>
+               </div>
+               <div class="control">
+                  <button type="button" class="button cancel-button">Cancel</button>
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+   <button class="modal-close is-large" aria-label="close"></button>
 </div>

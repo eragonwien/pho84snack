@@ -1,17 +1,14 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
-// Write your JavaScript code.
-
-$(document).ready(function () {
-   $('.chosen-select').chosen();
-});
-
 // General
 $('.modal-trigger').click(function (e) {
    e.preventDefault();
    var target = $(this).data('target');
    $('#' + target).addClass('is-active');
+   var firstInput = $('#' + target).find("input[type='text'], textarea").first();
+   firstInput.focus();
+   firstInput.select();
 });
 
 // close modal
@@ -37,8 +34,17 @@ $('.ajax-form').submit(function (e) {
    }
 
    function handleAjaxFormError(data) {
-      console.log(data);
-      return;
+      if (!data || !data.responseJSON) {
+         return;
+      }
+      Object.keys(data.responseJSON).forEach(function (key) {
+         if (key && key !== '') {
+            var input = $('#' + key);
+            input.closest('.field').find('p.help').text(data.responseJSON[key]);
+            input.focus();
+            input.select();
+         }
+      });
    }
 
    function closeModal() {
@@ -51,11 +57,4 @@ $('.notification .delete').click(function (e) {
    e.preventDefault();
    var notification = $(this).closest('.notification');
    notification.remove();
-});
-
-// Submit form on enter press
-$('.input').keyup(function (e) {
-   if (e.keyCode === 13 && $(this).hasClass('is-static') === false) {
-      $(this).closest('form').submit();
-   }
 });

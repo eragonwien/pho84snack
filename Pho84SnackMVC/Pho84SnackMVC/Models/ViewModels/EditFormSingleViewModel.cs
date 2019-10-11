@@ -7,24 +7,24 @@ namespace Pho84SnackMVC.Models.ViewModels
 {
    public class EditFormSingleViewModel
    {
-      public int Id { get; set; }
+      public long Id { get; set; }
       public string DisplayName { get; set; }
       public string DisplayValue { get; set; }
       public string Url { get; set; }
-      public string Type { get; set; } = "text";
+      public InputFieldType Type { get; set; } = InputFieldType.text;
       public string Method { get; set; } = "POST";
 
       public EditFormSingleViewModel()
       {
       }
 
-      public EditFormSingleViewModel(int id, string displayName, string displayValue, string url, string type = null)
+      public EditFormSingleViewModel(long id, string displayName, string displayValue, string url, InputFieldType type = InputFieldType.text)
       {
          Id = id > 0 ? id : 0;
          DisplayName = displayName;
          DisplayValue = displayValue;
          Url = url;
-         Type = type ?? Type;
+         Type = type;
       }
    }
 }

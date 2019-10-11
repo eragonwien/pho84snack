@@ -17,7 +17,12 @@ namespace Pho84SnackMVC.Models
 
       public MySqlConnection GetConnection()
       {
-         return new MySqlConnection(ConnectionString);
+         MySqlConnection connection = new MySqlConnection(ConnectionString);
+         if (connection != null && connection.State == System.Data.ConnectionState.Closed)
+         {
+            connection.Open();
+         }
+         return connection;
       }
    }
 }

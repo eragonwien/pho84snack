@@ -1,12 +1,15 @@
-﻿@model Pho84SnackMVC.Models.Category
+﻿@model CategoryCreateViewModel
 
 @{
    ViewData["Title"] = "Create";
 }
 
-<h1 class="title">Create Category</h1>
+<h1 class="has-text-weight-bold is-size-4">Create Category</h1>
 <div style="margin-top: 10px">
    <form class="w-form" method="post" asp-controller="category" asp-action="create">
+      <div asp-validation-summary="ModelOnly" class="notification is-danger">
+         <button class="delete"></button>
+      </div>
       <div class="field">
          <label class="label" asp-for="Name"></label>
          <div class="control">

@@ -9,17 +9,18 @@ namespace Pho84SnackMVC.Services
    public interface IProductService
    {
       List<Product> GetAll();
-      Product GetOne(int id);
+      Product GetOne(long id);
       Product GetOne(string name);
       long Create(Product product);
       void Update(Product product);
-      void Remove(int id);
-      bool Exists(int id);
+      void Remove(long id);
+      bool Exists(long id);
       bool Exists(string name);
-      int Count();
+      long Count();
       long AddPrice(ProductSizeViewModel model);
       void UpdatePrice(ProductSizeViewModel model);
-      List<ProductSize> GetProductSizes(int productId);
+      List<ProductSize> GetProductSizes(long productId);
+      List<Product> AssignableProducts(long categoryId);
    }
 
    public class ProductService : IProductService
@@ -35,8 +36,6 @@ namespace Pho84SnackMVC.Services
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
-
             string cmdStr = "insert into PRODUCTSIZEMAP(ProductId, ProductSizeId, Price) values(@ProductId, @ProductSizeId, @Price)";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -49,15 +48,35 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public int Count()
+      public List<Product> AssignableProducts(long categoryId)
+      {
+         List<Product> products = new List<Product>();
+         using (var con = context.GetConnection())
+         {
+            string cmdStr = "select p.Id, p.Name, p.Description from PRODUCT p where not exists(select * from PRODUCTMAP m where m.CategoryId=@CategoryId and m.ProductId=p.Id)";
+            using (var cmd = new MySqlCommand(cmdStr, con))
+            {
+               cmd.Parameters.Add(new MySqlParameter("@CategoryId", categoryId));
+               using (var odr = cmd.ExecuteReader())
+               {
+                  while (odr.Read())
+                  {
+                     products.Add(new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.GetInt32("Id")));
+                  }
+               }
+            }
+         }
+         return products;
+      }
+
+      public long Count()
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select count(*) from PRODUCT";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               return Convert.ToInt32(cmd.ExecuteScalar());
+               return Convert.ToInt64(cmd.ExecuteScalar());
             }
          }
       }
@@ -66,7 +85,6 @@ namespace Pho84SnackMVC.Services
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "insert into PRODUCT(Name, Description) values(@Name, @Description)";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -78,11 +96,10 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public bool Exists(int id)
+      public bool Exists(long id)
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select count(*) from PRODUCT where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -96,7 +113,6 @@ namespace Pho84SnackMVC.Services
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select count(*) from PRODUCT where Name=@Name";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -111,7 +127,6 @@ namespace Pho84SnackMVC.Services
          List<Product> products = new List<Product>();
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select Id, Name, Description from PRODUCT";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -119,7 +134,7 @@ namespace Pho84SnackMVC.Services
                {
                   while (odr.Read())
                   {
-                     products.Add(new Product(odr.GetString("Name"), odr.GetString("Description"), odr.GetInt32("Id")));
+                     products.Add(new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.GetInt32("Id")));
                   }
                }
             }
@@ -127,12 +142,11 @@ namespace Pho84SnackMVC.Services
          return products;
       }
 
-      public Product GetOne(int id)
+      public Product GetOne(long id)
       {
          Product product = null;
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select p.Id, p.Name, p.Description, s.ShortName, s.LongName, m.Id as PriceId, m.ProductId, m.ProductSizeId, m.Price from PRODUCT p inner join PRODUCTSIZEMAP m on p.Id=m.ProductId inner join PRODUCTSIZE s on m.ProductSizeId=s.Id where p.Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -143,9 +157,9 @@ namespace Pho84SnackMVC.Services
                   {
                      if (product == null)
                      {
-                        product = new Product(odr.GetString("Name"), odr.GetString("Description"), odr.GetInt32("Id"));
+                        product = new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.GetInt32("Id"));
                      }
-                     ProductPricing pricing = new ProductPricing(odr.GetInt32("PriceId"), odr.GetInt32("ProductId"), odr.GetInt32("ProductSizeId"), odr.GetString("ShortName"), odr.GetString("LongName"), odr.GetDecimal("Price"));
+                     ProductPricing pricing = new ProductPricing(odr.GetInt32("PriceId"), odr.GetInt32("ProductId"), odr.GetInt32("ProductSizeId"), odr.ReadString("ShortName"), odr.ReadString("LongName"), odr.GetDecimal("Price"));
                      product.PriceList.Add(pricing);
                   }
                }
@@ -158,7 +172,6 @@ namespace Pho84SnackMVC.Services
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select Id, Name, Description from PRODUCT where Name=@Name";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -167,7 +180,7 @@ namespace Pho84SnackMVC.Services
                {
                   if (odr.Read())
                   {
-                     return new Product(odr.GetString("Name"), odr.GetString("Description"), odr.GetInt32("Id"));
+                     return new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.GetInt32("Id"));
                   }
                }
             }
@@ -175,12 +188,11 @@ namespace Pho84SnackMVC.Services
          return null;
       }
 
-      public List<ProductSize> GetProductSizes(int productId)
+      public List<ProductSize> GetProductSizes(long productId)
       {
          List<ProductSize> availableSizes = new List<ProductSize>();
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select s.Id, s.ShortName, s.LongName from PRODUCTSIZE s where not exists(select * from PRODUCTSIZEMAP m where m.ProductId=@ProductId and m.ProductSizeId=s.Id)";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -189,7 +201,7 @@ namespace Pho84SnackMVC.Services
                {
                   while (odr.Read())
                   {
-                     availableSizes.Add(new ProductSize(odr.GetString("ShortName"), odr.GetString("LongName"), odr.GetInt32("Id")));
+                     availableSizes.Add(new ProductSize(odr.ReadString("ShortName"), odr.ReadString("LongName"), odr.GetInt32("Id")));
                   }
                }
             }
@@ -197,13 +209,11 @@ namespace Pho84SnackMVC.Services
          return availableSizes;
       }
 
-      public void Remove(int id)
+      public void Remove(long id)
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             var transaction = con.BeginTransaction();
-
             try
             {
                string deleteMappingCmdStr = "delete from PRODUCTMAP where ProductId=@Id";
@@ -234,7 +244,6 @@ namespace Pho84SnackMVC.Services
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "update PRODUCT set Name=@Name, Description=@Description where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -250,7 +259,6 @@ namespace Pho84SnackMVC.Services
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "update PRODUCTSIZEMAP set Price=@Price where ProductId=@ProductId and ProductSizeId=@ProductSizeId";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {

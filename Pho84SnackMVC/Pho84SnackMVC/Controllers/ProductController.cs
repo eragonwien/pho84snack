@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MySql.Data.MySqlClient;
 using Pho84SnackMVC.Models;
 using Pho84SnackMVC.Models.ViewModels;
 using Pho84SnackMVC.Services;
@@ -11,11 +12,13 @@ namespace Pho84SnackMVC.Controllers
    public class ProductController : DefaultController
    {
       private readonly IProductService productService;
+      private readonly IErrorService errorService;
       private readonly ILogger<ProductController> log;
 
-      public ProductController(IProductService productService, ILogger<ProductController> log)
+      public ProductController(IProductService productService, IErrorService errorService, ILogger<ProductController> log)
       {
          this.productService = productService;
+         this.errorService = errorService;
          this.log = log;
       }
 
@@ -26,7 +29,7 @@ namespace Pho84SnackMVC.Controllers
       }
 
       // GET: Product/Details/5
-      public ActionResult Details(int id)
+      public ActionResult Details(long id)
       {
          return View(productService.GetOne(id));
       }
@@ -49,17 +52,25 @@ namespace Pho84SnackMVC.Controllers
                long id = productService.Create(product);
                return RedirectToDetailPage(id);
             }
+            catch (MySqlException sqlex)
+            {
+               log.LogError("Fehler bei Zuweisung von Produkt {0} auf Kategorie {1}: {2}", productId, categoryId, sqlex.Message);
+               var modelerror = errorService.HandleException(sqlex);
+               ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
+               hasError = true;
+            }
             catch (Exception ex)
             {
-               log.LogError("Fehler bei Erstellung von Produkt: {0}", ex.Message);
+               log.LogError("Fehler bei Zuweisung von Produkt {0} auf Kategorie {1}: {2}", productId, categoryId, ex.Message);
                ModelState.AddModelError("", ex.Message);
+               hasError = true;
             }
          }
          return View(product);
       }
 
       // GET: Product/Edit/5
-      public ActionResult Edit(int id)
+      public ActionResult Edit(long id)
       {
          return View(productService.GetOne(id));
       }
@@ -88,7 +99,7 @@ namespace Pho84SnackMVC.Controllers
       // POST: Product/Delete/5
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Delete(int id)
+      public ActionResult Delete(long id)
       {
          try
          {
@@ -105,7 +116,7 @@ namespace Pho84SnackMVC.Controllers
 
       // GET: Product/CreatePrice
       [HttpGet]
-      public ActionResult CreatePrice(int productId)
+      public ActionResult CreatePrice(long productId)
       {
          var model = new ProductSizeViewModel(productId, productService.GetProductSizes(productId));
          return View(model);

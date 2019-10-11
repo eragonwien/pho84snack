@@ -1,21 +1,9 @@
 ﻿@model IEnumerable<Pho84SnackMVC.Models.Category>
 @{
    ViewData["Title"] = "Index";
+   var categoryTitleActions = new TitleWithRightActionsViewModel("Categories", Url.Action("create", "category"));
 }
-<div class="level">
-   <div class="level-left">
-      <div class="level-item">
-         <span class="title">All Categories</span>
-      </div>
-   </div>
-   <div class="level-right">
-      <div class="level-item">
-         <a class="button is-info is-small is-pulled-right" asp-action="create">
-            <span class="icon"><i class="fas fa-plus"></i></span>
-         </a>
-      </div>
-   </div>
-</div>
+<partial name="_TitleWithRightActionsPartials" model="categoryTitleActions" />
 <div style="margin-top: 10px;">
    @if (Model.Count() == 0)
    {

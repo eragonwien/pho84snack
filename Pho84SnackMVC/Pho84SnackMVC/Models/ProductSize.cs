@@ -7,7 +7,7 @@ namespace Pho84SnackMVC.Models
 {
    public class ProductSize
    {
-      public int Id { get; set; }
+      public long Id { get; set; }
       public string ShortName { get; set; }
       public string LongName { get; set; }
 

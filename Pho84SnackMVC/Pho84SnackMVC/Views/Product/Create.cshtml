@@ -1,35 +1,42 @@
 ﻿@model Pho84SnackMVC.Models.Product
 
 @{
-    ViewData["Title"] = "Create";
+   ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class="has-text-weight-bold is-size-4">Create new product</h1>
+<div style="margin-top: 10px">
+   <form class="w-form" method="post" asp-controller="product" asp-action="create">
+      <div asp-validation-summary="ModelOnly" class="notification is-danger">
+         <button class="delete"></button>
+      </div>
+      <div class="field">
+         <label class="label" asp-for="Name"></label>
+         <div class="control">
+            <input class="input" type="text" asp-for="Name">
+         </div>
+         <p class="help is-danger"><span asp-validation-for="Name"></span></p>
+      </div>
 
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+      <div class="field">
+         <label class="label" asp-for="Description"></label>
+         <div class="control">
+            <textarea class="textarea" asp-for="Description"></textarea>
+         </div>
+         <p class="help is-danger"><span asp-validation-for="Description"></span></p>
+      </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+      <div class="field is-grouped">
+         <div class="control">
+            <button type="submit" class="button is-link">
+               <span>Create</span>
+               <span class="icon"><i class="fas fa-plus"></i></span>
+            </button>
+         </div>
+         <div class="control">
+            <a class="button" asp-action="index">Cancel</a>
+         </div>
+      </div>
+   </form>
 </div>
 

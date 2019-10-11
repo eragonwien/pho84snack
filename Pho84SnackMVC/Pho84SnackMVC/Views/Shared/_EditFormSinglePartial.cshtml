@@ -2,24 +2,40 @@
 @{ 
    string modalId = string.Format("modal-edit-{0}", Model.DisplayName.ToLower());
 }
-<div class="columns is-mobile mt-16">
-   <div class="column is-3 has-text-weight-bold">@Model.DisplayName</div>
-   <a class="column is-9 has-background-grey-lighter modal-trigger no-text-decoration" data-target="@modalId">@Model.DisplayValue</a>
+
+<div class="field">
+   <label class="label">@Model.DisplayName</label>
+   <div class="control">
+      <a class="input modal-trigger" data-target="@modalId">@Model.DisplayValue</a>
+   </div>
 </div>
+
 
 <div class="modal" id="@modalId">
    <div class="modal-background"></div>
    <div class="modal-content">
       <div class="box">
-         <form class="ajax-form" action="@Model.Url" method="@Model.Method">
+         <form class="ajax-form" action="@Model.Url" method="POST">
+            <div class="notification is-hidden">
+               <button class="delete"></button>
+               <span class="notification-text"></span>
+            </div>
             @Html.AntiForgeryToken()
             <input type="hidden" name="Id" value="@Model.Id" />
             <input type="hidden" name="PropertyName" value="@Model.DisplayName" />
             <div class="field">
                <label class="label">@Model.DisplayName</label>
                <div class="control">
-                  <input class="input" type="text" name="@Model.DisplayName" value="@Model.DisplayValue">
+                  @if (Model.Type == InputFieldType.textarea)
+                  {
+                     <textarea class="textarea" name="@Model.DisplayName" id="@Model.DisplayName">@Model.DisplayValue</textarea>
+                  }
+                  else
+                  {
+                     <input class="input" type="text" name="@Model.DisplayName" id="@Model.DisplayName" value="@Model.DisplayValue">
+                  }
                </div>
+               <p class="help is-danger"><span></span></p>
             </div>
             <div class="field is-grouped">
                <div class="control">

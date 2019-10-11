@@ -2,9 +2,8 @@
 
 @{
    ViewData["Title"] = "Details";
-   var editNameForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Name), Model.Name, Url.Action("Patch", "Product", new { @id = Model.Id }), "text");
-   var editDescriptionForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Description), Model.Description, Url.Action("Patch", "Product", new { @id = Model.Id }), "text");
-
+   var editNameForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Name), Model.Name, Url.Action("Patch", "Product", new { @id = Model.Id }), InputFieldType.text);
+   var editDescriptionForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Description), Model.Description, Url.Action("Patch", "Product", new { @id = Model.Id }), InputFieldType.textarea);
 }
 
 <h1>Details</h1>

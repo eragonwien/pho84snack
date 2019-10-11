@@ -8,15 +8,15 @@ namespace Pho84SnackMVC.Services
    public interface ICompanyInfoService
    {
       List<CompanyInfo> GetAll();
-      CompanyInfo GetOne(int id);
+      CompanyInfo GetOne(long id);
       CompanyInfo GetOne(string name);
       long Create(CompanyInfo companyInfo);
       void Update(CompanyInfo companyInfo);
-      void Remove(int id);
+      void Remove(long id);
       void Remove(string name);
-      bool Exists(int id);
+      bool Exists(long id);
       bool Exists(string name);
-      int Count();
+      long Count();
    }
 
    public class CompanyInfoService : ICompanyInfoService
@@ -28,15 +28,14 @@ namespace Pho84SnackMVC.Services
          this.context = context;
       }
 
-      public int Count()
+      public long Count()
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select count(*) from COMPANYINFO";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               return Convert.ToInt32(cmd.ExecuteScalar());
+               return Convert.ToInt64(cmd.ExecuteScalar());
             }
          }
       }
@@ -45,7 +44,6 @@ namespace Pho84SnackMVC.Services
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "insert into COMPANYINFO(Name, Description, Address, AddressExtra, Zip, City, Phone, Email, Facebook) values(@Name, @Description, @Address, @AddressExtra, @Zip, @City, @Phone, @Email, @Facebook)";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -64,16 +62,15 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public bool Exists(int id)
+      public bool Exists(long id)
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select count(*) from COMPANYINFO where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
-               return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+               return Convert.ToInt64(cmd.ExecuteScalar()) > 0;
             }
          }
       }
@@ -82,12 +79,11 @@ namespace Pho84SnackMVC.Services
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select count(*) from COMPANYINFO where Name=@Name";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Name", name));
-               return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+               return Convert.ToInt64(cmd.ExecuteScalar()) > 0;
             }
          }
       }
@@ -97,7 +93,6 @@ namespace Pho84SnackMVC.Services
          List<CompanyInfo> companyInfos = new List<CompanyInfo>();
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select Id, Name, Description, Address, AddressExtra, Zip, City, Phone, Email, Facebook from COMPANYINFO";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -107,16 +102,16 @@ namespace Pho84SnackMVC.Services
                   {
                      companyInfos.Add(new CompanyInfo
                      {
-                        Id = odr.GetInt32("Id"),
-                        Name = odr.GetString("Name"),
-                        Description = odr.GetString("Description"),
-                        Address = odr.GetString("Address"),
-                        AddressExtra = odr.GetString("AddressExtra"),
-                        Zip = odr.GetString("Zip"),
-                        City = odr.GetString("City"),
-                        Phone = odr.GetString("Phone"),
-                        Email = odr.GetString("Email"),
-                        Facebook = odr.GetString("Facebook")
+                        Id = odr.GetInt64("Id"),
+                        Name = odr.ReadString("Name"),
+                        Description = odr.ReadString("Description"),
+                        Address = odr.ReadString("Address"),
+                        AddressExtra = odr.ReadString("AddressExtra"),
+                        Zip = odr.ReadString("Zip"),
+                        City = odr.ReadString("City"),
+                        Phone = odr.ReadString("Phone"),
+                        Email = odr.ReadString("Email"),
+                        Facebook = odr.ReadString("Facebook")
                      });
                   }
                }
@@ -125,11 +120,10 @@ namespace Pho84SnackMVC.Services
          return companyInfos;
       }
 
-      public CompanyInfo GetOne(int id)
+      public CompanyInfo GetOne(long id)
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select Id, Name, Description, Address, AddressExtra, Zip, City, Phone, Email, Facebook from COMPANYINFO where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -140,16 +134,16 @@ namespace Pho84SnackMVC.Services
                   {
                      return new CompanyInfo
                      {
-                        Id = odr.GetInt32("Id"),
-                        Name = odr.GetString("Name"),
-                        Description = odr.GetString("Description"),
-                        Address = odr.GetString("Address"),
-                        AddressExtra = odr.GetString("AddressExtra"),
-                        Zip = odr.GetString("Zip"),
-                        City = odr.GetString("City"),
-                        Phone = odr.GetString("Phone"),
-                        Email = odr.GetString("Email"),
-                        Facebook = odr.GetString("Facebook")
+                        Id = odr.GetInt64("Id"),
+                        Name = odr.ReadString("Name"),
+                        Description = odr.ReadString("Description"),
+                        Address = odr.ReadString("Address"),
+                        AddressExtra = odr.ReadString("AddressExtra"),
+                        Zip = odr.ReadString("Zip"),
+                        City = odr.ReadString("City"),
+                        Phone = odr.ReadString("Phone"),
+                        Email = odr.ReadString("Email"),
+                        Facebook = odr.ReadString("Facebook")
                      };
                   }
                }
@@ -162,7 +156,6 @@ namespace Pho84SnackMVC.Services
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "select Id, Name, Description, Address, AddressExtra, Zip, City, Phone, Email, Facebook from COMPANYINFO where Name=@Name";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -173,16 +166,16 @@ namespace Pho84SnackMVC.Services
                   {
                      return new CompanyInfo
                      {
-                        Id = odr.GetInt32("Id"),
-                        Name = odr.GetString("Name"),
-                        Description = odr.GetString("Description"),
-                        Address = odr.GetString("Address"),
-                        AddressExtra = odr.GetString("AddressExtra"),
-                        Zip = odr.GetString("Zip"),
-                        City = odr.GetString("City"),
-                        Phone = odr.GetString("Phone"),
-                        Email = odr.GetString("Email"),
-                        Facebook = odr.GetString("Facebook")
+                        Id = odr.GetInt64("Id"),
+                        Name = odr.ReadString("Name"),
+                        Description = odr.ReadString("Description"),
+                        Address = odr.ReadString("Address"),
+                        AddressExtra = odr.ReadString("AddressExtra"),
+                        Zip = odr.ReadString("Zip"),
+                        City = odr.ReadString("City"),
+                        Phone = odr.ReadString("Phone"),
+                        Email = odr.ReadString("Email"),
+                        Facebook = odr.ReadString("Facebook")
                      };
                   }
                }
@@ -191,11 +184,10 @@ namespace Pho84SnackMVC.Services
          return new CompanyInfo();
       }
 
-      public void Remove(int id)
+      public void Remove(long id)
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "delete from COMPANYINFO where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -209,7 +201,6 @@ namespace Pho84SnackMVC.Services
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "delete from COMPANYINFO where Name=@Name";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -223,7 +214,6 @@ namespace Pho84SnackMVC.Services
       {
          using (var con = context.GetConnection())
          {
-            con.Open();
             string cmdStr = "update COMPANYINFO set Name=@Name, Description=@Description, Address=@Address, AddressExtra=@AddressExtra, Zip=@Zip, City=@City, Phone=@Phone, Email=@Email, Facebook=@Facebook where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
