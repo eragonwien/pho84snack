@@ -12,16 +12,14 @@ namespace Pho84SnackMVC.Models.ViewModels
       public long ProductId { get; set; }
       public long ProductSizeId { get; set; }
       public decimal Price { get; set; }
-      public List<SelectListItem> AvailableSizes { get; set; } = new List<SelectListItem>();
 
       public ProductSizeViewModel()
       {
       }
 
-      public ProductSizeViewModel(long productId, List<ProductSize> productSizes)
+      public ProductSizeViewModel(long productId)
       {
          ProductId = productId;
-         AvailableSizes = productSizes.Select(s => new SelectListItem(string.Format("{0} - {1}", s.ShortName, s.LongName), s.Id.ToString())).ToList();
       }
 
       public ProductSizeViewModel(long productId, long productSizeId, decimal price, long id = 0)

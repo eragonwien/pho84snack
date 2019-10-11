@@ -1,0 +1,16 @@
+﻿@model IEnumerable<LinksEntryViewModel>
+<div class="mt-16">
+   @if (Model.Count() == 0)
+   {
+      <p class="has-text-centered">No item found</p>
+   }
+   else
+   {
+      <div class="list is-hoverable">
+         @foreach (var entry in Model)
+         {
+            <a class="list-item" asp-action="@entry.Action" asp-route-id="@entry.Id">@entry.DisplayName</a>
+         }
+      </div>
+   }
+</div>

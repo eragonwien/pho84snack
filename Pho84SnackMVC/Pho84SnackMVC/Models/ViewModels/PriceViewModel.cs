@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Models.ViewModels
 {
-   public class CreateViewModel
+   public class PriceViewModel
    {
-      [Required]
-      [MaxLength(32)]
-      public string Name { get; set; }
-      [MaxLength(256)]
-      public string Description { get; set; }
+      public int Id { get; set; }
+      public long ProductId { get; set; }
+      public int SizeId { get; set; }
+      public decimal Price { get; set; }
    }
 }

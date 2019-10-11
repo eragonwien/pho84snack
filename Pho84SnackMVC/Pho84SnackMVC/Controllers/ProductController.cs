@@ -32,6 +32,8 @@ namespace Pho84SnackMVC.Controllers
       // GET: Product/Details/5
       public async Task<ActionResult> Details(long id)
       {
+         Product product = await productService.GetOne(id);
+         ViewBag.UnassignedSizes = await productService.UnassignedSizes(id);
          return View(await productService.GetOne(id));
       }
 
@@ -111,38 +113,5 @@ namespace Pho84SnackMVC.Controllers
          }
          return RedirectToIndex();
       }
-
-      #region Price
-
-      // GET: Product/CreatePrice
-      [HttpGet]
-      public async Task<ActionResult> CreatePrice(long productId)
-      {
-         var model = new ProductSizeViewModel(productId, await productService.GetProductSizes(productId));
-         return View(model);
-      }
-
-      // POST: Product/CreatePrice
-      [HttpPost]
-      [ValidateAntiForgeryToken]
-      public async Task<ActionResult> CreatePrice([FromForm] ProductSizeViewModel model)
-      {
-         if (ModelState.IsValid)
-         {
-            try
-            {
-               long id = await productService.AddPrice(model);
-               return RedirectToDetailPage(model.ProductId);
-            }
-            catch (Exception ex)
-            {
-               log.LogError("Fehler bei Hinzufügen vom Price in Produkt {0}: {1}", model.ProductId, ex.Message);
-               ModelState.AddModelError("", ex.Message);
-            }
-         }
-         return View(model);
-      }
-
-      #endregion
    }
 }

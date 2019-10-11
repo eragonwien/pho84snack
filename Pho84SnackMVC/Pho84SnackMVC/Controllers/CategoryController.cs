@@ -36,7 +36,7 @@ namespace Pho84SnackMVC.Controllers
       public async Task<IActionResult> Details(long id)
       {
          var category = await categoryService.GetOne(id);
-         ViewBag.AssignableProducts = productService.GetAll();
+         ViewBag.AssignableProducts = await productService.GetAll();
          return View(category);
       }
 

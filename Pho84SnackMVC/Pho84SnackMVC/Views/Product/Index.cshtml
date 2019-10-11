@@ -3,5 +3,7 @@
 @{
    ViewData["Title"] = "Index";
    var productTitleActions = new TitleWithRightActionsViewModel("Products", Url.Action("create", "product"));
+   var linkslistModel = Model.Select(m => new LinksEntryViewModel("details", m.Id, m.Name));
 }
 <partial name="_TitleWithRightActionsPartials" model="productTitleActions" />
+<partial name="_LinksListPartial" model="linkslistModel" />

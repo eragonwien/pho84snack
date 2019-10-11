@@ -10,4 +10,10 @@ namespace Pho84SnackMVC.Models
       text,
       textarea
    }
+
+   public enum EditType
+   {
+      create,
+      edit
+   }
 }

@@ -30,6 +30,7 @@ namespace Pho84SnackMVC
          services.AddScoped<ICompanyInfoService, CompanyInfoService>();
          services.AddScoped<ICategoryService, CategoryService>();
          services.AddScoped<IProductService, ProductService>();
+         services.AddScoped<IPriceService, PriceService>();
          services.AddScoped<IErrorService, ErrorService>();
 
          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

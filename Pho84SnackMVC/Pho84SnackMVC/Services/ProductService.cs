@@ -15,9 +15,7 @@ namespace Pho84SnackMVC.Services
       Task Update(Product product);
       Task Remove(long id);
       Task<bool> Exists(long id);
-      Task<long> AddPrice(ProductSizeViewModel model);
-      Task UpdatePrice(ProductSizeViewModel model);
-      Task<List<ProductSize>> GetProductSizes(long productId);
+      Task<List<ProductSize>> UnassignedSizes(long productId);
       Task<List<Product>> AssignableProducts(long categoryId);
    }
 
@@ -28,23 +26,6 @@ namespace Pho84SnackMVC.Services
       public ProductService(Pho84SnackContext context)
       {
          this.context = context;
-      }
-
-      public async Task<long> AddPrice(ProductSizeViewModel model)
-      {
-         using (var con = context.GetConnection())
-         {
-            string cmdStr = "insert into PRODUCTSIZEMAP(ProductId, ProductSizeId, Price) values(@ProductId, @ProductSizeId, @Price)";
-            using (var cmd = new MySqlCommand(cmdStr, con))
-            {
-               cmd.Parameters.Add(new MySqlParameter("@ProductId", model.ProductId));
-               cmd.Parameters.Add(new MySqlParameter("@ProductSizeId", model.ProductSizeId));
-               cmd.Parameters.Add(new MySqlParameter("@Price", model.Price));
-               await con.OpenAsync();
-               await cmd.ExecuteNonQueryAsync();
-               return cmd.LastInsertedId;
-            }
-         }
       }
 
       public async Task<List<Product>> AssignableProducts(long categoryId)
@@ -125,7 +106,7 @@ namespace Pho84SnackMVC.Services
          Product product = null;
          using (var con = context.GetConnection())
          {
-            string cmdStr = "select p.Id, p.Name, p.Description, s.ShortName, s.LongName, m.Id as PriceId, m.ProductId, m.ProductSizeId, m.Price from PRODUCT p inner join PRODUCTSIZEMAP m on p.Id=m.ProductId inner join PRODUCTSIZE s on m.ProductSizeId=s.Id where p.Id=@Id";
+            string cmdStr = "select p.Id, p.Name, p.Description, s.ShortName, s.LongName, m.Id as PriceId, m.ProductId, m.ProductSizeId, m.Price from PRODUCT p left join PRODUCTSIZEMAP m on p.Id=m.ProductId left join PRODUCTSIZE s on m.ProductSizeId=s.Id where p.Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
@@ -139,7 +120,10 @@ namespace Pho84SnackMVC.Services
                         product = new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt32("Id"));
                      }
                      ProductPricing pricing = new ProductPricing(odr.ReadInt32("PriceId"), odr.ReadInt32("ProductId"), odr.ReadInt32("ProductSizeId"), odr.ReadString("ShortName"), odr.ReadString("LongName"), odr.ReadDecimal("Price"));
-                     product.PriceList.Add(pricing);
+                     if (pricing.Id > 0)
+                     {
+                        product.PriceList.Add(pricing);
+                     }
                   }
                }
             }
@@ -147,7 +131,7 @@ namespace Pho84SnackMVC.Services
          return product;
       }
 
-      public async Task<List<ProductSize>> GetProductSizes(long productId)
+      public async Task<List<ProductSize>> UnassignedSizes(long productId)
       {
          List<ProductSize> availableSizes = new List<ProductSize>();
          using (var con = context.GetConnection())
@@ -211,22 +195,6 @@ namespace Pho84SnackMVC.Services
                cmd.Parameters.Add(new MySqlParameter("@Name", product.Name));
                cmd.Parameters.Add(new MySqlParameter("@Description", product.Description));
                cmd.Parameters.Add(new MySqlParameter("@Id", product.Id));
-               await con.OpenAsync();
-               await cmd.ExecuteNonQueryAsync();
-            }
-         }
-      }
-
-      public async Task UpdatePrice(ProductSizeViewModel model)
-      {
-         using (var con = context.GetConnection())
-         {
-            string cmdStr = "update PRODUCTSIZEMAP set Price=@Price where ProductId=@ProductId and ProductSizeId=@ProductSizeId";
-            using (var cmd = new MySqlCommand(cmdStr, con))
-            {
-               cmd.Parameters.Add(new MySqlParameter("@Price", model.Price));
-               cmd.Parameters.Add(new MySqlParameter("@ProductId", model.ProductId));
-               cmd.Parameters.Add(new MySqlParameter("@ProductSizeId", model.ProductSizeId));
                await con.OpenAsync();
                await cmd.ExecuteNonQueryAsync();
             }

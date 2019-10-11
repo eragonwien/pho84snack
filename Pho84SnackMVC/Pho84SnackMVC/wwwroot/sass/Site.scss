@@ -20,3 +20,7 @@
    text-decoration: none;
    color: inherit;
 }
+
+.is-hoverable:hover {
+   background-color: hsl(0, 0%, 98%);
+}

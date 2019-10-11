@@ -7,12 +7,13 @@
    var productListTitle = new TitleWithRightActionsViewModel("Products", "modal#modal-assign-product");
    List<Product> assignableProducts = ViewBag.AssignableProducts as List<Product>;
 }
-
+<h1 class="has-text-weight-bold is-size-5">@ViewData["Title"]</h1>
+<br />
 <div class="w-form">
    <partial name="_EditFormSinglePartial" model="editNameForm" />
    <partial name="_EditFormSinglePartial" model="editDescriptionForm" />
 </div>
-<hr />
+<br />
 <partial name="_TitleWithRightActionsPartials" model="productListTitle" />
 @if (Model.Products.Count > 0)
 {

@@ -1,0 +1,30 @@
+﻿@model RemoveModalViewModel
+@{
+   string url = Url.IsLocalUrl(Model.Url) ? Model.Url : Url.Action("index", "home");
+}
+<div class="modal" id="@Model.ModalId">
+   <div class="modal-background"></div>
+   <div class="modal-content">
+      <div class="box">
+         <form action="@url" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id" />
+            <div class="section">
+               <p class="has-text-centered">Remove @Model.Type <strong>@Model.Name</strong> ?</p>
+            </div>
+            <div class="field is-grouped">
+               <div class="control">
+                  <button type="submit" class="button is-danger">
+                     <span>Confirm</span>
+                     <span class="icon"><i class="fas fa-check"></i></span>
+                  </button>
+               </div>
+               <div class="control">
+                  <a class="button cancel-button">Cancel</a>
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+   <button class="modal-close is-large" aria-label="close"></button>
+</div>

@@ -18,7 +18,7 @@ namespace Pho84SnackMVC.Controllers
          return RedirectToAction("Index");
       }
 
-      public RedirectToActionResult RedirectToIndexPermanent(bool permanent = false)
+      public RedirectToActionResult RedirectToIndexPermanent()
       {
          return RedirectToActionPermanent("Index");
       }
