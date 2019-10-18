@@ -4,7 +4,7 @@
    var categoryTitleActions = new TitleWithRightActionsViewModel("Categories", Url.Action("create", "category"));
    var linkslistModel = Model.Select(m => new LinksEntryViewModel("details", m.Id, m.Name));
 }
-<partial name="_TitleWithRightActionsPartials" model="categoryTitleActions" />
+<partial name="_TitleWithRightActionsPartial" model="categoryTitleActions" />
 <partial name="_LinksListPartial" model="linkslistModel" />
 
 

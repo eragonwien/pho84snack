@@ -10,10 +10,9 @@ namespace Pho84SnackMVC.Services
    {
       public static string ReadString(this MySqlDataReader reader, string column, string defaultValue = "")
       {
-         int ordinal = reader.GetOrdinal(column);
-         if (!reader.IsDBNull(ordinal))
+         if (!reader.IsDbNull(column))
          {
-            return reader.GetString(ordinal);
+            return reader.GetString(column);
          }
          return defaultValue;
       }
@@ -48,12 +47,16 @@ namespace Pho84SnackMVC.Services
          return defaultValue;
       }
 
+      public static bool IsDbNull(this DbDataReader reader, string column)
+      {
+         return reader.IsDBNull(reader.GetOrdinal(column));
+      }
+
       public static async Task<int> ReadScalarInt32(this MySqlCommand cmd, int defaultValue = 0)
       {
          var result = await cmd.ExecuteScalarAsync();
          result = result != DBNull.Value ? result : null;
          return Convert.ToInt32(result);
-
       }
    }
 }

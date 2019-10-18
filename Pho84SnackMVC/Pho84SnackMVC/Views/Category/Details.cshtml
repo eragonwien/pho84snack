@@ -1,66 +1,34 @@
-﻿@model Category
-
+﻿@model Pho84SnackMVC.Models.Category
 @{
-   ViewData["Title"] = "Details";
-   var editNameForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Name), Model.Name, Url.Action("Patch", "Category", new { @id = Model.Id }), InputFieldType.text);
-   var editDescriptionForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Description), Model.Description, Url.Action("Patch", "Category", new { @id = Model.Id }), InputFieldType.textarea);
-   var productListTitle = new TitleWithRightActionsViewModel("Products", "modal#modal-assign-product");
-   List<Product> assignableProducts = ViewBag.AssignableProducts as List<Product>;
+   string currentUrl = Context.Request.Path;
+   var categoryTitleWithActions = new TitleWithRightActionsViewModel(Model.Name.ToUpper(), null, Url.Action("edit", "category", new { Model.Id }));
 }
-<h1 class="has-text-weight-bold is-size-5">@ViewData["Title"]</h1>
-<br />
-<div class="w-form">
-   <partial name="_EditFormSinglePartial" model="editNameForm" />
-   <partial name="_EditFormSinglePartial" model="editDescriptionForm" />
+<partial name="_TitleWithRightActionsPartial" model="categoryTitleWithActions" />
+<div class="columns is-vcentered">
+   <div class="column is-3 has-text-weight-bold">@Html.DisplayNameFor(m => m.Name)</div>
+   <div class="column is-9">
+      <p class="bd-notification">@Model.Name</p>
+   </div>
 </div>
+<div class="columns">
+   <div class="column is-3 has-text-weight-bold">@Html.DisplayNameFor(m => m.Description)</div>
+   <div class="column is-9">
+      <p class="bd-notification word-break-all">@Model.Description</p>
+   </div>
+</div>
+<p class="has-text-weight-bold">@Html.DisplayNameFor(m => m.Products)</p>
 <br />
-<partial name="_TitleWithRightActionsPartials" model="productListTitle" />
 @if (Model.Products.Count > 0)
 {
    <div class="panel">
       @foreach (var product in Model.Products)
       {
-         <a class="panel-block" asp-controller="product" asp-action="details" asp-route-id="@product.Id">@product.Name</a>
+         <a asp-controller="product" asp-action="details" asp-route-id="@product.Id" class="panel-block elipsis-x">@product.Name</a>
       }
    </div>
-
 }
 else
 {
-   <p class="has-text-centered">No Product assigned</p>
+   <p class="bd-notification has-text-centered">No Product assigned</p>
 }
-<div>
-   <a asp-action="Index">Back to List</a>
-</div>
 
-
-<div class="modal" id="modal-assign-product">
-   <div class="modal-background"></div>
-   <div class="modal-content">
-      <div class="box">
-         <form class="ajax-form" asp-action="assign" method="post">
-            <input type="hidden" name="categoryId" value="@Model.Id" />
-            <div class="panel">
-               @foreach (Product product in assignableProducts)
-               {
-                  bool assigned = Model.Products.Any(p => p.Id == product.Id);
-                  <label class="panel-block">
-                     <input type="checkbox" name="productIds" value="@product.Id" @(assigned ? "checked" : "")>@product.Name
-                  </label>
-               }
-            </div>
-            <div class="field is-grouped">
-               <div class="control">
-                  <button type="submit" class="button is-link">
-                     <span>OK</span>
-                  </button>
-               </div>
-               <div class="control">
-                  <button type="button" class="button cancel-button">Cancel</button>
-               </div>
-            </div>
-         </form>
-      </div>
-   </div>
-   <button class="modal-close is-large" aria-label="close"></button>
-</div>

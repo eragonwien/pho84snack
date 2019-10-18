@@ -1,22 +1,24 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using Pho84SnackMVC.Models;
 using Pho84SnackMVC.Models.ViewModels;
 using Pho84SnackMVC.Services;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Controllers
 {
    public class ProductController : DefaultController
    {
-      private readonly IProductService productService;
+      private readonly IProductRepository productService;
       private readonly IErrorService errorService;
       private readonly ILogger<ProductController> log;
 
-      public ProductController(IProductService productService, IErrorService errorService, ILogger<ProductController> log)
+      public ProductController(IProductRepository productService, IErrorService errorService, ILogger<ProductController> log)
       {
          this.productService = productService;
          this.errorService = errorService;
@@ -33,7 +35,7 @@ namespace Pho84SnackMVC.Controllers
       public async Task<ActionResult> Details(long id)
       {
          Product product = await productService.GetOne(id);
-         ViewBag.UnassignedSizes = await productService.UnassignedSizes(id);
+         ViewBag.Sizes = (await productService.Sizes()).Select(s => new SelectListItem(s.LongName, s.Id.ToString(), product.PriceList.Any(p => p.ProductSizeId == s.Id))).ToList();
          return View(await productService.GetOne(id));
       }
 

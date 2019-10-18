@@ -11,7 +11,7 @@ namespace Pho84SnackMVC.Models
       public string ShortName { get; set; }
       public string LongName { get; set; }
 
-      public ProductSize(string shortName, string longName, int id = 0)
+      public ProductSize(long id, string shortName, string longName)
       {
          Id = id;
          ShortName = shortName;

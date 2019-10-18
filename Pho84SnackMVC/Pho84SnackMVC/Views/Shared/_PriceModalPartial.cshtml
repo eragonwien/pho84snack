@@ -2,24 +2,31 @@
 
 @{
    bool editing = Model.EditType == EditType.edit;
-   string price = Model.Price > 0 && Model.EditType == EditType.edit ? Model.Price.ToString() : string.Empty;
+   string price = Model.Price > 0 && editing ? Model.Price.ToString() : string.Empty;
 }
 <div class="modal" id="@Model.ModalId">
    <div class="modal-background"></div>
    <div class="modal-content">
       <div class="box">
          <form class="ajax-form" asp-controller="price" asp-action="@(editing ? "edit" : "add")" method="post">
-            <input type="hidden" name="Id" value="@Model.PriceId" />
-            <input type="hidden" name="ProductId" value="@Model.ProductId" />
+
+            @Html.HiddenFor(m => m.ProductId)
+            @if (editing)
+            {
+               <input type="hidden" name="Id" value="@Model.PriceId" />
+               @Html.HiddenFor(m => m.SizeId)
+            }
             <div class="field has-addons">
                <p class="control">
                   <span class="select">
-                     <select id="SizeId" name="SizeId" @(editing ? "disabled" : "")>
-                        @foreach (var size in Model.UnassignedSizes)
-                        {
-                           <option value="@size.Id">@size.LongName</option>
-                        }
-                     </select>
+                     @if (editing)
+                     {
+                        @Html.DropDownListFor(m => m.SizeId, Model.SizesSelect, new { @disabled = "disabled" })
+                     }
+                     else
+                     {
+                        @Html.DropDownListFor(m => m.SizeId, Model.SizesSelect)
+                     }
                   </span>
                </p>
                <p class="control">
@@ -31,13 +38,11 @@
                   <span>@(Model.EditType == EditType.create ? "Add" : "Save")</span>
                   @if (Model.EditType == EditType.create)
                   {
-                     <span class="icon"><i class="fas fa-plus"></i></span>
-
+                     <span class="icon"><i class="fas fa-plus-circle"></i></span>
                   }
                   else
                   {
                      <span class="icon"><i class="fas fa-check"></i></span>
-
                   }
                </button>
                <div class="control">

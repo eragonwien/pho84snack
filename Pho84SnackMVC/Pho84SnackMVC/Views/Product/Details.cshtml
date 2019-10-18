@@ -5,9 +5,10 @@
    var editNameForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Name), Model.Name, Url.Action("Patch", "Product", new { @id = Model.Id }), InputFieldType.text);
    var editDescriptionForm = new EditFormSingleViewModel(Model.Id, nameof(Model.Description), Model.Description, Url.Action("Patch", "Product", new { @id = Model.Id }), InputFieldType.textarea);
    var productPricingTitle = new TitleWithRightActionsViewModel("Pricing", "modal#modal-add-price");
-   List<ProductSize> unassignedSizes = ViewBag.UnassignedSizes as List<ProductSize>;
+   var productSizesSelect = ViewBag.Sizes as List<SelectListItem>;
 
-   var addPriceModal = new PriceModalViewModel("modal-add-price", EditType.create, Model.Id, unassignedSizes);
+   var addPriceModal = new PriceModalViewModel("modal-add-price", EditType.create, Model.Id, productSizesSelect.Where(s => !s.Selected).ToList());
+   string currentUrl = Context.Request.Path;
 }
 <h1 class="has-text-weight-bold is-size-5">@ViewData["Title"]</h1>
 <br />
@@ -16,15 +17,15 @@
    <partial name="_EditFormSinglePartial" model="editDescriptionForm" />
 </div>
 <br />
-<partial name="_TitleWithRightActionsPartials" model="productPricingTitle" />
+<partial name="_TitleWithRightActionsPartial" model="productPricingTitle" />
 @if (Model.PriceList.Count > 0)
 {
    @foreach (var price in Model.PriceList)
    {
       string removeModalId = string.Format("modal-remove-price-{0}", price.Id);
       string editModalId = string.Format("modal-edit-price-{0}", price.Id);
-      var removeModal = new RemoveModalViewModel(removeModalId, Url.Action("remove", "price"), price.Id, price.LongName, "Price");
-      var editPriceModal = new PriceModalViewModel(editModalId, EditType.edit, Model.Id, unassignedSizes, price.Id, price.Price);
+      var removeModal = new RemoveModalViewModel(removeModalId, Url.Action("remove", "price"), price.LongName, "Price", currentUrl);
+      var editPriceModal = new PriceModalViewModel(editModalId, EditType.edit, Model.Id, productSizesSelect, price.ProductSizeId, price.Price, price.Id);
       <div class="level is-hoverable is-mobile">
          <div class="level-left">
             <div class="level-item">
@@ -42,7 +43,7 @@
                <div class="field is-grouped">
                   <p class="control">
                      <a class="modal-trigger" data-target="@editModalId"><span class="icon has-text-link"><i class="fas fa-pen"></i></span></a>
-                     <a class="modal-trigger" data-target="@removeModal"><span class="icon has-text-danger"><i class="fas fa-trash"></i></span></a>
+                     <a class="modal-trigger" data-target="@removeModalId"><span class="icon has-text-danger"><i class="fas fa-times"></i></span></a>
                      <partial name="_PriceModalPartial" model="editPriceModal" />
                      <partial name="_RemoveModalPartial" model="removeModal" />
                   </p>

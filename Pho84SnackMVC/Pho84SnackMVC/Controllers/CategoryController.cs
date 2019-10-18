@@ -2,25 +2,23 @@
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using Pho84SnackMVC.Models;
-using Pho84SnackMVC.Models.ViewModels;
 using Pho84SnackMVC.Services;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Pho84SnackMVC.Controllers
 {
    public class CategoryController : DefaultController
    {
-      private readonly ICategoryService categoryService;
-      private readonly IProductService productService;
       private readonly IErrorService errorService;
+      private readonly ICompanyService companyService;
       private readonly ILogger<CategoryController> log;
 
-      public CategoryController(ICategoryService categoryService, IProductService productService, IErrorService errorService, ILogger<CategoryController> log)
+      public CategoryController(ICompanyService companyService, IErrorService errorService, ILogger<CategoryController> log)
       {
-         this.categoryService = categoryService;
-         this.productService = productService;
+         this.companyService = companyService;
          this.errorService = errorService;
          this.log = log;
       }
@@ -28,15 +26,18 @@ namespace Pho84SnackMVC.Controllers
       [HttpGet]
       public async Task<IActionResult> Index()
       {
-         var model = await categoryService.GetAll();
+         var model = await companyService.GetCategories();
          return View(model);
       }
 
       [HttpGet]
       public async Task<IActionResult> Details(long id)
       {
-         var category = await categoryService.GetOne(id);
-         ViewBag.AssignableProducts = await productService.GetAll();
+         if (!await companyService.CategoryExist(id))
+         {
+            return NotFound(id);
+         }
+         var category = await companyService.GetCategory(id);
          return View(category);
       }
 
@@ -48,38 +49,45 @@ namespace Pho84SnackMVC.Controllers
 
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<ActionResult> Create([FromForm]CreateViewModel model)
+      public async Task<ActionResult> Create([FromForm]Category category)
       {
          if (ModelState.IsValid)
          {
             try
             {
-               Category category = new Category(model);
-               category.Id = await categoryService.Create(category);
-               return RedirectToDetailPage(category.Id);
+               if (!await companyService.CategoryExist(category.Name))
+               {
+                  category.Id = await companyService.CreateCategory(category);
+                  return RedirectToDetailPage(category.Id);
+               }
+               else
+               {
+                  log.LogError("Kategorie mit dem Name {0} existiert bereits", category.Name);
+                  ModelState.AddModelError(nameof(category.Name), string.Format("This name is already taken"));
+               }
             }
             catch (MySqlException sqlex)
             {
-               log.LogError("SQL Fehler bei Erstellung von Kategorie {0}: {1}", model.Name, sqlex.Message);
+               log.LogError("SQL Fehler bei Erstellung von Kategorie {0}: {1}", category.Name, sqlex.Message);
                var modelerror = errorService.HandleException(sqlex);
                ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
             }
             catch (Exception ex)
             {
-               log.LogError("Fehler bei Erstellung von Kategorie {0}: {1}", model.Name, ex.Message);
+               log.LogError("Fehler bei Erstellung von Kategorie {0}: {1}", category.Name, ex.Message);
                ModelState.AddModelError("", ex.Message);
             }
          }
-         return View(model);
+         return View(category);
       }
 
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<ActionResult> Delete(long id)
+      public async Task<IActionResult> Delete(long id)
       {
          try
          {
-            await categoryService.Remove(id);
+            await companyService.DeleteCategory(id);
          }
          catch (Exception ex)
          {
@@ -88,88 +96,61 @@ namespace Pho84SnackMVC.Controllers
          return RedirectToIndex();
       }
 
-      [HttpPost]
-      [ValidateAntiForgeryToken]
-      public async Task<IActionResult> Patch([FromForm]Category category, [FromForm]string propertyName)
+      [HttpGet]
+      public async Task<IActionResult> Edit(long id)
       {
-         if (ModelState.IsValid)
-         {
-            try
-            {
-               string patchValue = GetPropertyValue(category, propertyName);
-               await categoryService.Patch(category.Id, propertyName, patchValue);
-               return Ok(patchValue);
-            }
-            catch (MySqlException sqlex)
-            {
-               log.LogError("Fehler bei Aktualisierung von Kategorie {0}, Prop={1}: {2}", category.Id, propertyName, sqlex.Message);
-               var modelerror = errorService.HandleException(sqlex);
-               ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
-            }
-            catch (Exception ex)
-            {
-               log.LogError("Fehler bei Aktualisierung von Kategorie {0}, Prop={1}: {2}", category.Id, propertyName, ex.Message);
-               ModelState.AddModelError("", ex.Message);
-            }
-         }
-         return BadRequest(ModelState);
+         var category = await companyService.GetCategory(id);
+         return View(category);
       }
 
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<ActionResult> Assign(long categoryId, IEnumerable<long> productIds)
+      public async Task<IActionResult> Edit(long id, [FromForm]Category category)
       {
-         bool hasError = false;
-
-         // Zuweisung von Produkten
-         foreach (long productId in productIds)
+         if (id != category.Id)
+         {
+            log.LogError("Id vom Form(={0}) und vom URL(={1}) stimmen sich nicht überein", category.Id, id);
+            return BadRequest(id);
+         }
+         if (!await companyService.CategoryExist(id))
+         {
+            return NotFound(id);
+         }
+         if (ModelState.IsValid)
          {
             try
             {
-               await categoryService.Assign(categoryId, productId);
+               await companyService.UpdateCategory(category);
+               return RedirectToDetailPage(id);
             }
             catch (MySqlException sqlex)
             {
-               log.LogError("Fehler bei Zuweisung von Produkt {0} auf Kategorie {1}: {2}", productId, categoryId, sqlex.Message);
+               log.LogError("SQL Fehler bei Erstellung von Kategorie {0}: {1}", category.Name, sqlex.Message);
                var modelerror = errorService.HandleException(sqlex);
                ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
-               hasError = true;
             }
             catch (Exception ex)
             {
-               log.LogError("Fehler bei Zuweisung von Produkt {0} auf Kategorie {1}: {2}", productId, categoryId, ex.Message);
+               log.LogError("Fehler bei Erstellung von Kategorie {0}: {1}", category.Name, ex.Message);
                ModelState.AddModelError("", ex.Message);
-               hasError = true;
             }
          }
+         return View(category);
+      }
 
-         if (!hasError)
+      [HttpPost]
+      [ValidateAntiForgeryToken]
+      public async Task<IActionResult> Unassign(long id, long productId, string returnUrl)
+      {
+         try
          {
-            // Entfernung von nicht-zugewiesenden Produkten
-            try
-            {
-               await categoryService.RemoveAssigned(categoryId, productIds);
-            }
-            catch (MySqlException sqlex)
-            {
-               log.LogError("Fehler bei Entfernung von Produkten aus der Kategorie {0}: {1}", categoryId, sqlex.Message);
-               var modelerror = errorService.HandleException(sqlex);
-               ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
-               hasError = true;
-            }
-            catch (Exception ex)
-            {
-               log.LogError("Fehler bei Entfernung von Produkten aus der Kategorie {0}: {1}", categoryId, ex.Message);
-               ModelState.AddModelError("", ex.Message);
-               hasError = true;
-            }
+            await companyService.UnassignProductFromCategory(id, productId);
          }
-
-         if (!hasError)
+         catch (Exception ex)
          {
-            return Ok();
+            log.LogError("Fehler bei Entfernung von Produkt {0} aus der Kategorie {1}: {1}", productId, id, ex.Message);
          }
-         return BadRequest(ModelState);
+         return RedirectPermanentToReturnUrl(returnUrl);
       }
    }
 }

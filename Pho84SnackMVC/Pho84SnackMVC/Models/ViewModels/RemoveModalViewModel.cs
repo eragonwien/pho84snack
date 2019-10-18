@@ -9,17 +9,17 @@ namespace Pho84SnackMVC.Models.ViewModels
    {
       public string ModalId { get; set; }
       public string Url { get; set; }
-      public long Id { get; set; }
       public string Name { get; set; }
       public string Type { get; set; }
+      public string ReturnUrl { get; set; }
 
-      public RemoveModalViewModel(string modalId, string url, long id, string name, string type)
+      public RemoveModalViewModel(string modalId, string url, string name, string type, string returnUrl = null)
       {
          ModalId = modalId;
          Url = url;
-         Id = id;
          Name = name;
          Type = type;
+         ReturnUrl = returnUrl;
       }
    }
 }

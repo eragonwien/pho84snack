@@ -1,4 +1,13 @@
-﻿#body {
+﻿$grey-lighter: hsl(0, 0%, 86%);
+$grey-light: hsl(0, 0%, 70%);
+$border: $grey-lighter;
+
+$breakpoint-mobile-max: 768px;
+$breakpoint-tablet-max: 1024px;
+$breakpoint-desktop-max: 1216px;
+$breakpoint-widescreen-max: 1408px;
+
+#body {
    display: flex;
    min-height: 100vh;
    flex-direction: column;
@@ -23,4 +32,32 @@
 
 .is-hoverable:hover {
    background-color: hsl(0, 0%, 98%);
+}
+
+.level-list {
+   .level {
+      border: 1px solid $border;
+      padding: 0.5em 0.75em;
+      margin-bottom: 0px;
+   }
+}
+
+.w-full {
+   @media (max-width: $breakpoint-mobile-max - 1) {
+      width: 80vw;
+   }
+}
+
+.overflow-x {
+   white-space: nowrap;
+   overflow-x: hidden;
+   text-overflow: ellipsis;
+}
+
+.level-is-shrinkable .level-left, .level-is-shrinkable .level-right {
+   flex-shrink: 1;
+}
+
+.word-break-all {
+   word-break: break-all;
 }

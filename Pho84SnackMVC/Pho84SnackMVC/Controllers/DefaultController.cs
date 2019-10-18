@@ -27,5 +27,14 @@ namespace Pho84SnackMVC.Controllers
       {
          return src.GetType().GetProperty(propName).GetValue(src, null)?.ToString();
       }
+
+      public IActionResult RedirectPermanentToReturnUrl(string returnUrl)
+      {
+         if (Url.IsLocalUrl(returnUrl))
+         {
+            return RedirectPermanent(returnUrl);
+         }
+         return RedirectToActionPermanent(Url.Action("index", "home"));
+      }
    }
 }

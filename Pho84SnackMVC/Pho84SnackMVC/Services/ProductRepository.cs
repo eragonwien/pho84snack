@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Services
 {
-   public interface IProductService
+   public interface IProductRepository
    {
       Task<List<Product>> GetAll();
       Task<Product> GetOne(long id);
@@ -15,15 +15,15 @@ namespace Pho84SnackMVC.Services
       Task Update(Product product);
       Task Remove(long id);
       Task<bool> Exists(long id);
-      Task<List<ProductSize>> UnassignedSizes(long productId);
+      Task<List<ProductSize>> Sizes();
       Task<List<Product>> AssignableProducts(long categoryId);
    }
 
-   public class ProductService : IProductService
+   public class ProductRepository : IProductRepository
    {
       private readonly Pho84SnackContext context;
 
-      public ProductService(Pho84SnackContext context)
+      public ProductRepository(Pho84SnackContext context)
       {
          this.context = context;
       }
@@ -131,21 +131,20 @@ namespace Pho84SnackMVC.Services
          return product;
       }
 
-      public async Task<List<ProductSize>> UnassignedSizes(long productId)
+      public async Task<List<ProductSize>> Sizes()
       {
          List<ProductSize> availableSizes = new List<ProductSize>();
          using (var con = context.GetConnection())
          {
-            string cmdStr = "select s.Id, s.ShortName, s.LongName from PRODUCTSIZE s where not exists(select * from PRODUCTSIZEMAP m where m.ProductId=@ProductId and m.ProductSizeId=s.Id)";
+            string cmdStr = "select Id, ShortName, LongName from PRODUCTSIZE";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("@ProductId", productId));
                await con.OpenAsync();
                using (var odr = await cmd.ExecuteReaderAsync())
                {
                   while (await odr.ReadAsync())
                   {
-                     availableSizes.Add(new ProductSize(odr.ReadString("ShortName"), odr.ReadString("LongName"), odr.ReadInt32("Id")));
+                     availableSizes.Add(new ProductSize(odr.ReadInt32("Id"), odr.ReadString("ShortName"), odr.ReadString("LongName")));
                   }
                }
             }

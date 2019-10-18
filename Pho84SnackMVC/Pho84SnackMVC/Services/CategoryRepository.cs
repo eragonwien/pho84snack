@@ -7,23 +7,27 @@ using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Services
 {
-   public interface ICategoryService
+   public interface ICategoryRepository
    {
       Task<List<Category>> GetAll();
       Task<Category> GetOne(long id);
       Task<long> Create(Category category);
+      Task UpdateInfo(Category category);
+      Task UpdateProducts(Category category);
       Task Patch(long id, string property, string value);
-      Task Remove(long id);
+      Task Delete(long id);
       Task<bool> Exists(long id);
+      Task<bool> Exists(string name);
       Task Assign(long categoryId, long productId);
       Task RemoveAssigned(long categoryId, IEnumerable<long> assignedIds);
+      Task Unassign(long categoryId, long productId);
    }
 
-   public class CategoryService : ICategoryService
+   public class CategoryRepository : ICategoryRepository
    {
       private readonly Pho84SnackContext context;
 
-      public CategoryService(Pho84SnackContext context)
+      public CategoryRepository(Pho84SnackContext context)
       {
          this.context = context;
       }
@@ -68,9 +72,11 @@ namespace Pho84SnackMVC.Services
                      {
                         category = new Category(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt32("Id"));
                      }
-                     if (!odr.IsDBNull(odr.GetOrdinal("ProductId")))
+                     if (!odr.IsDbNull("ProductId"))
                      {
-                        category.Products.Add(new Product(odr.ReadString("ProductName"), odr.ReadString("ProductDescription"), odr.ReadInt32("ProductId")));
+                        int productId = odr.ReadInt32("ProductId");
+                        category.Products.Add(new Product(odr.ReadString("ProductName"), odr.ReadString("ProductDescription"), productId));
+                        category.SelectedProductIds.Add(productId);
                      }
                   }
                }
@@ -124,7 +130,7 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public async Task Remove(long id)
+      public async Task Delete(long id)
       {
          using (var con = context.GetConnection())
          {
@@ -175,14 +181,14 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      private async Task<bool> AssignmentExists(long id, long productId)
+      private async Task<bool> AssignmentExists(long categoryId, long productId)
       {
          using (var con = context.GetConnection())
          {
             string cmdStr = "select count(*) from PRODUCTMAP where CategoryId=@CategoryId and ProductId=@ProductId";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("@CategoryId", id));
+               cmd.Parameters.Add(new MySqlParameter("@CategoryId", categoryId));
                cmd.Parameters.Add(new MySqlParameter("@ProductId", productId));
                await con.OpenAsync();
                return await cmd.ReadScalarInt32() > 0;
@@ -204,6 +210,87 @@ namespace Pho84SnackMVC.Services
                cmd.Parameters.Add(new MySqlParameter("@CategoryId", categoryId));
                await con.OpenAsync();
                await cmd.ExecuteNonQueryAsync();
+            }
+         }
+      }
+
+      public async Task UpdateInfo(Category category)
+      {
+         using (var con = context.GetConnection())
+         {
+            string cmdStr = "update CATEGORY set Name=@Name, Description=@Description where Id=@Id";
+            using (var cmd = new MySqlCommand(cmdStr, con))
+            {
+               cmd.Parameters.Add(new MySqlParameter("@Name", category.Name));
+               cmd.Parameters.Add(new MySqlParameter("@Description", category.Description));
+               cmd.Parameters.Add(new MySqlParameter("@Id", category.Id));
+               await con.OpenAsync();
+               await cmd.ExecuteNonQueryAsync();
+            }
+         }
+      }
+
+      public async Task Unassign(long categoryId, long productId)
+      {
+         using (var con = context.GetConnection())
+         {
+            string cmdStr = "delete from PRODUCTMAP where CategoryId=@CategoryId and ProductId=@ProductId";
+            using (var cmd = new MySqlCommand(cmdStr, con))
+            {
+               cmd.Parameters.Add(new MySqlParameter("@CategoryId", categoryId));
+               cmd.Parameters.Add(new MySqlParameter("@ProductId", productId));
+               await con.OpenAsync();
+               await cmd.ExecuteNonQueryAsync();
+            }
+         }
+      }
+
+      public async Task UpdateProducts(Category category)
+      {
+         await AssignNewProducts(category);
+         await UnassignProducts(category);
+      }
+
+      private async Task UnassignProducts(Category category)
+      {
+
+         using (var con = context.GetConnection())
+         {
+            string cmdStr = "delete from PRODUCTMAP where CategoryId=@CategoryId";
+            if (category.SelectedProductIds.Count > 0)
+            {
+               cmdStr += string.Format(" and ProductId not in ({0})", string.Join(",", category.SelectedProductIds));
+            }
+            using (var cmd = new MySqlCommand(cmdStr, con))
+            {
+               cmd.Parameters.Add(new MySqlParameter("@CategoryId", category.Id));
+               await con.OpenAsync();
+               await cmd.ExecuteNonQueryAsync();
+            }
+         }
+      }
+
+      private async Task AssignNewProducts(Category category)
+      {
+         foreach (long productId in category.SelectedProductIds)
+         {
+            if (!await AssignmentExists(category.Id, productId))
+            {
+               await Assign(category.Id, productId);
+            }
+         }
+      }
+
+      public async Task<bool> Exists(string name)
+      {
+         using (var con = context.GetConnection())
+         {
+            string cmdStr = "select count(*) from CATEGORY where Name=@Name";
+            using (var cmd = new MySqlCommand(cmdStr, con))
+            {
+               cmd.Parameters.Add(new MySqlParameter("@Name", name));
+               await con.OpenAsync();
+               return await cmd.ReadScalarInt32() > 0;
             }
          }
       }

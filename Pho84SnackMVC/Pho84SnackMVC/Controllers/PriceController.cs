@@ -12,11 +12,11 @@ namespace Pho84SnackMVC.Controllers
 {
     public class PriceController : DefaultController
     {
-      private readonly IPriceService priceService;
+      private readonly IPriceRepository priceService;
       private readonly IErrorService errorService;
       private readonly ILogger<PriceController> log;
 
-      public PriceController(IPriceService productService, IErrorService errorService, ILogger<PriceController> log)
+      public PriceController(IPriceRepository productService, IErrorService errorService, ILogger<PriceController> log)
       {
          this.priceService = productService;
          this.errorService = errorService;
@@ -53,24 +53,24 @@ namespace Pho84SnackMVC.Controllers
       // POST: Price/Price
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<ActionResult> Edit(long id, [FromForm] PriceViewModel model)
+      public async Task<ActionResult> Edit([FromForm] PriceViewModel model)
       {
          if (ModelState.IsValid)
          {
             try
             {
-               await priceService.Price(id, model);
+               await priceService.Price(model);
                return Ok();
             }
             catch (MySqlException sqlex)
             {
-               log.LogError("SQL Fehler bei der Löschung vom Preis {0}: {1}", id, sqlex.Message);
+               log.LogError("SQL Fehler bei der Löschung vom Preis {0}: {1}", model.Id, sqlex.Message);
                var modelerror = errorService.HandleException(sqlex);
                ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
             }
             catch (Exception ex)
             {
-               log.LogError("SQL Fehler bei der Löschung vom Preis {0}: {1}", id, ex.Message);
+               log.LogError("SQL Fehler bei der Löschung vom Preis {0}: {1}", model.Id, ex.Message);
                ModelState.AddModelError("", ex.Message);
             }
          }
@@ -80,7 +80,7 @@ namespace Pho84SnackMVC.Controllers
       // POST: Price/Remove
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<ActionResult> Remove(long id)
+      public async Task<IActionResult> Remove(long id, string returnUrl)
       {
          if (ModelState.IsValid)
          {
@@ -100,7 +100,7 @@ namespace Pho84SnackMVC.Controllers
                ModelState.AddModelError("", ex.Message);
             }
          }
-         return RedirectToIndexPermanent();
+         return RedirectPermanentToReturnUrl(returnUrl);
       }
    }
 }

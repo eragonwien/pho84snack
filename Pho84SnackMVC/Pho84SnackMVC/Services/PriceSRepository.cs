@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 namespace Pho84SnackMVC.Services
 {
 
-   public interface IPriceService
+   public interface IPriceRepository
    {
       Task<long> Add(PriceViewModel model);
-      Task Price(long id, PriceViewModel model);
+      Task Price(PriceViewModel model);
       Task Remove(long id);
    }
 
-   public class PriceService : IPriceService
+   public class PriceSRepository : IPriceRepository
    {
       private readonly Pho84SnackContext context;
 
-      public PriceService(Pho84SnackContext context)
+      public PriceSRepository(Pho84SnackContext context)
       {
          this.context = context;
       }
@@ -54,15 +54,14 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public async Task Price(long id, PriceViewModel model)
+      public async Task Price(PriceViewModel model)
       {
          using (var con = context.GetConnection())
          {
-            string cmdStr = "update PRODUCTSIZEMAP set Price=@Price where ProductId=@ProductId and ProductSizeId=@ProductSizeId";
+            string cmdStr = "update PRODUCTSIZEMAP set Price=@Price where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("@ProductId", model.ProductId));
-               cmd.Parameters.Add(new MySqlParameter("@ProductSizeId", model.SizeId));
+               cmd.Parameters.Add(new MySqlParameter("@Id", model.Id));
                cmd.Parameters.Add(new MySqlParameter("@Price", model.Price));
                await con.OpenAsync();
                await cmd.ExecuteNonQueryAsync();

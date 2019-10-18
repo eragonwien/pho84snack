@@ -13,12 +13,12 @@ namespace Pho84SnackMVC.Controllers
 {
    public class HomeController : DefaultController
    {
-      private readonly ICategoryService categoryService;
-      private readonly ICompanyInfoService companyInfoService;
-      private readonly IProductService productService;
+      private readonly ICategoryRepository categoryService;
+      private readonly ICompanyInfoRepository companyInfoService;
+      private readonly IProductRepository productService;
       private readonly ILogger<HomeController> log;
 
-      public HomeController(ICategoryService categoryService, ICompanyInfoService companyInfoService, IProductService productService, ILogger<HomeController> log)
+      public HomeController(ICategoryRepository categoryService, ICompanyInfoRepository companyInfoService, IProductRepository productService, ILogger<HomeController> log)
       {
          this.categoryService = categoryService;
          this.companyInfoService = companyInfoService;

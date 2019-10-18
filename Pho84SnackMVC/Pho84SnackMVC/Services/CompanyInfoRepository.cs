@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Pho84SnackMVC.Services
 {
-   public interface ICompanyInfoService
+   public interface ICompanyInfoRepository
    {
       List<CompanyInfo> GetAll();
       CompanyInfo GetOne(long id);
@@ -19,11 +19,11 @@ namespace Pho84SnackMVC.Services
       long Count();
    }
 
-   public class CompanyInfoService : ICompanyInfoService
+   public class CompanyInfoRepository : ICompanyInfoRepository
    {
       private readonly Pho84SnackContext context;
 
-      public CompanyInfoService(Pho84SnackContext context)
+      public CompanyInfoRepository(Pho84SnackContext context)
       {
          this.context = context;
       }

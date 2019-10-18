@@ -9,11 +9,13 @@ namespace Pho84SnackMVC.Models.ViewModels
    {
       public string Title { get; set; }
       public string CreateUrl { get; set; }
+      public string EditUrl { get; set; }
 
-      public TitleWithRightActionsViewModel(string title, string createUrl)
+      public TitleWithRightActionsViewModel(string title, string createUrl = null, string editUrl = null)
       {
          Title = title;
          CreateUrl = createUrl;
+         EditUrl = editUrl;
       }
    }
 }

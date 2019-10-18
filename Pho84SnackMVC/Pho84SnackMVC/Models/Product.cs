@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Pho84SnackMVC.Models.ViewModels;
@@ -9,7 +10,9 @@ namespace Pho84SnackMVC.Models
    public class Product
    {
       public long Id { get; set; }
+      [MaxLength(32, ErrorMessage = "This name is too long (max. 32 characters)")]
       public string Name { get; set; }
+      [MaxLength(256, ErrorMessage = "This name is too long (max. 256 characters)")]
       public string Description { get; set; }
       public List<ProductPricing> PriceList { get; set; } = new List<ProductPricing>();
 
