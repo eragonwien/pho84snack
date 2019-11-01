@@ -12,8 +12,7 @@ namespace Pho84SnackMVC.Services
       Task<List<Category>> GetAll();
       Task<Category> GetOne(long id);
       Task<long> Create(Category category);
-      Task UpdateInfo(Category category);
-      Task UpdateProducts(Category category);
+      Task Update(Category category);
       Task Patch(long id, string property, string value);
       Task Delete(long id);
       Task<bool> Exists(long id);
@@ -214,22 +213,6 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public async Task UpdateInfo(Category category)
-      {
-         using (var con = context.GetConnection())
-         {
-            string cmdStr = "update CATEGORY set Name=@Name, Description=@Description where Id=@Id";
-            using (var cmd = new MySqlCommand(cmdStr, con))
-            {
-               cmd.Parameters.Add(new MySqlParameter("@Name", category.Name));
-               cmd.Parameters.Add(new MySqlParameter("@Description", category.Description));
-               cmd.Parameters.Add(new MySqlParameter("@Id", category.Id));
-               await con.OpenAsync();
-               await cmd.ExecuteNonQueryAsync();
-            }
-         }
-      }
-
       public async Task Unassign(long categoryId, long productId)
       {
          using (var con = context.GetConnection())
@@ -243,12 +226,6 @@ namespace Pho84SnackMVC.Services
                await cmd.ExecuteNonQueryAsync();
             }
          }
-      }
-
-      public async Task UpdateProducts(Category category)
-      {
-         await AssignNewProducts(category);
-         await UnassignProducts(category);
       }
 
       private async Task UnassignProducts(Category category)
@@ -293,6 +270,34 @@ namespace Pho84SnackMVC.Services
                return await cmd.ReadScalarInt32() > 0;
             }
          }
+      }
+
+      public async Task Update(Category category)
+      {
+         await UpdateInfo(category);
+         await UpdateProducts(category);
+      }
+
+      private async Task UpdateInfo(Category category)
+      {
+         using (var con = context.GetConnection())
+         {
+            string cmdStr = "update CATEGORY set Name=@Name, Description=@Description where Id=@Id";
+            using (var cmd = new MySqlCommand(cmdStr, con))
+            {
+               cmd.Parameters.Add(new MySqlParameter("@Name", category.Name));
+               cmd.Parameters.Add(new MySqlParameter("@Description", category.Description));
+               cmd.Parameters.Add(new MySqlParameter("@Id", category.Id));
+               await con.OpenAsync();
+               await cmd.ExecuteNonQueryAsync();
+            }
+         }
+      }
+
+      private async Task UpdateProducts(Category category)
+      {
+         await AssignNewProducts(category);
+         await UnassignProducts(category);
       }
    }
 }

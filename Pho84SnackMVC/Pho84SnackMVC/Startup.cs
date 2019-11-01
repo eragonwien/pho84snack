@@ -30,8 +30,7 @@ namespace Pho84SnackMVC
          services.AddScoped<ICompanyInfoRepository, CompanyInfoRepository>();
          services.AddScoped<ICategoryRepository, CategoryRepository>();
          services.AddScoped<IProductRepository, ProductRepository>();
-         services.AddScoped<IPriceRepository, PriceSRepository>();
-         services.AddScoped<ICompanyService, CompanyService>();
+         services.AddScoped<IPriceRepository, PriceRepository>();
          services.AddScoped<IErrorService, ErrorService>();
 
          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -59,7 +58,7 @@ namespace Pho84SnackMVC
          {
             routes.MapRoute(
                    name: "default",
-                   template: "{controller=Home}/{action=Index}/{id?}");
+                   template: "{controller=Category}/{action=Index}/{id?}");
          });
       }
    }

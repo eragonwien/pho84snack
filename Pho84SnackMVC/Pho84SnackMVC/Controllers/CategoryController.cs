@@ -13,12 +13,12 @@ namespace Pho84SnackMVC.Controllers
    public class CategoryController : DefaultController
    {
       private readonly IErrorService errorService;
-      private readonly ICompanyService companyService;
+      private readonly ICategoryRepository categoryRepository;
       private readonly ILogger<CategoryController> log;
 
-      public CategoryController(ICompanyService companyService, IErrorService errorService, ILogger<CategoryController> log)
+      public CategoryController(ICategoryRepository categoryRepository, IErrorService errorService, ILogger<CategoryController> log)
       {
-         this.companyService = companyService;
+         this.categoryRepository = categoryRepository;
          this.errorService = errorService;
          this.log = log;
       }
@@ -26,18 +26,18 @@ namespace Pho84SnackMVC.Controllers
       [HttpGet]
       public async Task<IActionResult> Index()
       {
-         var model = await companyService.GetCategories();
+         var model = await categoryRepository.GetAll();
          return View(model);
       }
 
       [HttpGet]
       public async Task<IActionResult> Details(long id)
       {
-         if (!await companyService.CategoryExist(id))
+         if (!await categoryRepository.Exists(id))
          {
             return NotFound(id);
          }
-         var category = await companyService.GetCategory(id);
+         var category = await categoryRepository.GetOne(id);
          return View(category);
       }
 
@@ -55,9 +55,9 @@ namespace Pho84SnackMVC.Controllers
          {
             try
             {
-               if (!await companyService.CategoryExist(category.Name))
+               if (!await categoryRepository.Exists(category.Name))
                {
-                  category.Id = await companyService.CreateCategory(category);
+                  category.Id = await categoryRepository.Create(category);
                   return RedirectToDetailPage(category.Id);
                }
                else
@@ -87,7 +87,7 @@ namespace Pho84SnackMVC.Controllers
       {
          try
          {
-            await companyService.DeleteCategory(id);
+            await categoryRepository.Delete(id);
          }
          catch (Exception ex)
          {
@@ -99,7 +99,7 @@ namespace Pho84SnackMVC.Controllers
       [HttpGet]
       public async Task<IActionResult> Edit(long id)
       {
-         var category = await companyService.GetCategory(id);
+         var category = await categoryRepository.GetOne(id);
          return View(category);
       }
 
@@ -112,7 +112,7 @@ namespace Pho84SnackMVC.Controllers
             log.LogError("Id vom Form(={0}) und vom URL(={1}) stimmen sich nicht überein", category.Id, id);
             return BadRequest(id);
          }
-         if (!await companyService.CategoryExist(id))
+         if (!await categoryRepository.Exists(id))
          {
             return NotFound(id);
          }
@@ -120,7 +120,7 @@ namespace Pho84SnackMVC.Controllers
          {
             try
             {
-               await companyService.UpdateCategory(category);
+               await categoryRepository.Update(category);
                return RedirectToDetailPage(id);
             }
             catch (MySqlException sqlex)
@@ -144,7 +144,7 @@ namespace Pho84SnackMVC.Controllers
       {
          try
          {
-            await companyService.UnassignProductFromCategory(id, productId);
+            await categoryRepository.Unassign(id, productId);
          }
          catch (Exception ex)
          {

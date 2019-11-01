@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
+using System.ComponentModel.DataAnnotations;
 
 namespace Pho84SnackMVC.Models
 {
@@ -14,6 +12,11 @@ namespace Pho84SnackMVC.Models
       public string LongName { get; set; }
       public decimal Price { get; set; }
 
+      public ProductPricing()
+      {
+
+      }
+
       public ProductPricing(int id, int productId, int productSizeId, string shortName, string longName, decimal price)
       {
          Id = id;
@@ -22,6 +25,14 @@ namespace Pho84SnackMVC.Models
          ShortName = shortName;
          LongName = longName;
          Price = price;
+      }
+
+      public string DisplayPrice
+      {
+         get
+         {
+            return Price > 0 ? string.Format("€{0:N2}", Price) : string.Empty;
+         }
       }
    }
 }

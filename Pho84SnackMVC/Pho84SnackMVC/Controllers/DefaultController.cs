@@ -28,6 +28,20 @@ namespace Pho84SnackMVC.Controllers
          return src.GetType().GetProperty(propName).GetValue(src, null)?.ToString();
       }
 
+      internal void SetViewBagReturnUrl(string returnurl)
+      {
+         ViewBag.ReturnUrl = Url.IsLocalUrl(returnurl) ? returnurl : Url.Action("index", "home");
+      }
+
+      public IActionResult RedirectToReturnUrl(string returnUrl)
+      {
+         if (Url.IsLocalUrl(returnUrl))
+         {
+            return Redirect(returnUrl);
+         }
+         return Redirect(Url.Action("index", "home"));
+      }
+
       public IActionResult RedirectPermanentToReturnUrl(string returnUrl)
       {
          if (Url.IsLocalUrl(returnUrl))

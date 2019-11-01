@@ -12,13 +12,13 @@ namespace Pho84SnackMVC.Controllers
 {
     public class PriceController : DefaultController
     {
-      private readonly IPriceRepository priceService;
+      private readonly IPriceRepository priceRepository;
       private readonly IErrorService errorService;
       private readonly ILogger<PriceController> log;
 
-      public PriceController(IPriceRepository productService, IErrorService errorService, ILogger<PriceController> log)
+      public PriceController(IPriceRepository IProductRepository, IErrorService errorService, ILogger<PriceController> log)
       {
-         this.priceService = productService;
+         this.priceRepository = IProductRepository;
          this.errorService = errorService;
          this.log = log;
       }
@@ -32,7 +32,7 @@ namespace Pho84SnackMVC.Controllers
          {
             try
             {
-               long id = await priceService.Add(model);
+               long id = await priceRepository.Add(model);
                return Ok();
             }
             catch (MySqlException sqlex)
@@ -59,7 +59,7 @@ namespace Pho84SnackMVC.Controllers
          {
             try
             {
-               await priceService.Price(model);
+               await priceRepository.Price(model);
                return Ok();
             }
             catch (MySqlException sqlex)
@@ -86,7 +86,7 @@ namespace Pho84SnackMVC.Controllers
          {
             try
             {
-               await priceService.Remove(id);
+               await priceRepository.Remove(id);
             }
             catch (MySqlException sqlex)
             {

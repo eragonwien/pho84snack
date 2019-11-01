@@ -1,6 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
 using Pho84SnackMVC.Models;
-using Pho84SnackMVC.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,8 +12,9 @@ namespace Pho84SnackMVC.Services
       Task<Product> GetOne(long id);
       Task<long> Create(Product product);
       Task Update(Product product);
-      Task Remove(long id);
+      Task Delete(long id);
       Task<bool> Exists(long id);
+      Task<bool> Exists(string name);
       Task<List<ProductSize>> Sizes();
       Task<List<Product>> AssignableProducts(long categoryId);
    }
@@ -74,6 +74,20 @@ namespace Pho84SnackMVC.Services
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
+               await con.OpenAsync();
+               return await cmd.ReadScalarInt32() > 0;
+            }
+         }
+      }
+
+      public async Task<bool> Exists(string name)
+      {
+         using (var con = context.GetConnection())
+         {
+            string cmdStr = "select count(*) from PRODUCT where Name=@Name";
+            using (var cmd = new MySqlCommand(cmdStr, con))
+            {
+               cmd.Parameters.Add(new MySqlParameter("@Name", name));
                await con.OpenAsync();
                return await cmd.ReadScalarInt32() > 0;
             }
@@ -152,7 +166,7 @@ namespace Pho84SnackMVC.Services
          return availableSizes;
       }
 
-      public async Task Remove(long id)
+      public async Task Delete(long id)
       {
          using (var con = context.GetConnection())
          {

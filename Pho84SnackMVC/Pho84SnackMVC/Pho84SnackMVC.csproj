@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
 
 
@@ -24,7 +25,7 @@
 
 
   <ItemGroup>
-    <Folder Include="wwwroot\lib\bulma\" />
+    <Folder Include="Components\" />
   </ItemGroup>
 
 </Project>

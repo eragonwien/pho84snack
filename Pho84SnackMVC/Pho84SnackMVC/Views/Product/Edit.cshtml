@@ -1,51 +1,67 @@
 ﻿@model Pho84SnackMVC.Models.Product
-
 @{
-   ViewData["Title"] = "Edit";
+   var availableSizes = await productRepository.Sizes();
 }
-
-<h1>Edit</h1>
-
-<h4>Product</h4>
-<hr />
-<div class="row">
-   <div class="col-md-4">
-      <form asp-action="Edit">
-         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-         @Html.HiddenFor(m => m.Id)
-         <div class="form-group">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-         </div>
-         <div class="form-group">
-            <label asp-for="Description" class="control-label"></label>
-            <input asp-for="Description" class="form-control" />
-            <span asp-validation-for="Description" class="text-danger"></span>
-         </div>
-         <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary" />
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-product-@Model.Id">Remove</button>
-         </div>
-
-         <div id="modal-delete-product-@Model.Id" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-               <div class="modal-content">
-                  <div class="modal-body">
-                     <p>Remove product @Model.Name ?</p>
-                  </div>
-                  <div class="modal-footer">
-                     <button asp-action="delete" type="submit" class="btn btn-danger">Remove</button>
-                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+<h1 class="title is-size-3">@Model.Name</h1>
+<form class="w-form" asp-action="edit" asp-route-id="@Model.Id">
+   @Html.HiddenFor(m => m.Id)
+   <div class="field">
+      <label class="label" asp-for="Name"></label>
+      <div class="control">
+         <input type="text" class="input" asp-for="Name">
+      </div>
+      <p class="help is-danger"><span asp-validation-for="Name"></span></p>
+   </div>
+   <div class="field">
+      <label class="label" asp-for="Description"></label>
+      <div class="control">
+         <textarea type="text" class="textarea" asp-for="Description"></textarea>
+      </div>
+      <p class="help is-danger"><span asp-validation-for="Description"></span></p>
+   </div>
+   <br />
+   <div class="section" style="padding: 0px 10px 30px 10px;">
+      @for (int i = 0; i < availableSizes.Count; i++)
+      {
+         var size = availableSizes[i];
+         bool isChecked = Model.PriceList.Any(p => p.ProductSizeId == size.Id);
+         string isCheckedStr = isChecked ? "checked" : "";
+         var selectedSize = Model.PriceList.SingleOrDefault(p => p.ProductSizeId == size.Id);
+         string sizePrice = isChecked && selectedSize != null ? selectedSize.Price.ToString() : string.Empty;
+         <div class="columns is-bordered">
+            <div class="column">
+               <label class="label">
+                  <input type="checkbox" class="checkbox-all" name="@(string.Format("PriceList[{0}].Id", i))" value="@size.Id" @isCheckedStr />
+                  <input type="checkbox" class="is-hidden" name="@(string.Format("PriceList[{0}].ShortName", i))" value="@size.ShortName" @isCheckedStr />
+                  <input type="checkbox" class="is-hidden" name="@(string.Format("PriceList[{0}].LongName", i))" value="@size.LongName" @isCheckedStr />
+                  <input type="checkbox" class="is-hidden" name="@(string.Format("PriceList[{0}].ProductId", i))" value="@selectedSize?.ProductId" @isCheckedStr />
+                  <input type="checkbox" class="is-hidden" name="@(string.Format("PriceList[{0}].ProductSizeId", i))" value="@selectedSize?.ProductSizeId" @isCheckedStr />
+                  <span>@size.ShortName - @size.LongName</span>
+               </label>
+            </div>
+            <div class="column is-3">
+               <div class="field">
+                  <div class="control">
+                     <input class="input"
+                            type="text"
+                            name="@(string.Format("PriceList[{0}].Price", i))"
+                            placeholder="€"
+                            value="@sizePrice" @(!isChecked ? "disabled" : "")>
                   </div>
                </div>
             </div>
          </div>
-      </form>
+      }
    </div>
-</div>
-
-<div>
-   <a asp-action="Index">Back to List</a>
-</div>
-
+   <div class="field is-grouped is-pulled-right">
+      <div class="control">
+         <button type="submit" class="button is-link">
+            <span class="icon is-small is-right"><i class="fas fa-save"></i></span>
+            <span>Save</span>
+         </button>
+      </div>
+      <div class="control">
+         <a class="button" asp-action="details" asp-route-id="@Model.Id">Cancel</a>
+      </div>
+   </div>
+</form>

@@ -1,7 +1,19 @@
-﻿<nav class="navbar" role="navigation" aria-label="main navigation">
-   <div class="navbar-brand">
-      <a class="navbar-item" asp-controller="home" asp-action="index">
-         <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-      </a>
+﻿@{ 
+   string editLink = ViewData["Edit"]?.ToString();
+   string title = ViewData["NavbarTitle"] != null ? ViewData["NavbarTitle"].ToString() : "Pho84Snack";
+}
+
+<header class="mdc-top-app-bar app-bar">
+   <div class="mdc-top-app-bar__row">
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+         <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
+         <span class="mdc-top-app-bar__title">@title</span>
+      </section>
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+         @if (!string.IsNullOrEmpty(editLink) && Url.IsLocalUrl(editLink))
+         {
+            <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button">edit</button>
+         }
+      </section>
    </div>
-</nav>
+</header>

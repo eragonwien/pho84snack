@@ -1,10 +1,28 @@
 ﻿@model IEnumerable<Pho84SnackMVC.Models.Category>
 @{
-   ViewData["Title"] = "Index";
-   var categoryTitleActions = new TitleWithRightActionsViewModel("Categories", Url.Action("create", "category"));
-   var linkslistModel = Model.Select(m => new LinksEntryViewModel("details", m.Id, m.Name));
+   ViewData["Title"] = "Categories";
+   ViewData["NavbarTitle"] = "Categories";
 }
-<partial name="_TitleWithRightActionsPartial" model="categoryTitleActions" />
-<partial name="_LinksListPartial" model="linkslistModel" />
+<div class="collection">
+   <ul class="mdc-list">
+      @if (Model.Count() > 0)
+      {
+         @foreach (Category category in Model)
+         {
+            <li class="mdc-list-item" tabindex="0">
+               <span class="mdc-list-item__text">Single-line item</span>
+            </li>
+         }
+      }
+      else
+      {
+         <li class="mdc-list-item" tabindex="0">
+            <span class="mdc-list-item__text">Single-line item</span>
+         </li>
+      }
+   </ul>
+</div>
+
+
 
 

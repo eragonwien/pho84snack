@@ -1,34 +1,16 @@
 ﻿@model Pho84SnackMVC.Models.Category
 @{
-   string currentUrl = Context.Request.Path;
-   var categoryTitleWithActions = new TitleWithRightActionsViewModel(Model.Name.ToUpper(), null, Url.Action("edit", "category", new { Model.Id }));
+   ViewData["Edit"] = Url.Action("edit", "category", new { Id = Model.Id });
 }
-<partial name="_TitleWithRightActionsPartial" model="categoryTitleWithActions" />
-<div class="columns is-vcentered">
-   <div class="column is-3 has-text-weight-bold">@Html.DisplayNameFor(m => m.Name)</div>
-   <div class="column is-9">
-      <p class="bd-notification">@Model.Name</p>
-   </div>
+<h5 class="bold-text flow-text">@Model.Name</h5>
+<div class="divider"></div>
+<p class="">@Model.Description</p>
+<div class="divider"></div>
+<p class="bold-text">@Html.DisplayNameFor(m => m.Products)</p>
+<div class="collection">
+   @foreach (Product product in Model.Products)
+   {
+      <a class="collection-item" asp-action="details" asp-route-id="@product.Id">@product.Name</a>
+   }
 </div>
-<div class="columns">
-   <div class="column is-3 has-text-weight-bold">@Html.DisplayNameFor(m => m.Description)</div>
-   <div class="column is-9">
-      <p class="bd-notification word-break-all">@Model.Description</p>
-   </div>
-</div>
-<p class="has-text-weight-bold">@Html.DisplayNameFor(m => m.Products)</p>
-<br />
-@if (Model.Products.Count > 0)
-{
-   <div class="panel">
-      @foreach (var product in Model.Products)
-      {
-         <a asp-controller="product" asp-action="details" asp-route-id="@product.Id" class="panel-block elipsis-x">@product.Name</a>
-      }
-   </div>
-}
-else
-{
-   <p class="bd-notification has-text-centered">No Product assigned</p>
-}
 

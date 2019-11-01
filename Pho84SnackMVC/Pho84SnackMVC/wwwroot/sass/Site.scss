@@ -1,63 +1,80 @@
-﻿$grey-lighter: hsl(0, 0%, 86%);
-$grey-light: hsl(0, 0%, 70%);
-$border: $grey-lighter;
+﻿// Fonts
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
-$breakpoint-mobile-max: 768px;
-$breakpoint-tablet-max: 1024px;
-$breakpoint-desktop-max: 1216px;
-$breakpoint-widescreen-max: 1408px;
+$screen-sm-min: 576px;
+$screen-sm-max: 766px;
+$screen-md-min: 768px;
+$screen-md-max: 991px;
+$screen-lg-min: 992px;
+$screen-lg-max: 1199px;
+$screen-xl-min: 1200px;
+
+// Small devices
+@mixin sm-min {
+   @media (min-width: #{$screen-sm-min}) {
+      @content;
+   }
+}
+
+// Medium devices
+@mixin md-min {
+   @media (min-width: #{$screen-md-min}) {
+      @content;
+   }
+}
+
+@mixin md-max {
+   @media (max-width: #{$screen-md-max}) {
+      @content;
+   }
+}
+
+// Large devices
+@mixin lg-min {
+   @media (min-width: #{$screen-lg-min}) {
+      @content;
+   }
+}
+
+// Extra large devices
+@mixin xl-min {
+   @media (min-width: #{$screen-xl-min}) {
+      @content;
+   }
+}
+
+#body {
+   font-family: 'Roboto', sans-serif;
+}
+
+.bold-text {
+   font-weight: bold;
+}
+
+.text-overflow-elipsis {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: inline-block;
+   white-space: nowrap;
+}
 
 #body {
    display: flex;
-   min-height: 100vh;
-   flex-direction: column;
+   height: 100vh;
+   margin: 0;
 }
 
-#main {
-   flex: 1;
+.mdc-drawer-app-content {
+   flex: auto;
+   overflow: auto;
+   position: relative;
 }
 
-.w-form {
-   max-width: 512px;
+.main-content {
+   overflow: auto;
+   height: 100%;
 }
 
-.mt-16 {
-   margin-top: 16px;
-}
-
-.no-text-decoration {
-   text-decoration: none;
-   color: inherit;
-}
-
-.is-hoverable:hover {
-   background-color: hsl(0, 0%, 98%);
-}
-
-.level-list {
-   .level {
-      border: 1px solid $border;
-      padding: 0.5em 0.75em;
-      margin-bottom: 0px;
-   }
-}
-
-.w-full {
-   @media (max-width: $breakpoint-mobile-max - 1) {
-      width: 80vw;
-   }
-}
-
-.overflow-x {
-   white-space: nowrap;
-   overflow-x: hidden;
-   text-overflow: ellipsis;
-}
-
-.level-is-shrinkable .level-left, .level-is-shrinkable .level-right {
-   flex-shrink: 1;
-}
-
-.word-break-all {
-   word-break: break-all;
+.app-bar {
+   position: absolute;
 }

@@ -1,5 +1,28 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+$(document).ready(function () {
+
+   // Instantiate
+   const screenWidth = window.screen.availWidth;
+   const list = new mdc.list.MDCList.attachTo(document.querySelector('.mdc-list'));
+   const drawer = new mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
+   drawer.open = screenWidth >= 768;
+   const topAppBar = new mdc.topAppBar.MDCTopAppBar.attachTo(document.querySelector('.mdc-top-app-bar'));
+   topAppBar.setScrollTarget(document.getElementById('main'));
+   topAppBar.listen('MDCTopAppBar:nav', () => {
+      drawer.open = !drawer.open;
+   });
+});
+
+window.onresize = function (e) {
+   const screenWidth = window.screen.availWidth;
+   const drawer = new mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
+   if (screenWidth >= 768) {
+      drawer.open = true;
+   }
+   else {
+      drawer.open = false;
+   }
+};
 
 // General
 $('.modal-trigger').click(function (e) {
@@ -57,4 +80,10 @@ $('.notification .delete').click(function (e) {
    e.preventDefault();
    var notification = $(this).closest('.notification');
    notification.remove();
+});
+
+$('input[type=checkbox].checkbox-all').change(function (e) {
+   var checked = $(this).is(':checked');
+   console.log(checked);
+   $(this).closest('label').find('input[type=checkbox]').not('.checkbox-all').prop('checked', checked);
 });

@@ -7,6 +7,7 @@ using Pho84SnackMVC.Models;
 using Pho84SnackMVC.Models.ViewModels;
 using Pho84SnackMVC.Services;
 using System;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,13 +15,15 @@ namespace Pho84SnackMVC.Controllers
 {
    public class ProductController : DefaultController
    {
-      private readonly IProductRepository productService;
+      private readonly IProductRepository productRepository;
+      private readonly IPriceRepository priceRepository;
       private readonly IErrorService errorService;
       private readonly ILogger<ProductController> log;
 
-      public ProductController(IProductRepository productService, IErrorService errorService, ILogger<ProductController> log)
+      public ProductController(IProductRepository productRepository, IPriceRepository priceRepository, IErrorService errorService, ILogger<ProductController> log)
       {
-         this.productService = productService;
+         this.productRepository = productRepository;
+         this.priceRepository = priceRepository;
          this.errorService = errorService;
          this.log = log;
       }
@@ -28,15 +31,18 @@ namespace Pho84SnackMVC.Controllers
       // GET: Product
       public async Task<ActionResult> Index()
       {
-         return View(await productService.GetAll());
+         return View(await productRepository.GetAll());
       }
 
       // GET: Product/Details/5
       public async Task<ActionResult> Details(long id)
       {
-         Product product = await productService.GetOne(id);
-         ViewBag.Sizes = (await productService.Sizes()).Select(s => new SelectListItem(s.LongName, s.Id.ToString(), product.PriceList.Any(p => p.ProductSizeId == s.Id))).ToList();
-         return View(await productService.GetOne(id));
+         if (!await productRepository.Exists(id))
+         {
+            return NotFound(id);
+         }
+         Product product = await productRepository.GetOne(id);
+         return View(product);
       }
 
       // GET: Product/Create
@@ -48,35 +54,38 @@ namespace Pho84SnackMVC.Controllers
       // POST: Product/Create
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<ActionResult> Create([FromForm] CreateViewModel model)
+      public async Task<ActionResult> Create([FromForm] Product product)
       {
          if (ModelState.IsValid)
          {
             try
             {
-               Product product = new Product(model);
-               product.Id = await productService.Create(product);
+               if (await productRepository.Exists(product.Name))
+               {
+                  ModelState.AddModelError(nameof(product.Name), "This Name already taken");
+               }
+               product.Id = await productRepository.Create(product);
                return RedirectToDetailPage(product.Id);
             }
             catch (MySqlException sqlex)
             {
-               log.LogError("Fehler bei der Erstellung von Produkt {0}", model.Name, sqlex.Message);
+               log.LogError("Fehler bei der Erstellung von Produkt {0}", product.Name, sqlex.Message);
                var modelerror = errorService.HandleException(sqlex);
                ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
             }
             catch (Exception ex)
             {
-               log.LogError("Fehler bei der Erstellung von Produkt {0}", model.Name, ex.Message);
+               log.LogError("Fehler bei der Erstellung von Produkt {0}", product.Name, ex.Message);
                ModelState.AddModelError("", ex.Message);
             }
          }
-         return View(model);
+         return View(product);
       }
 
       // GET: Product/Edit/5
       public async Task<ActionResult> Edit(long id)
       {
-         return View(await productService.GetOne(id));
+         return View(await productRepository.GetOne(id));
       }
 
       // POST: Product/Edit/5
@@ -88,7 +97,8 @@ namespace Pho84SnackMVC.Controllers
          {
             try
             {
-               await productService.Update(product);
+               await productRepository.Update(product);
+               await priceRepository.Update(product.Id, product.PriceList);
                return RedirectToDetailPage(product.Id);
             }
             catch (Exception ex)
@@ -107,7 +117,7 @@ namespace Pho84SnackMVC.Controllers
       {
          try
          {
-            await productService.Remove(id);
+            await productRepository.Delete(id);
          }
          catch (Exception ex)
          {

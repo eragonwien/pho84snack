@@ -1,6 +1,6 @@
 ﻿@model Pho84SnackMVC.Models.Category
 @{
-   var availableProducts = (await companyService.GetProducts()).ToList();
+   var availableProducts = (await productRepository.GetAll()).ToList();
 }
 <h1 class="title is-size-3">@Model.Name</h1>
 <form class="w-form" asp-action="edit" asp-route-id="@Model.Id">
@@ -39,7 +39,7 @@
          </button>
       </div>
       <div class="control">
-         <a class="button" asp-action="index">Cancel</a>
+         <a class="button" asp-action="details" asp-route-id="@Model.Id">Cancel</a>
       </div>
    </div>
 </form>
