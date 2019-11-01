@@ -9,6 +9,17 @@ $screen-lg-min: 992px;
 $screen-lg-max: 1199px;
 $screen-xl-min: 1200px;
 
+:root {
+   --mdc-theme-primary: #6200EE;
+   --mdc-theme-secondary: #03DAC6;
+   --mdc-theme-background: #FFFFFF;
+   --mdc-theme-surface: #FFFFFF;
+   --mdc-theme-on-primary: #FFFFFF;
+   --mdc-theme-on-secondary: #000000;
+   --mdc-theme-on-background: #000000;
+   --mdc-theme-on-surface: #000000;
+}
+
 // Small devices
 @mixin sm-min {
    @media (min-width: #{$screen-sm-min}) {

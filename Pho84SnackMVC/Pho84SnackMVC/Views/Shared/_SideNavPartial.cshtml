@@ -3,6 +3,10 @@
    string currentAction = ViewContext.RouteData.Values["action"].ToString().ToLower();
 }
 <aside class="mdc-drawer mdc-drawer--dismissible mdc-top-app-bar--fixed-adjust">
+   <div class="mdc-drawer__header">
+      <h3 class="mdc-drawer__title">Mail</h3>
+      <h6 class="mdc-drawer__subtitle">email@material.io</h6>
+   </div>
    <div class="mdc-drawer__content">
       <nav class="mdc-list">
          <a class="mdc-list-item @(currentController == "category" ? "mdc-list-item--activated" : "")" asp-controller="category" asp-action="index">
@@ -16,7 +20,16 @@
          </a>
 
          <hr class="mdc-list-divider">
-         <h6 class="mdc-list-group__subheader">Labels</h6>
+         <a class="mdc-list-item  @(currentController == "setting" ? "mdc-list-item--activated" : "")" asp-controller="account" asp-action="login">
+            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">person</i>
+            <span class="mdc-list-item__text">Login</span>
+         </a>
+         <a class="mdc-list-item  @(currentController == "setting" ? "mdc-list-item--activated" : "")" asp-controller="account" asp-action="logout">
+            <i class="material-icons mdc-list-item__graphic" aria-hidden="true">exit_to_app</i>
+            <span class="mdc-list-item__text">Logout</span>
+         </a>
+
+         <hr class="mdc-list-divider">
          <a class="mdc-list-item  @(currentController == "setting" ? "mdc-list-item--activated" : "")" asp-controller="setting" asp-action="index">
             <i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>
             <span class="mdc-list-item__text">Settings</span>
