@@ -1,11 +1,61 @@
 ﻿@model Pho84SnackMVC.Models.Category
-<div class="mdc-card" style="height: auto; max-width: 512px;">
-   <div class="mdc-card__primary-action">
-      <div class="mdc-card__media mdc-card__media--square" style="background-image: url('/images/banh_my-512x512.jpg'); background-size:cover;"></div>
-      <div class="demo-card__primary">
-         <h2 class="demo-card__title mdc-typography mdc-typography--headline6">@Model.Name</h2>
-         <h3 class="demo-card__subtitle mdc-typography mdc-typography--subtitle2">last update at 10</h3>
+@{
+   bool edit = bool.TryParse(ViewBag.Edit?.ToString(), out edit) && edit;
+}
+<form class="section is-static" asp-controller="category" asp-action="edit">
+   <fieldset>
+      @Html.HiddenFor(m => m.Id)
+      <div class="field is-horizontal">
+         <div class="field-label is-normal">
+            <label class="label" asp-for="Name"></label>
+         </div>
+         <div class="field-body">
+            <div class="field">
+               <div class="control">
+                  <input class="input" type="text" asp-for="Name" readonly>
+               </div>
+               <p class="help is-danger"><span asp-validation-for="Name"></span></p>
+            </div>
+           
+         </div>
       </div>
-      <div class="demo-card__secondary mdc-typography mdc-typography--body2">@Model.Description</div>
+
+      <div class="field is-horizontal">
+         <div class="field-label is-normal">
+            <label class="label" asp-for="Description"></label>
+         </div>
+         <div class="field-body">
+            <div class="field">
+               <div class="control">
+                  <textarea class="textarea is-static" asp-for="Description" readonly></textarea>
+               </div>
+               <p class="help is-danger"><span asp-validation-for="Description"></span></p>
+            </div>
+         </div>
+      </div>
+   </fieldset>
+
+   <div class="field is-horizontal">
+      <div class="field-label">
+         <!-- Left empty for spacing -->
+      </div>
+      <div class="field-body">
+         <div class="field">
+            <div class="control">
+               <div class="buttons">
+                  <button type="submit" class="button is-primary is-hidden">
+                     <span class="icon is-small"><i class="fas fa-save"></i></span>
+                     <span>Save</span>
+                  </button>
+                  <button type="button" class="button is-primary" onclick="enableEdit(this)">
+                     <span class="icon is-small"><i class="fas fa-pen"></i></span>
+                     <span>Edit</span>
+                  </button>
+                  <a class="button is-light" asp-controller="category" asp-action="index">Back to list</a>
+               </div>
+            </div>
+         </div>
+      </div>
    </div>
-</div>
+
+</form>

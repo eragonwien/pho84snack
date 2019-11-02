@@ -7,6 +7,20 @@ document.addEventListener('DOMContentLoaded', () => {
    });
 });
 
+document.querySelector('.input-autocomplete').addEventListener('keyup', function (e) {
+   const inputText = this.value;
+   const outputs = document.querySelectorAll('.output-autocomplete');
+
+   forEach(outputs, function (index, value) {
+      if (outputs[index].text.toLowerCase().includes(inputText)) {
+         outputs[index].classList.remove('is-hidden');
+      }
+      else {
+         outputs[index].classList.add('is-hidden');
+      }
+   });
+});
+
 // General
 $('.modal-trigger').click(function (e) {
    e.preventDefault();
@@ -67,6 +81,24 @@ $('.notification .delete').click(function (e) {
 
 $('input[type=checkbox].checkbox-all').change(function (e) {
    var checked = $(this).is(':checked');
-   console.log(checked);
    $(this).closest('label').find('input[type=checkbox]').not('.checkbox-all').prop('checked', checked);
 });
+
+function enableEdit(button) {
+   button.classList.add('is-hidden');
+   button.previousElementSibling.classList.remove('is-hidden');
+   const form = button.closest('form');
+   form.classList.remove('is-static');
+   let inputs = form.querySelectorAll('.input, .textarea');
+   forEach(inputs, function (index, value) {
+      inputs[index].removeAttribute('readonly');
+   });
+   inputs[0].focus();
+   inputs[0].select();
+}
+
+var forEach = function (array, callback, scope) {
+   for (var i = 0; i < array.length; i++) {
+      callback.call(scope, i, array[i]); // passes back stuff we need
+   }
+};

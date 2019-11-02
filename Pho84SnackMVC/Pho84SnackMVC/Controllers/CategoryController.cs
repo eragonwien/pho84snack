@@ -38,6 +38,43 @@ namespace Pho84SnackMVC.Controllers
             return NotFound(id);
          }
          var category = await categoryRepository.GetOne(id);
+         ViewBag.Edit = false;
+         return View(category);
+      }
+
+      [HttpPost]
+      [ValidateAntiForgeryToken]
+      public async Task<IActionResult> Details(long id, [FromForm]Category category)
+      {
+         if (id != category.Id)
+         {
+            log.LogError("Id vom Form(={0}) und vom URL(={1}) stimmen sich nicht überein", category.Id, id);
+            return BadRequest(id);
+         }
+         if (!await categoryRepository.Exists(id))
+         {
+            return NotFound(id);
+         }
+         if (ModelState.IsValid)
+         {
+            try
+            {
+               await categoryRepository.Update(category);
+               return RedirectToDetailPage(id);
+            }
+            catch (MySqlException sqlex)
+            {
+               log.LogError("SQL Fehler bei Erstellung von Kategorie {0}: {1}", category.Name, sqlex.Message);
+               var modelerror = errorService.HandleException(sqlex);
+               ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
+            }
+            catch (Exception ex)
+            {
+               log.LogError("Fehler bei Erstellung von Kategorie {0}: {1}", category.Name, ex.Message);
+               ModelState.AddModelError("", ex.Message);
+            }
+         }
+         ViewBag.Edit = true;
          return View(category);
       }
 
@@ -94,48 +131,6 @@ namespace Pho84SnackMVC.Controllers
             log.LogError("Fehler bei Löschen von Kategorie {0}: {1}", id, ex.Message);
          }
          return RedirectToIndex();
-      }
-
-      [HttpGet]
-      public async Task<IActionResult> Edit(long id)
-      {
-         var category = await categoryRepository.GetOne(id);
-         return View(category);
-      }
-
-      [HttpPost]
-      [ValidateAntiForgeryToken]
-      public async Task<IActionResult> Edit(long id, [FromForm]Category category)
-      {
-         if (id != category.Id)
-         {
-            log.LogError("Id vom Form(={0}) und vom URL(={1}) stimmen sich nicht überein", category.Id, id);
-            return BadRequest(id);
-         }
-         if (!await categoryRepository.Exists(id))
-         {
-            return NotFound(id);
-         }
-         if (ModelState.IsValid)
-         {
-            try
-            {
-               await categoryRepository.Update(category);
-               return RedirectToDetailPage(id);
-            }
-            catch (MySqlException sqlex)
-            {
-               log.LogError("SQL Fehler bei Erstellung von Kategorie {0}: {1}", category.Name, sqlex.Message);
-               var modelerror = errorService.HandleException(sqlex);
-               ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
-            }
-            catch (Exception ex)
-            {
-               log.LogError("Fehler bei Erstellung von Kategorie {0}: {1}", category.Name, ex.Message);
-               ModelState.AddModelError("", ex.Message);
-            }
-         }
-         return View(category);
       }
 
       [HttpPost]

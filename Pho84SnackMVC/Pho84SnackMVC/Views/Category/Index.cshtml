@@ -8,9 +8,9 @@
    <p class="panel-heading">Categories</p>
    <div class="panel-block">
       <p class="control has-icons-left">
-         <input class="input" type="text" placeholder="Search">
+         <input class="input input-autocomplete" type="text" placeholder="Search">
          <span class="icon is-left">
-            <i class="fas fa-search" aria-hidden="true"></i>
+            <i class="fas fa-search"></i>
          </span>
       </p>
    </div>
@@ -18,10 +18,7 @@
    {
       @foreach (Category category in Model)
       {
-         <a class=""></a>
-         <a class="panel-block" asp-controller="category" asp-action="details" asp-route-id="@category.Id">
-            <span>@category.Name</span>
-         </a>
+         <a class="panel-block output-autocomplete" asp-controller="category" asp-action="details" asp-route-id="@category.Id">@category.Name</a>
       }
    }
    else

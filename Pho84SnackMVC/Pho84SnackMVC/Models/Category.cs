@@ -10,6 +10,7 @@ namespace Pho84SnackMVC.Models
    public class Category
    {
       public long Id { get; set; }
+      [Required]
       [MaxLength(32, ErrorMessage = "This name is too long (max. 32 characters)")]
       public string Name { get; set; }
       [MaxLength(256, ErrorMessage = "This name is too long (max. 256 characters)")]
