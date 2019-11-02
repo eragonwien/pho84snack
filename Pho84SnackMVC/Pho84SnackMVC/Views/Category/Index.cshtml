@@ -3,24 +3,36 @@
    ViewData["Title"] = "Categories";
    ViewData["NavbarTitle"] = "Categories";
 }
-<div class="collection">
-   <ul class="mdc-list">
-      @if (Model.Count() > 0)
+
+<div class="panel">
+   <p class="panel-heading">Categories</p>
+   <div class="panel-block">
+      <p class="control has-icons-left">
+         <input class="input" type="text" placeholder="Search">
+         <span class="icon is-left">
+            <i class="fas fa-search" aria-hidden="true"></i>
+         </span>
+      </p>
+   </div>
+   @if (Model.Count() > 0)
+   {
+      @foreach (Category category in Model)
       {
-         @foreach (Category category in Model)
-         {
-            <li class="mdc-list-item" tabindex="0">
-               <span class="mdc-list-item__text">Single-line item</span>
-            </li>
-         }
+         <a class=""></a>
+         <a class="panel-block" asp-controller="category" asp-action="details" asp-route-id="@category.Id">
+            <span>@category.Name</span>
+         </a>
       }
-      else
-      {
-         <li class="mdc-list-item" tabindex="0">
-            <span class="mdc-list-item__text">Single-line item</span>
-         </li>
-      }
-   </ul>
+   }
+   else
+   {
+      <a class="panel-block">
+         <span class="panel-icon">
+            <i class="fas fa-exclamation-circle"></i>
+         </span>
+         No category found
+      </a>
+   }
 </div>
 
 

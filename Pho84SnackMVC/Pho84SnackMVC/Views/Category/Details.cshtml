@@ -1,16 +1,11 @@
 ﻿@model Pho84SnackMVC.Models.Category
-@{
-   ViewData["Edit"] = Url.Action("edit", "category", new { Id = Model.Id });
-}
-<h5 class="bold-text flow-text">@Model.Name</h5>
-<div class="divider"></div>
-<p class="">@Model.Description</p>
-<div class="divider"></div>
-<p class="bold-text">@Html.DisplayNameFor(m => m.Products)</p>
-<div class="collection">
-   @foreach (Product product in Model.Products)
-   {
-      <a class="collection-item" asp-action="details" asp-route-id="@product.Id">@product.Name</a>
-   }
+<div class="mdc-card" style="height: auto; max-width: 512px;">
+   <div class="mdc-card__primary-action">
+      <div class="mdc-card__media mdc-card__media--square" style="background-image: url('/images/banh_my-512x512.jpg'); background-size:cover;"></div>
+      <div class="demo-card__primary">
+         <h2 class="demo-card__title mdc-typography mdc-typography--headline6">@Model.Name</h2>
+         <h3 class="demo-card__subtitle mdc-typography mdc-typography--subtitle2">last update at 10</h3>
+      </div>
+      <div class="demo-card__secondary mdc-typography mdc-typography--body2">@Model.Description</div>
+   </div>
 </div>
-

@@ -1,28 +1,11 @@
 ﻿
-$(document).ready(function () {
-
-   // Instantiate
-   const screenWidth = window.screen.availWidth;
-   const list = new mdc.list.MDCList.attachTo(document.querySelector('.mdc-list'));
-   const drawer = new mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
-   drawer.open = screenWidth >= 768;
-   const topAppBar = new mdc.topAppBar.MDCTopAppBar.attachTo(document.querySelector('.mdc-top-app-bar'));
-   topAppBar.setScrollTarget(document.getElementById('main'));
-   topAppBar.listen('MDCTopAppBar:nav', () => {
-      drawer.open = !drawer.open;
+document.addEventListener('DOMContentLoaded', () => {
+   const navbarBurger = document.querySelector('.navbar-burger');
+   navbarBurger.addEventListener('click', function () {
+      navbarBurger.classList.toggle('is-active');
+      document.querySelector('.navbar-menu').classList.toggle('is-active');
    });
 });
-
-window.onresize = function (e) {
-   const screenWidth = window.screen.availWidth;
-   const drawer = new mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
-   if (screenWidth >= 768) {
-      drawer.open = true;
-   }
-   else {
-      drawer.open = false;
-   }
-};
 
 // General
 $('.modal-trigger').click(function (e) {

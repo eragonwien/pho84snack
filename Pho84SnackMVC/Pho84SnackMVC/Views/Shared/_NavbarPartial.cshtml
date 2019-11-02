@@ -3,17 +3,36 @@
    string title = ViewData["NavbarTitle"] != null ? ViewData["NavbarTitle"].ToString() : "Pho84Snack";
 }
 
-<header class="mdc-top-app-bar app-bar">
-   <div class="mdc-top-app-bar__row">
-      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-         <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
-         <span class="mdc-top-app-bar__title">@title</span>
-      </section>
-      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-         @if (!string.IsNullOrEmpty(editLink) && Url.IsLocalUrl(editLink))
-         {
-            <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button">edit</button>
-         }
-      </section>
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+   <div class="navbar-brand">
+      <a class="navbar-item" href="https://bulma.io">
+         <img src="~/images/logo.jpg">
+      </a>
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu">
+         <span aria-hidden="true"></span>
+         <span aria-hidden="true"></span>
+         <span aria-hidden="true"></span>
+      </a>
    </div>
-</header>
+
+   <div id="navbar-menu" class="navbar-menu">
+      <div class="navbar-start">
+         <a class="navbar-item" asp-controller="category" asp-action="index">Categories</a>
+         <a class="navbar-item" asp-controller="product" asp-action="index">Products</a>
+         <a class="navbar-item" asp-controller="account" asp-action="index">Users</a>
+      </div>
+      <div class="navbar-end">
+         <div class="navbar-item">
+            <div class="buttons">
+               <a class="button is-light" asp-controller="account" asp-action="login">
+                  <strong>Login</strong>
+               </a>
+               <a class="button is-primary" asp-controller="account" asp-action="logout">
+                  <strong>Logout</strong>
+               </a>
+            </div>
+         </div>
+      </div>
+   </div>
+</nav>

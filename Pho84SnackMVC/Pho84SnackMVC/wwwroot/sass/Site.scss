@@ -1,91 +1,19 @@
-﻿// Fonts
+﻿@charset "utf-8";
+
+// Fonts
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
-$screen-sm-min: 576px;
-$screen-sm-max: 766px;
-$screen-md-min: 768px;
-$screen-md-max: 991px;
-$screen-lg-min: 992px;
-$screen-lg-max: 1199px;
-$screen-xl-min: 1200px;
+// Update Bulma's global variables
+$primary: #211B1D;
 
-:root {
-   --mdc-theme-primary: #6200EE;
-   --mdc-theme-secondary: #03DAC6;
-   --mdc-theme-background: #FFFFFF;
-   --mdc-theme-surface: #FFFFFF;
-   --mdc-theme-on-primary: #FFFFFF;
-   --mdc-theme-on-secondary: #000000;
-   --mdc-theme-on-background: #000000;
-   --mdc-theme-on-surface: #000000;
-}
-
-// Small devices
-@mixin sm-min {
-   @media (min-width: #{$screen-sm-min}) {
-      @content;
-   }
-}
-
-// Medium devices
-@mixin md-min {
-   @media (min-width: #{$screen-md-min}) {
-      @content;
-   }
-}
-
-@mixin md-max {
-   @media (max-width: #{$screen-md-max}) {
-      @content;
-   }
-}
-
-// Large devices
-@mixin lg-min {
-   @media (min-width: #{$screen-lg-min}) {
-      @content;
-   }
-}
-
-// Extra large devices
-@mixin xl-min {
-   @media (min-width: #{$screen-xl-min}) {
-      @content;
-   }
-}
-
-#body {
-   font-family: 'Roboto', sans-serif;
-}
-
-.bold-text {
-   font-weight: bold;
-}
-
-.text-overflow-elipsis {
-   overflow: hidden;
-   text-overflow: ellipsis;
-   display: inline-block;
-   white-space: nowrap;
-}
+@import "bulma";
 
 #body {
    display: flex;
-   height: 100vh;
-   margin: 0;
+   min-height: 100vh;
+   flex-direction: column;
 }
 
-.mdc-drawer-app-content {
-   flex: auto;
-   overflow: auto;
-   position: relative;
-}
-
-.main-content {
-   overflow: auto;
-   height: 100%;
-}
-
-.app-bar {
-   position: absolute;
+#main {
+   flex: 1;
 }
