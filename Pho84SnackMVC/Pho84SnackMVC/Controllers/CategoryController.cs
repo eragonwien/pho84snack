@@ -7,6 +7,9 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Pho84SnackMVC.Models.ViewModels;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Pho84SnackMVC.Controllers
 {
@@ -24,9 +27,10 @@ namespace Pho84SnackMVC.Controllers
       }
 
       [HttpGet]
-      public async Task<IActionResult> Index()
+      public async Task<IActionResult> Index(List<Notification> notifications)
       {
          var model = await categoryRepository.GetAll();
+         ViewBag.Notifications = notifications;
          return View(model);
       }
 
@@ -62,12 +66,6 @@ namespace Pho84SnackMVC.Controllers
                await categoryRepository.Update(category);
                return RedirectToDetailPage(id);
             }
-            catch (MySqlException sqlex)
-            {
-               log.LogError("SQL Fehler bei Erstellung von Kategorie {0}: {1}", category.Name, sqlex.Message);
-               var modelerror = errorService.HandleException(sqlex);
-               ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
-            }
             catch (Exception ex)
             {
                log.LogError("Fehler bei Erstellung von Kategorie {0}: {1}", category.Name, ex.Message);
@@ -86,7 +84,7 @@ namespace Pho84SnackMVC.Controllers
 
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<ActionResult> Create([FromForm]Category category)
+      public async Task<IActionResult> Create([FromForm]Category category)
       {
          if (ModelState.IsValid)
          {
@@ -95,7 +93,7 @@ namespace Pho84SnackMVC.Controllers
                if (!await categoryRepository.Exists(category.Name))
                {
                   category.Id = await categoryRepository.Create(category);
-                  return RedirectToDetailPage(category.Id);
+                  return RedirectToIndex();
                }
                else
                {
@@ -103,19 +101,13 @@ namespace Pho84SnackMVC.Controllers
                   ModelState.AddModelError(nameof(category.Name), string.Format("This name is already taken"));
                }
             }
-            catch (MySqlException sqlex)
-            {
-               log.LogError("SQL Fehler bei Erstellung von Kategorie {0}: {1}", category.Name, sqlex.Message);
-               var modelerror = errorService.HandleException(sqlex);
-               ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
-            }
             catch (Exception ex)
             {
                log.LogError("Fehler bei Erstellung von Kategorie {0}: {1}", category.Name, ex.Message);
                ModelState.AddModelError("", ex.Message);
             }
          }
-         return View(category);
+         return RedirectToIndex();
       }
 
       [HttpPost]

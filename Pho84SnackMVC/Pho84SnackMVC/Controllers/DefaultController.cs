@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Pho84SnackMVC.Models.ViewModels;
 
 namespace Pho84SnackMVC.Controllers
 {
@@ -49,6 +50,11 @@ namespace Pho84SnackMVC.Controllers
             return RedirectPermanent(returnUrl);
          }
          return RedirectToActionPermanent(Url.Action("index", "home"));
+      }
+
+      public void Notify(Notification notification)
+      {
+         TempData["Notification"] = notification;
       }
    }
 }

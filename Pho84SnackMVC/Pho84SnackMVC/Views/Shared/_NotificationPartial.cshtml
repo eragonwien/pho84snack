@@ -1,0 +1,14 @@
+﻿@{
+   var notifications = ViewBag.Notifications != null ? (List<Notification>)ViewBag.Notifications : new List<Notification>();
+}
+
+@if (notifications.Count > 0)
+{
+   foreach (var notif in notifications)
+   {
+      <div class="notification is-@notif.Type.ToString()">
+         <button class="delete"></button>
+         <span>@notif.Content</span>
+      </div>
+   }
+}

@@ -14,7 +14,7 @@ $primary: #211B1D;
 @import "sass/elements/content";
 @import "sass/elements/form";
 @import "sass/elements/icon";
-/*@import "sass/elements/notification";*/
+@import "sass/elements/notification";
 @import "sass/elements/other";
 /*@import "sass/elements/progress";*/
 /*@import "sass/elements/table";*/
@@ -58,7 +58,7 @@ $primary: #211B1D;
       max-width: 640px;
    }
 
-   form.is-static{
+   form.is-static {
       input {
          @extend .is-static;
       }
@@ -70,5 +70,9 @@ $primary: #211B1D;
          padding-left: 0;
          padding-right: 0;
       }
+   }
+
+   .field.has-addons.is-fullwidth {
+      width: 100%;
    }
 }
