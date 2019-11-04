@@ -1,0 +1,28 @@
+﻿@model Pho84SnackMVC.Models.Category
+@{
+   var notifications = TempData["Notification"] != null ? TempData["Notification"] as IEnumerable<string> : new List<string>();
+}
+
+@foreach (string notification in notifications)
+{
+   <div class="notification is-danger">
+      <button class="delete"></button>@notification
+   </div>
+}
+<form class="panel-block" asp-controller="category" asp-action="create">
+   <div class="notification" asp-validation-summary="ModelOnly">
+      <button class="delete"></button>
+   </div>
+   <div class="field has-addons is-fullwidth" style="margin-bottom: 0px;">
+      <div class="control is-expanded">
+         <input class="input is-fullwidth" type="text" placeholder="Add new category" asp-for="Name">
+      </div>
+      <div class="control">
+         <button type="submit" class="button is-primary">
+            <span class="icon">
+               <i class="fas fa-plus"></i>
+            </span>
+         </button>
+      </div>
+   </div>
+</form>

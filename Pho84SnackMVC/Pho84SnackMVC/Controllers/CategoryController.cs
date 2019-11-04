@@ -107,6 +107,7 @@ namespace Pho84SnackMVC.Controllers
                ModelState.AddModelError("", ex.Message);
             }
          }
+         Notify();
          return RedirectToIndex();
       }
 

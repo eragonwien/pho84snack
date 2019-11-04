@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Pho84SnackMVC.Models.ViewModels;
 
 namespace Pho84SnackMVC.Controllers
@@ -52,9 +53,14 @@ namespace Pho84SnackMVC.Controllers
          return RedirectToActionPermanent(Url.Action("index", "home"));
       }
 
-      public void Notify(Notification notification)
+      public void Notify()
       {
-         TempData["Notification"] = notification;
+         List<string> notifications = new List<string>();
+         if (!ModelState.IsValid)
+         {
+            notifications = ModelState.Values.SelectMany(s => s.Errors.Select(e => e.ErrorMessage)).ToList();
+         }
+         TempData["Notification"] = notifications;
       }
    }
 }
