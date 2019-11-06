@@ -7,19 +7,23 @@ document.addEventListener('DOMContentLoaded', () => {
    });
 });
 
-document.querySelector('.input-autocomplete').addEventListener('keyup', function (e) {
-   const inputText = this.value;
-   const outputs = document.querySelectorAll('.output-autocomplete');
+const inputAutocomplete = document.querySelector('.input-autocomplete');
+if (inputAutocomplete) {
+   document.querySelector('.input-autocomplete').addEventListener('keyup', function (e) {
+      const inputText = this.value;
+      const outputs = document.querySelectorAll('.output-autocomplete');
 
-   forEach(outputs, function (index, value) {
-      if (outputs[index].text.toLowerCase().includes(inputText)) {
-         outputs[index].classList.remove('is-hidden');
-      }
-      else {
-         outputs[index].classList.add('is-hidden');
-      }
+      forEach(outputs, function (index, value) {
+         if (outputs[index].text.toLowerCase().includes(inputText)) {
+            outputs[index].classList.remove('is-hidden');
+         }
+         else {
+            outputs[index].classList.add('is-hidden');
+         }
+      });
    });
-});
+}
+
 
 // General
 $('.modal-trigger').click(function (e) {
@@ -89,9 +93,13 @@ function enableEdit(button) {
    button.previousElementSibling.classList.remove('is-hidden');
    const form = button.closest('form');
    form.classList.remove('is-static');
-   let inputs = form.querySelectorAll('.input, .textarea');
+   let inputs = form.querySelectorAll('.input, .textarea, .checkbox, .checkbox-label');
    forEach(inputs, function (index, value) {
       inputs[index].removeAttribute('readonly');
+      inputs[index].removeAttribute('disabled');
+      if (inputs[index].hasAttribute('rows')) {
+         inputs[index].setAttribute('rows', 5);
+      }
    });
    inputs[0].focus();
    inputs[0].select();

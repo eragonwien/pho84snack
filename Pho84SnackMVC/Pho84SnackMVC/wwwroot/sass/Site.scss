@@ -45,6 +45,8 @@ $primary: #211B1D;
 @import "sass/layout/section";
 @import "sass/layout/footer";
 
+@import "open-iconic";
+
 #body {
    display: flex;
    min-height: 100vh;
@@ -75,4 +77,8 @@ $primary: #211B1D;
    .field.has-addons.is-fullwidth {
       width: 100%;
    }
+}
+
+.overflow-y-scroll {
+   overflow-y: scroll;
 }

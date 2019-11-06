@@ -55,12 +55,10 @@ namespace Pho84SnackMVC.Controllers
 
       public void Notify()
       {
-         List<string> notifications = new List<string>();
          if (!ModelState.IsValid)
          {
-            notifications = ModelState.Values.SelectMany(s => s.Errors.Select(e => e.ErrorMessage)).ToList();
+            TempData["Notifications"] = ModelState.SelectMany(v => v.Value.Errors.Select(e => string.Format("{0}: {1}", v.Key, e.ErrorMessage))).ToList();
          }
-         TempData["Notification"] = notifications;
       }
    }
 }

@@ -9,11 +9,11 @@ namespace Pho84SnackMVC.Models.ViewModels
    public class Notification
    {
       public NotificationType Type { get; set; }
-      public string Content { get; set; }
+      public string Text { get; set; }
 
       public Notification(NotificationType type = NotificationType.undefined, string content = null)
       {
-         Content = content;
+         Text = content;
          Type = type != NotificationType.undefined && !string.IsNullOrEmpty(content) ? type : NotificationType.undefined;
       }
 

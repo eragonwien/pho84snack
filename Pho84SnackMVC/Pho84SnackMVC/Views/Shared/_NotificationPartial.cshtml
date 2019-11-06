@@ -1,14 +1,14 @@
 ﻿@{
-   var notifications = ViewBag.Notifications != null ? (List<Notification>)ViewBag.Notifications : new List<Notification>();
+   var notifications = TempData["Notifications"] != null ? TempData["Notifications"] as IEnumerable<string> : new List<string>();
 }
 
-@if (notifications.Count > 0)
+@if (notifications.Count() > 0)
 {
-   foreach (var notif in notifications)
+   foreach (var notification in notifications)
    {
-      <div class="notification is-@notif.Type.ToString()">
+      <div class="notification is-danger">
          <button class="delete"></button>
-         <span>@notif.Content</span>
+         <span>@notification</span>
       </div>
    }
 }
