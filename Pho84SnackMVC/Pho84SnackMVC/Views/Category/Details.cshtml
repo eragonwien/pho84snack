@@ -3,7 +3,7 @@
    bool edit = bool.TryParse(ViewBag.Edit?.ToString(), out edit) && edit;
    var availableProducts = (await productRepository.GetAll()).ToList();
 }
-<form class="section is-static" asp-controller="category" asp-action="edit">
+<form class="section" asp-controller="category" asp-action="edit">
    @Html.HiddenFor(m => m.Id)
    <div class="field is-horizontal">
       <div class="field-label is-normal">
@@ -12,7 +12,7 @@
       <div class="field-body">
          <div class="field">
             <div class="control">
-               <input class="input" type="text" asp-for="Name" readonly>
+               <input class="input" type="text" asp-for="Name">
             </div>
             <p class="help is-danger"><span asp-validation-for="Name"></span></p>
          </div>
@@ -27,7 +27,7 @@
       <div class="field-body">
          <div class="field">
             <div class="control">
-               <textarea class="textarea is-static" rows="1" asp-for="Description" readonly></textarea>
+               <textarea class="textarea" rows="5" asp-for="Description"></textarea>
             </div>
             <p class="help is-danger"><span asp-validation-for="Description"></span></p>
          </div>
@@ -38,18 +38,18 @@
       <div class="field-label is-normal">
          <label class="label" asp-for="Products"></label>
       </div>
-      <div class="field-body overflow-y-scroll" style="height: 200px;">
+      <div class="field-body">
          <div class="field">
             <div class="control">
-               <div class="panel">
-                  @foreach (var product in availableProducts)
-                  {
-                     bool isCheckedStr = Model.Products.Any(p => p.Id == product.Id);
-                     <label class="panel-block checkbox-label" disabled>
-                        <input type="checkbox" class="checkbox" name="SelectedProductIds" value="@product.Id" @(isCheckedStr ? "checked" : "") disabled>
-                        @product.Name
-                     </label>
-                  }
+               <div class="buttons">
+                     @foreach (var product in availableProducts)
+                     {
+                        bool isCheckedStr = Model.Products.Any(p => p.Id == product.Id);
+                        <label class="button checkbox-button @(isCheckedStr ? "checked": "")"> 
+                           <input type="checkbox" class="checkbox is-hidden" name="SelectedProductIds" value="@product.Id" @(isCheckedStr ? "checked" : "") onchange="onCheckboxChanged(this)">
+                           @product.Name
+                        </label>
+                     }
                </div>
             </div>
          </div>
@@ -65,13 +65,9 @@
          <div class="field">
             <div class="control">
                <div class="buttons">
-                  <button type="submit" class="button is-primary is-hidden">
+                  <button type="submit" class="button is-primary">
                      <span class="icon is-small"><span class="oi" data-glyph="check"></span></span>
                      <span>Save</span>
-                  </button>
-                  <button type="button" class="button is-primary" onclick="enableEdit(this)">
-                     <span class="icon is-small"><span class="oi" data-glyph="pencil"></span></span>
-                     <span>Edit</span>
                   </button>
                   <a class="button is-light" asp-controller="category" asp-action="index">Back to list</a>
                </div>

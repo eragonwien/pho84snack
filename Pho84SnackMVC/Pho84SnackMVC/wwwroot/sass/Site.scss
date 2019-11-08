@@ -77,8 +77,15 @@ $primary: #211B1D;
    .field.has-addons.is-fullwidth {
       width: 100%;
    }
+
+   .checkbox-button.checked {
+      background-color: $primary !important;
+      color: white;
+   }
 }
 
 .overflow-y-scroll {
    overflow-y: scroll;
 }
+
+

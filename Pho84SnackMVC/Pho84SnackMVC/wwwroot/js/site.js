@@ -110,3 +110,7 @@ var forEach = function (array, callback, scope) {
       callback.call(scope, i, array[i]); // passes back stuff we need
    }
 };
+
+function onCheckboxChanged(checkbox) {
+   checkbox.parentElement.classList.toggle('checked', checkbox.checked);
+}

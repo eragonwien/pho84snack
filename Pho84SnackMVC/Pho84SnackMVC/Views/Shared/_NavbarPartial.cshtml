@@ -17,22 +17,13 @@
    </div>
 
    <div id="navbar-menu" class="navbar-menu">
-      <div class="navbar-start">
+      <div class="navbar-end">
          <a class="navbar-item" asp-controller="category" asp-action="index">Categories</a>
          <a class="navbar-item" asp-controller="product" asp-action="index">Products</a>
          <a class="navbar-item" asp-controller="account" asp-action="index">Users</a>
-      </div>
-      <div class="navbar-end">
-         <div class="navbar-item">
-            <div class="buttons">
-               <a class="button is-light" asp-controller="account" asp-action="login">
-                  <strong>Login</strong>
-               </a>
-               <a class="button is-primary" asp-controller="account" asp-action="logout">
-                  <strong>Logout</strong>
-               </a>
-            </div>
-         </div>
+         <hr class="navbar-divider">
+         <a class="navbar-item" asp-controller="account" asp-action="login">Login</a>
+         <a class="navbar-item" asp-controller="account" asp-action="logout">Logout</a>
       </div>
    </div>
 </nav>
