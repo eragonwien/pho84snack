@@ -42,13 +42,23 @@ namespace Pho84SnackMVC.Controllers
             return NotFound(id);
          }
          var category = await categoryRepository.GetOne(id);
-         ViewBag.Edit = false;
+         return View(category);
+      }
+
+      [HttpGet]
+      public async Task<IActionResult> Edit(long id)
+      {
+         if (!await categoryRepository.Exists(id))
+         {
+            return NotFound(id);
+         }
+         var category = await categoryRepository.GetOne(id);
          return View(category);
       }
 
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<IActionResult> Details(long id, [FromForm]Category category)
+      public async Task<IActionResult> Edit(long id, [FromForm]Category category)
       {
          if (id != category.Id)
          {
@@ -72,7 +82,6 @@ namespace Pho84SnackMVC.Controllers
                ModelState.AddModelError("", ex.Message);
             }
          }
-         ViewBag.Edit = true;
          return View(category);
       }
 

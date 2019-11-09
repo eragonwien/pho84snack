@@ -4,7 +4,10 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
 // Update Bulma's global variables
+$family-sans-serif: "Roboto", sans-serif;
 $primary: #211B1D;
+$grey-light: #f5f5f5;
+
 
 @import "sass/utilities/all";
 @import "sass/base/_all";
@@ -81,6 +84,10 @@ $primary: #211B1D;
    .checkbox-button.checked {
       background-color: $primary !important;
       color: white;
+   }
+
+   .is-bordered {
+      border-bottom: 1px solid $grey-light; 
    }
 }
 
