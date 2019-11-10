@@ -85,7 +85,12 @@ $('.notification .delete').click(function (e) {
 
 $('input[type=checkbox].checkbox-all').change(function (e) {
    var checked = $(this).is(':checked');
-   $(this).closest('label').find('input[type=checkbox]').not('.checkbox-all').prop('checked', checked);
+   var checkboxLabel = $(this).closest('label');
+   var field = $(this).closest('.field');
+   checkboxLabel.find('input[type=checkbox]').not('.checkbox-all').prop('checked', checked);
+   checkboxLabel.toggleClass('is-success', checked);
+   checkboxLabel.toggleClass('is-danger', !checked);
+   field.find('.price-input').prop('disabled', !checked);
 });
 
 function enableEdit(button) {

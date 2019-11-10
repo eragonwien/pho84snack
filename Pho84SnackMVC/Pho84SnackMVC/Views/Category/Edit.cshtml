@@ -4,72 +4,50 @@
 }
 <form class="section" asp-controller="category" asp-action="edit">
    @Html.HiddenFor(m => m.Id)
-   <div class="field is-horizontal">
-      <div class="field-label is-normal">
-         <label class="label" asp-for="Name"></label>
+
+   <div class="field">
+      <label class="label" asp-for="Name"></label>
+      <div class="control">
+         <input class="input" type="text" asp-for="Name">
       </div>
-      <div class="field-body">
-         <div class="field">
-            <div class="control">
-               <input class="input" type="text" asp-for="Name">
-            </div>
-            <p class="help is-danger"><span asp-validation-for="Name"></span></p>
-         </div>
-      </div>
+      <p class="help is-danger"><span asp-validation-for="Name"></span></p>
    </div>
 
-   <div class="field is-horizontal">
-      <div class="field-label is-normal">
-         <label class="label" asp-for="Description"></label>
+   <div class="field">
+      <label class="label" asp-for="Description"></label>
+      <div class="control">
+         <textarea class="textarea" rows="5" asp-for="Description"></textarea>
       </div>
-      <div class="field-body">
-         <div class="field">
-            <div class="control">
-               <textarea class="textarea" rows="5" asp-for="Description"></textarea>
-            </div>
-            <p class="help is-danger"><span asp-validation-for="Description"></span></p>
-         </div>
-      </div>
+      <p class="help is-danger"><span asp-validation-for="Description"></span></p>
    </div>
 
-   <div class="field is-horizontal">
-      <div class="field-label is-normal">
-         <label class="label" asp-for="Products"></label>
-      </div>
-      <div class="field-body">
-         <div class="field">
-            <div class="control">
-               <div class="buttons">
-                  @foreach (var product in availableProducts)
-                  {
-                     bool isCheckedStr = Model.Products.Any(p => p.Id == product.Id);
-                     <label class="button checkbox-button @(isCheckedStr ? "checked": "")">
-                        <input type="checkbox" class="checkbox is-hidden" name="SelectedProductIds" value="@product.Id" @(isCheckedStr ? "checked" : "") onchange="onCheckboxChanged(this)">
-                        @product.Name
-                     </label>
-                  }
-               </div>
-            </div>
+   <div class="field">
+      <label class="label" asp-for="Products"></label>
+      <div class="control">
+         <div class="buttons">
+            @foreach (var product in availableProducts)
+            {
+               bool isCheckedStr = Model.Products.Any(p => p.Id == product.Id);
+               <label class="button checkbox-button @(isCheckedStr ? "checked": "")">
+                  <input type="checkbox" class="checkbox is-hidden" name="SelectedProductIds" value="@product.Id" @(isCheckedStr ? "checked" : "") onchange="onCheckboxChanged(this)">
+                  @product.Name
+               </label>
+            }
          </div>
       </div>
+      <p class="help is-danger"><span asp-validation-for="SelectedProductIds"></span></p>
    </div>
 
    <br />
-   <div class="field is-horizontal">
-      <div class="field-label">
-         <!-- Left empty for spacing -->
-      </div>
-      <div class="field-body">
-         <div class="field">
-            <div class="control">
-               <div class="buttons">
-                  <button type="submit" class="button is-primary">
-                     <span class="icon is-small"><span class="oi" data-glyph="check"></span></span>
-                     <span>Save</span>
-                  </button>
-                  <a class="button is-light" asp-action="details" asp-route-id="@Model.Id">Cancel</a>
-               </div>
-            </div>
+
+   <div class="field">
+      <div class="control">
+         <div class="buttons">
+            <button type="submit" class="button is-primary">
+               <span class="icon is-small"><span class="oi" data-glyph="check"></span></span>
+               <span>Save</span>
+            </button>
+            <a class="button is-light" asp-action="details" asp-route-id="@Model.Id">Cancel</a>
          </div>
       </div>
    </div>
