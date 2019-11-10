@@ -15,7 +15,6 @@
             </div>
             <p class="help is-danger"><span asp-validation-for="Name"></span></p>
          </div>
-
       </div>
    </div>
 
@@ -68,7 +67,7 @@
                      <span class="icon is-small"><span class="oi" data-glyph="check"></span></span>
                      <span>Save</span>
                   </button>
-                  <a class="button is-light" asp-controller="category" asp-action="index">Back to list</a>
+                  <a class="button is-light" asp-action="details" asp-route-id="@Model.Id">Cancel</a>
                </div>
             </div>
          </div>

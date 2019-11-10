@@ -1,0 +1,19 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>
+
+@if (!string.IsNullOrEmpty(Model.Id))
+{
+    <p>
+        <strong>Request ID:</strong> <code>@Model.Id</code>
+    </p>
+}
+
+    <h3>Unhandled Exception</h3>
+    <p>Sorry, an error occurred while processing your request.</p>
+    <p>Tracking Nr. @Model.Id</p>
+    <p>Error occurs at @DateTime.Now.ToString("o")</p>

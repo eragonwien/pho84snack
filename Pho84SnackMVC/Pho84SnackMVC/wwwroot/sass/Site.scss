@@ -6,47 +6,49 @@
 // Update Bulma's global variables
 $family-sans-serif: "Roboto", sans-serif;
 $primary: #211B1D;
-$grey-light: #f5f5f5;
+$grey-light: #d3d3d3;
 
 
-@import "sass/utilities/all";
-@import "sass/base/_all";
-/*@import "sass/elements/box";*/
-@import "sass/elements/button";
-@import "sass/elements/container";
-@import "sass/elements/content";
-@import "sass/elements/form";
-@import "sass/elements/icon";
-@import "sass/elements/notification";
-@import "sass/elements/other";
-/*@import "sass/elements/progress";*/
-/*@import "sass/elements/table";*/
-/*@import "sass/elements/tag";*/
-@import "sass/elements/title";
-@import "sass/form/shared";
-@import "sass/form/checkbox-radio";
-/*@import "sass/form/file";*/
-@import "sass/form/input-textarea";
-@import "sass/form/select";
-@import "sass/form/tools";
-/*@import "sass/components/breadcrumb";*/
-/*@import "sass/components/card";*/
-/*@import "sass/components/dropdown";*/
-/*@import "sass/components/level";*/
-/*@import "sass/components/list";*/
-/*@import "sass/components/media";*/
-@import "sass/components/menu";
-@import "sass/components/message";
-@import "sass/components/modal";
-@import "sass/components/navbar";
-/*@import "sass/components/pagination";*/
-@import "sass/components/panel";
-/*@import "sass/components/tabs";*/
-@import "sass/grid/columns";
-/*@import "sass/grid/tiles";*/
-/*@import "sass/layout/hero";*/
-@import "sass/layout/section";
-@import "sass/layout/footer";
+@import "bulma/main/utilities/all";
+@import "bulma/main/base/_all";
+/*@import "bulma/main/elements/box";*/
+@import "bulma/main/elements/button";
+@import "bulma/main/elements/container";
+@import "bulma/main/elements/content";
+@import "bulma/main/elements/form";
+@import "bulma/main/elements/icon";
+@import "bulma/main/elements/notification";
+@import "bulma/main/elements/other";
+/*@import "bulma/main/elements/progress";*/
+/*@import "bulma/main/elements/table";*/
+/*@import "bulma/main/elements/tag";*/
+@import "bulma/main/elements/title";
+@import "bulma/main/form/shared";
+@import "bulma/main/form/checkbox-radio";
+/*@import "bulma/main/form/file";*/
+@import "bulma/main/form/input-textarea";
+@import "bulma/main/form/select";
+@import "bulma/main/form/tools";
+/*@import "bulma/main/components/breadcrumb";*/
+/*@import "bulma/main/components/card";*/
+/*@import "bulma/main/components/dropdown";*/
+@import "bulma/main/components/level";
+/*@import "bulma/main/components/list";*/
+/*@import "bulma/main/components/media";*/
+@import "bulma/main/components/menu";
+@import "bulma/main/components/message";
+@import "bulma/main/components/modal";
+@import "bulma/main/components/navbar";
+/*@import "bulma/main/components/pagination";*/
+@import "bulma/main/components/panel";
+/*@import "bulma/main/components/tabs";*/
+@import "bulma/main/grid/columns";
+/*@import "bulma/main/grid/tiles";*/
+/*@import "bulma/main/layout/hero";*/
+@import "bulma/main/layout/section";
+@import "bulma/main/layout/footer";
+
+@import "bulma/extensions/switch";
 
 @import "open-iconic";
 
@@ -93,6 +95,10 @@ $grey-light: #f5f5f5;
 
 .overflow-y-scroll {
    overflow-y: scroll;
+}
+
+.is-fullwidth {
+   width: 100%;
 }
 
 
