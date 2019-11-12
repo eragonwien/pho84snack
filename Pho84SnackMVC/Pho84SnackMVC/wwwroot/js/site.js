@@ -12,7 +12,6 @@ if (inputAutocomplete) {
    document.querySelector('.input-autocomplete').addEventListener('keyup', function (e) {
       const inputText = this.value;
       const outputs = document.querySelectorAll('.output-autocomplete');
-
       forEach(outputs, function (index, value) {
          if (outputs[index].text.toLowerCase().includes(inputText)) {
             outputs[index].classList.remove('is-hidden');

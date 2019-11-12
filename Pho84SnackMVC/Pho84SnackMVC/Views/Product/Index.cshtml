@@ -1,9 +1,35 @@
 ﻿@model IEnumerable<Pho84SnackMVC.Models.Product>
 
 @{
-   ViewData["Title"] = "Index";
-   var productTitleActions = new TitleWithRightActionsViewModel("Products", Url.Action("create", "product"));
-   var linkslistModel = Model.Select(m => new LinksEntryViewModel("details", m.Id, m.Name));
+   ViewData["Title"] = "Products";
+   ViewData["NavbarTitle"] = "Products";
+   var createViewModel = new CreateViewModel("product", "name", null, "Add new product");
 }
-<partial name="_TitleWithRightActionsPartial" model="productTitleActions" />
-<partial name="_LinksListPartial" model="linkslistModel" />
+<div class="panel">
+   <p class="panel-heading">Products</p>
+   <partial name="_CreatePartial" model="createViewModel" />
+   <div class="panel-block">
+      <p class="control has-icons-left">
+         <input class="input input-autocomplete" type="text" placeholder="Search">
+         <span class="icon is-left">
+            <span class="oi" data-glyph="magnifying-glass"></span>
+         </span>
+      </p>
+   </div>
+   @if (Model.Count() > 0)
+   {
+      @foreach (var product in Model)
+      {
+         <a class="panel-block output-autocomplete" asp-controller="product" asp-action="details" asp-route-id="@product.Id">@product.Name</a>
+      }
+   }
+   else
+   {
+      <a class="panel-block">
+         <span class="panel-icon">
+            <i class="fas fa-exclamation-circle"></i>
+         </span>
+         No product found
+      </a>
+   }
+</div>

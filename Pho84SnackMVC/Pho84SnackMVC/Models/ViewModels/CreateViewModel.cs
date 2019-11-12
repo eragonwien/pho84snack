@@ -8,10 +8,17 @@ namespace Pho84SnackMVC.Models.ViewModels
 {
    public class CreateViewModel
    {
-      [Required]
-      [MaxLength(32)]
+      public string ControllerName { get; set; }
       public string Name { get; set; }
-      [MaxLength(256)]
-      public string Description { get; set; }
+      public string Value { get; set; }
+      public string Placeholder { get; set; }
+
+      public CreateViewModel(string controllerName, string name, string value = null, string placeholder = null)
+      {
+         ControllerName = controllerName;
+         Name = name;
+         Value = value;
+         Placeholder = placeholder;
+      }
    }
 }

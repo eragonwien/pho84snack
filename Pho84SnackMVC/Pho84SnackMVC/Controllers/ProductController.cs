@@ -64,14 +64,11 @@ namespace Pho84SnackMVC.Controllers
                {
                   ModelState.AddModelError(nameof(product.Name), "This Name already taken");
                }
-               product.Id = await productRepository.Create(product);
-               return RedirectToDetailPage(product.Id);
-            }
-            catch (MySqlException sqlex)
-            {
-               log.LogError("Fehler bei der Erstellung von Produkt {0}", product.Name, sqlex.Message);
-               var modelerror = errorService.HandleException(sqlex);
-               ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
+               else
+               {
+                  product.Id = await productRepository.Create(product);
+                  return RedirectToIndex();
+               }
             }
             catch (Exception ex)
             {
@@ -79,7 +76,8 @@ namespace Pho84SnackMVC.Controllers
                ModelState.AddModelError("", ex.Message);
             }
          }
-         return View(product);
+         Notify();
+         return RedirectToIndex();
       }
 
       // GET: Product/Edit/5

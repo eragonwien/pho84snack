@@ -1,11 +1,11 @@
-﻿@model Pho84SnackMVC.Models.Category
+﻿@model CreateViewModel
 @{
 
 }
-<form class="panel-block" asp-controller="category" asp-action="create">
+<form class="panel-block" asp-controller="@Model.ControllerName" asp-action="create">
    <div class="field has-addons is-fullwidth" style="margin-bottom: 0px;">
       <div class="control is-expanded">
-         <input class="input is-fullwidth" type="text" placeholder="Add new category" asp-for="Name">
+         <input class="input is-fullwidth" type="text" placeholder="@Model.Placeholder" name="@Model.Name" value="@Model.Value">
       </div>
       <div class="control">
          <button type="submit" class="button is-primary">

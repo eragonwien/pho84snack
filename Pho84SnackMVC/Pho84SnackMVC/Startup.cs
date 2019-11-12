@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +35,20 @@ namespace Pho84SnackMVC
          services.AddScoped<IPriceRepository, PriceRepository>();
          services.AddScoped<IErrorService, ErrorService>();
 
+         var enCulture = new CultureInfo("en");
+         var deCulture = new CultureInfo("de");
+
+         enCulture.NumberFormat.CurrencyDecimalSeparator = ".";
+         enCulture.NumberFormat.NumberDecimalSeparator = ".";
+         deCulture.NumberFormat.CurrencyDecimalSeparator = ".";
+         deCulture.NumberFormat.NumberDecimalSeparator = ".";
+         services.Configure<RequestLocalizationOptions>(o =>
+         {
+            o.SupportedCultures = new List<CultureInfo> { deCulture, enCulture };
+            o.SupportedUICultures = new List<CultureInfo> { deCulture, enCulture };
+            o.DefaultRequestCulture = new RequestCulture(deCulture);
+         });
+
          services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       }
 
@@ -50,6 +66,7 @@ namespace Pho84SnackMVC
             app.UseHsts();
          }
 
+         app.UseRequestLocalization();
          app.UseHttpsRedirection();
          app.UseStaticFiles();
          app.UseCookiePolicy();

@@ -2,11 +2,12 @@
 @{
    ViewData["Title"] = "Categories";
    ViewData["NavbarTitle"] = "Categories";
+   var createViewModel = new CreateViewModel("category", "name", null, "Add new category");
 }
 
 <div class="panel">
    <p class="panel-heading">Categories</p>
-   <partial name="_CreatePartial" model="new Category()" />
+   <partial name="_CreatePartial" model="createViewModel" />
    <div class="panel-block">
       <p class="control has-icons-left">
          <input class="input input-autocomplete" type="text" placeholder="Search">

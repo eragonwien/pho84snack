@@ -3,6 +3,9 @@
    var availableSizes = await productRepository.Sizes();
 }
 <form class="section" asp-action="edit" asp-route-id="@Model.Id">
+   <div class="notification is-warning" asp-validation-summary="All">
+      <button class="delete"></button>
+   </div>
    @Html.HiddenFor(m => m.Id)
 
    <div class="field">
@@ -42,7 +45,7 @@
             </label>
          </p>
          <p class="control">
-            <input class="input price-input" type="number" name="@(string.Format("ProductSizes[{0}].Price", i))" placeholder="Amount of money" value="@sizePrice" @(!isChecked ? "disabled" : "")>
+            <input class="input price-input" type="number" step="any" name="@(string.Format("ProductSizes[{0}].Price", i))" placeholder="Amount of money" value="@sizePrice" @(!isChecked ? "disabled" : "")>
          </p>
          <p class="control">
             <button type="button" class="button is-static">€</button>
