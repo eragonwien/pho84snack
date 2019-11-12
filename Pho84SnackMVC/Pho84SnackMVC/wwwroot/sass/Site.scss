@@ -6,6 +6,7 @@
 // Update Bulma's global variables
 $family-sans-serif: "Roboto", sans-serif;
 $primary: #211B1D;
+$text-in-primary: white;
 $grey-light: #d3d3d3;
 
 
@@ -103,6 +104,14 @@ $grey-light: #d3d3d3;
 
 .validation-summary-valid {
    display: none;
+}
+
+.navbar-menu.is-active {
+   background-color: $primary;
+
+   .navbar-item {
+      color: $text-in-primary;
+   }
 }
 
 
