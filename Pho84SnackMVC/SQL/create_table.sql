@@ -1,6 +1,6 @@
 use pho84snack;
 
-drop table if exists ProductSizeMap, ProductSize, ProductMap, Product, Category, CompanyInfo;
+drop table if exists ProductSizeMap, Size, ProductMap, Product, Category, CompanyInfo;
 
 create table CompanyInfo (
 	Id int not null auto_increment,
@@ -37,23 +37,23 @@ create table ProductMap (
     primary key (Id),
     foreign key (CategoryId) references Category(Id),
     foreign key (ProductId) references Product(Id),
-    constraint Unique_Map unique (CategoryId, ProductId)
+    constraint Unique_ProductCategoryMap unique (CategoryId, ProductId)
 );
 
-create table ProductSize (
+create table Size (
 	Id int not null auto_increment,
     ShortName varchar(2) unique not null,
     LongName varchar(16),
     primary key (Id)
 );
 
-create table ProductSizeMap (
+create table ProductSize (
 	Id int not null auto_increment,
-    ProductSizeId int not null,
+    SizeId int not null,
     ProductId int not null,
     Price decimal,
     primary key (Id),
-    foreign key (ProductSizeId) references ProductSize(Id),
+    foreign key (SizeId) references Size(Id),
     foreign key (ProductId) references Product(Id),
-    constraint Unique_Map unique (ProductSizeId, ProductId)
+    constraint Unique_ProductSizeMap unique (SizeId, ProductId)
 );

@@ -5,7 +5,7 @@ insert into category(name, description) values('Test category', 'Test descriptio
 insert into product(name, description) values('Test product', 'Test description product');
 insert into productmap(categoryid, productid) values((select id from category where name='Test category'), (select id from product where name='Test product'));
 
-insert into productsize(shortname, longname) values('S', 'Small');
-insert into productsize(shortname, longname) values('M', 'Medium');
-insert into productsize(shortname, longname) values('L', 'Large');
-insert into productsize(shortname, longname) values('R', 'Regular');
+insert into size(shortname, longname) values('S', 'Small');
+insert into size(shortname, longname) values('M', 'Medium');
+insert into size(shortname, longname) values('L', 'Large');
+insert into size(shortname, longname) values('R', 'Regular');
