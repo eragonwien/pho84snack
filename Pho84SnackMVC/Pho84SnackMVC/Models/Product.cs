@@ -15,24 +15,19 @@ namespace Pho84SnackMVC.Models
       [MaxLength(256, ErrorMessage = "This name is too long (max. 256 characters)")]
       public string Description { get; set; }
       [DataType(DataType.Currency), DisplayFormat(DataFormatString = "{0:#.00}", ApplyFormatInEditMode = true)]
-      public List<ProductPricing> PriceList { get; set; } = new List<ProductPricing>();
+      public List<ProductSize> ProductSizes { get; set; } = new List<ProductSize>();
 
       public Product()
       {
 
       }
 
-      public Product(string name, string description, int id = 0)
+      public Product(long id = 0, string name = null, string description = null, List<ProductSize> productSizes = null)
       {
          Id = id;
          Name = name;
          Description = description;
-      }
-
-      public Product(CreateViewModel model)
-      {
-         Name = model.Name;
-         Description = model.Description;
+         ProductSizes = productSizes ?? new List<ProductSize>();
       }
    }
 }

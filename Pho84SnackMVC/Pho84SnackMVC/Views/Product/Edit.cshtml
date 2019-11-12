@@ -21,32 +21,32 @@
       <p class="help is-danger"><span asp-validation-for="Description"></span></p>
    </div>
 
-   <p class="label">@Html.DisplayNameFor(m => m.PriceList)</p>
+   <p class="label">@Html.DisplayNameFor(m => m.ProductSizes)</p>
    @for (int i = 0; i < availableSizes.Count; i++)
    {
       var size = availableSizes[i];
-      bool isChecked = Model.PriceList.Any(p => p.ProductSizeId == size.Id);
+      bool isChecked = Model.ProductSizes.Any(p => p.Size.Id == size.Id);
       string isCheckedStr = isChecked ? "checked" : "";
-      var selectedSize = Model.PriceList.SingleOrDefault(p => p.ProductSizeId == size.Id);
+      var selectedSize = Model.ProductSizes.SingleOrDefault(p => p.Size.Id == size.Id);
       string sizePrice = isChecked && selectedSize != null ? selectedSize.Price.ToString() : string.Empty;
       string switchId = string.Format("switch-size-id-{0}", size.Id);
 
       <div class="field has-addons">
          <p class="control">
             <label type="button" class="button @(isChecked ? "is-success" : "is-danger")" style="width: 64px;">
-               <input type="checkbox" class="checkbox checkbox-all is-hidden" name="@(string.Format("PriceList[{0}].Id", i))" value="@size.Id" onchange="onCheckboxChanged(this)" @isCheckedStr />
-               <input type="checkbox" class="is-hidden" name="@(string.Format("PriceList[{0}].ShortName", i))" value="@size.ShortName" @isCheckedStr />
-               <input type="checkbox" class="is-hidden" name="@(string.Format("PriceList[{0}].LongName", i))" value="@size.LongName" @isCheckedStr />
-               <input type="checkbox" class="is-hidden" name="@(string.Format("PriceList[{0}].ProductId", i))" value="@selectedSize?.ProductId" @isCheckedStr />
-               <input type="checkbox" class="is-hidden" name="@(string.Format("PriceList[{0}].ProductSizeId", i))" value="@selectedSize?.ProductSizeId" @isCheckedStr />
+               <input type="checkbox" class="checkbox checkbox-all is-hidden" name="@(string.Format("ProductSizes[{0}].Size.ShortName", i))" value="@size.ShortName" onchange="onCheckboxChanged(this)" @isCheckedStr />
+               <input type="checkbox" class="is-hidden" name="@(string.Format("ProductSizes[{0}].Size.LongName", i))" value="@size.LongName" @isCheckedStr />
+               <input type="checkbox" class="is-hidden" name="@(string.Format("ProductSizes[{0}].Product.Id", i))" value="@Model.Id" @isCheckedStr />
+               <input type="checkbox" class="is-hidden" name="@(string.Format("ProductSizes[{0}].Size.Id", i))" value="@size.Id" @isCheckedStr />
                @size.ShortName
             </label>
          </p>
          <p class="control">
-            <input class="input price-input" type="number" name="@(string.Format("PriceList[{0}].Price", i))" placeholder="Amount of money" value="@sizePrice" @(!isChecked ? "disabled" : "")>
+            <input class="input price-input" type="number" name="@(string.Format("ProductSizes[{0}].Price", i))" placeholder="Amount of money" value="@sizePrice" @(!isChecked ? "disabled" : "")>
          </p>
          <p class="control">
             <button type="button" class="button is-static">€</button>
+            <input type="hidden" name="ProductSizes[{0}].Currency" value="€" />
          </p>
       </div>
    }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
+using Pho84SnackMVC.Models;
 using Pho84SnackMVC.Models.ViewModels;
 using Pho84SnackMVC.Services;
 
@@ -26,7 +27,7 @@ namespace Pho84SnackMVC.Controllers
       // POST: Price/Add
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<ActionResult> Add([FromForm] PriceViewModel model)
+      public async Task<ActionResult> Add([FromForm] ProductSize model)
       {
          if (ModelState.IsValid)
          {
@@ -37,13 +38,13 @@ namespace Pho84SnackMVC.Controllers
             }
             catch (MySqlException sqlex)
             {
-               log.LogError("SQL Fehler bei Erstellung vom Preis für die Größe {0} von Produkt {1}: {2}", model.SizeId, model.ProductId, sqlex.Message);
+               log.LogError("SQL Fehler bei Erstellung vom Preis für die Größe {0} von Produkt {1}: {2}", model.Size.Id, model.Product.Id, sqlex.Message);
                var modelerror = errorService.HandleException(sqlex);
                ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
             }
             catch (Exception ex)
             {
-               log.LogError("SQL Fehler bei Erstellung vom Preis für die Größe {0} von Produkt {1}: {2}", model.SizeId, model.ProductId, ex.Message);
+               log.LogError("SQL Fehler bei Erstellung vom Preis für die Größe {0} von Produkt {1}: {2}", model.Size.Id, model.Product.Id, ex.Message);
                ModelState.AddModelError("", ex.Message);
             }
          }
@@ -53,7 +54,7 @@ namespace Pho84SnackMVC.Controllers
       // POST: Price/Price
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public async Task<ActionResult> Edit([FromForm] PriceViewModel model)
+      public async Task<ActionResult> Edit([FromForm] ProductSize model)
       {
          if (ModelState.IsValid)
          {

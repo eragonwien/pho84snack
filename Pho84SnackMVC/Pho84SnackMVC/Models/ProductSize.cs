@@ -1,21 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Pho84SnackMVC.Models
+﻿namespace Pho84SnackMVC.Models
 {
    public class ProductSize
    {
       public long Id { get; set; }
-      public string ShortName { get; set; }
-      public string LongName { get; set; }
+      public Product Product { get; set; }
+      public Size Size { get; set; }
+      public decimal Price { get; set; }
+      public string Currency { get; set; }
 
-      public ProductSize(long id, string shortName, string longName)
+      public ProductSize()
+      {
+
+      }
+
+      public ProductSize(long id, Product product, Size size, decimal price, string currency = null)
       {
          Id = id;
-         ShortName = shortName;
-         LongName = longName;
+         Product = product;
+         Size = size;
+         Price = price;
+         Currency = currency;
       }
    }
 }

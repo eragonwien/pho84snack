@@ -74,7 +74,7 @@ namespace Pho84SnackMVC.Services
                      if (!odr.IsDbNull("ProductId"))
                      {
                         int productId = odr.ReadInt32("ProductId");
-                        category.Products.Add(new Product(odr.ReadString("ProductName"), odr.ReadString("ProductDescription"), productId));
+                        category.Products.Add(new Product(productId, odr.ReadString("ProductName"), odr.ReadString("ProductDescription")));
                         category.SelectedProductIds.Add(productId);
                      }
                   }

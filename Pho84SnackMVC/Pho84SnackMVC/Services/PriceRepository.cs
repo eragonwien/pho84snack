@@ -11,10 +11,10 @@ namespace Pho84SnackMVC.Services
 
    public interface IPriceRepository
    {
-      Task<long> Add(PriceViewModel model);
-      Task Price(PriceViewModel model);
+      Task<long> Add(ProductSize productSize);
+      Task Price(ProductSize productSize);
       Task Remove(long id);
-      Task Update(long productId, List<ProductPricing> priceList);
+      Task Update(long productId, List<ProductSize> productSizes);
    }
 
    public class PriceRepository : IPriceRepository
@@ -26,15 +26,15 @@ namespace Pho84SnackMVC.Services
          this.context = context;
       }
 
-      public async Task<long> Add(PriceViewModel model)
+      public async Task<long> Add(ProductSize model)
       {
          using (var con = context.GetConnection())
          {
-            string cmdStr = "insert into PRODUCTSIZEMAP(ProductId, ProductSizeId, Price) values(@ProductId, @ProductSizeId, @Price)";
+            string cmdStr = "insert into PRODUCTSIZE(ProductId, SizeId, Price) values(@ProductId, @SizeId, @Price)";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
-               cmd.Parameters.Add(new MySqlParameter("@ProductId", model.ProductId));
-               cmd.Parameters.Add(new MySqlParameter("@ProductSizeId", model.SizeId));
+               cmd.Parameters.Add(new MySqlParameter("@ProductId", model.Product.Id));
+               cmd.Parameters.Add(new MySqlParameter("@SizeId", model.Size.Id));
                cmd.Parameters.Add(new MySqlParameter("@Price", model.Price));
                await con.OpenAsync();
                await cmd.ExecuteNonQueryAsync();
@@ -57,11 +57,11 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public async Task Price(PriceViewModel model)
+      public async Task Price(ProductSize model)
       {
          using (var con = context.GetConnection())
          {
-            string cmdStr = "update PRODUCTSIZEMAP set Price=@Price where Id=@Id";
+            string cmdStr = "update PRODUCTSIZE set Price=@Price where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", model.Id));
@@ -72,26 +72,26 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      public async Task Update(long productId, List<ProductPricing> priceList)
+      public async Task Update(long productId, List<ProductSize> productSizes)
       {
          
          var usedSizes = await GetUsedSizes(productId);
          if (usedSizes.Count > 0)
          {
-            await DeleteUnusedPrices(productId, priceList);
-            await UpdateExistingPrices(productId, priceList.Where(p => usedSizes.Contains(p.ProductSizeId)).ToList());
+            await DeleteUnusedPrices(productId, productSizes);
+            await UpdateExistingPrices(productId, productSizes.Where(p => usedSizes.Contains(p.Size.Id)).ToList());
          }
-         await AddPrices(productId, priceList.Where(p => !usedSizes.Contains(p.ProductSizeId)).ToList());
+         await AddPrices(productId, productSizes.Where(p => !usedSizes.Contains(p.Size.Id)).ToList());
       }
 
-      private async Task DeleteUnusedPrices(long productId, List<ProductPricing> priceList)
+      private async Task DeleteUnusedPrices(long productId, List<ProductSize> productSizes)
       {
          using (var con = context.GetConnection())
          {
-            string cmdStr = "delete from PRODUCTSIZEMAP where ProductId=@ProductId";
-            if (priceList.Count > 0)
+            string cmdStr = "delete from PRODUCTSIZE where ProductId=@ProductId";
+            if (productSizes.Count > 0)
             {
-               cmdStr += string.Format(" and ProductSizeId not in ({0})", string.Join(", ", priceList.Select(p => p.ProductSizeId)));
+               cmdStr += string.Format(" and SizeId not in ({0})", string.Join(", ", productSizes.Select(s => s.Size.Id)));
             }
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
@@ -102,44 +102,45 @@ namespace Pho84SnackMVC.Services
          }
       }
 
-      private async Task UpdateExistingPrices(long productId, List<ProductPricing> priceList)
+      private async Task UpdateExistingPrices(long productId, List<ProductSize> productSizes)
       {
-         if (priceList.Count == 0)
+         if (productSizes.Count == 0)
          {
             return;
          }
          using (var con = context.GetConnection())
          {
             await con.OpenAsync();
-            foreach (var entry in priceList)
+            foreach (var entry in productSizes)
             {
-               string cmdStr = "update PRODUCTSIZEMAP set Price=@Price where Id=@Id";
+               string cmdStr = "update PRODUCTSIZE set Price=@Price where SizeId=@SizeId and ProductId=@ProductId";
                using (var cmd = new MySqlCommand(cmdStr, con))
                {
                   cmd.Parameters.Add(new MySqlParameter("@Price", entry.Price));
-                  cmd.Parameters.Add(new MySqlParameter("@Id", entry.Id));
+                  cmd.Parameters.Add(new MySqlParameter("@SizeId", entry.Size.Id));
+                  cmd.Parameters.Add(new MySqlParameter("@ProductId", entry.Product.Id));
                   await cmd.ExecuteNonQueryAsync();
                }
             }
          }
       }
 
-      private async Task AddPrices(long productId, List<ProductPricing> priceList)
+      private async Task AddPrices(long productId, List<ProductSize> productSizes)
       {
-         if (priceList.Count == 0)
+         if (productSizes.Count == 0)
          {
             return;
          }
          using (var con = context.GetConnection())
          {
             await con.OpenAsync();
-            foreach (var entry in priceList)
+            foreach (var entry in productSizes)
             {
-               string cmdStr = "insert into PRODUCTSIZEMAP(ProductId, ProductSizeId, Price) values(@ProductId, @ProductSizeId, @Price)";
+               string cmdStr = "insert into PRODUCTSIZE(ProductId, SizeId, Price) values(@ProductId, @SizeId, @Price)";
                using (var cmd = new MySqlCommand(cmdStr, con))
                {
-                  cmd.Parameters.Add(new MySqlParameter("@ProductId", entry.ProductId));
-                  cmd.Parameters.Add(new MySqlParameter("@ProductSizeId", entry.ProductSizeId));
+                  cmd.Parameters.Add(new MySqlParameter("@ProductId", entry.Product.Id));
+                  cmd.Parameters.Add(new MySqlParameter("@SizeId", entry.Size.Id));
                   cmd.Parameters.Add(new MySqlParameter("@Price", entry.Price));
                   await cmd.ExecuteNonQueryAsync();
                }
@@ -152,7 +153,7 @@ namespace Pho84SnackMVC.Services
          List<long> usedSizes = new List<long>();
          using (var con = context.GetConnection())
          {
-            string cmdStr = "select ProductSizeId from PRODUCTSIZEMAP where ProductId=@ProductId";
+            string cmdStr = "select SizeId from PRODUCTSIZE where ProductId=@ProductId";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@ProductId", productId));
@@ -161,7 +162,7 @@ namespace Pho84SnackMVC.Services
                {
                   while (odr.Read())
                   {
-                     usedSizes.Add(odr.GetInt64("ProductSizeId"));
+                     usedSizes.Add(odr.GetInt64("SizeId"));
                   }
                }
             }

@@ -15,7 +15,7 @@ namespace Pho84SnackMVC.Services
       Task Delete(long id);
       Task<bool> Exists(long id);
       Task<bool> Exists(string name);
-      Task<List<ProductSize>> Sizes();
+      Task<List<Size>> Sizes();
       Task<List<Product>> AssignableProducts(long categoryId);
    }
 
@@ -42,7 +42,7 @@ namespace Pho84SnackMVC.Services
                {
                   while (await odr.ReadAsync())
                   {
-                     products.Add(new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt32("Id")));
+                     products.Add(new Product(odr.ReadInt32("Id"), odr.ReadString("Name"), odr.ReadString("Description")));
                   }
                }
             }
@@ -107,7 +107,7 @@ namespace Pho84SnackMVC.Services
                {
                   while (await odr.ReadAsync())
                   {
-                     products.Add(new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt32("Id")));
+                     products.Add(new Product(odr.ReadInt32("Id"), odr.ReadString("Name"), odr.ReadString("Description")));
                   }
                }
             }
@@ -120,7 +120,7 @@ namespace Pho84SnackMVC.Services
          Product product = null;
          using (var con = context.GetConnection())
          {
-            string cmdStr = "select p.Id, p.Name, p.Description, s.ShortName, s.LongName, m.Id as PriceId, m.ProductId, m.ProductSizeId, m.Price from PRODUCT p left join PRODUCTSIZEMAP m on p.Id=m.ProductId left join PRODUCTSIZE s on m.ProductSizeId=s.Id where p.Id=@Id";
+            string cmdStr = "select p.Id, p.Name, p.Description, m.Id as ProductSizeId, m.Price, s.Id as SizeId, s.ShortName, s.LongName from PRODUCT p left join PRODUCTSIZE m on p.Id=m.ProductId left join SIZE s on m.SizeId=s.Id where p.Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
@@ -131,12 +131,13 @@ namespace Pho84SnackMVC.Services
                   {
                      if (product == null)
                      {
-                        product = new Product(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt32("Id"));
+                        product = new Product(odr.ReadInt32("Id"), odr.ReadString("Name"), odr.ReadString("Description"));
                      }
-                     ProductPricing pricing = new ProductPricing(odr.ReadInt32("PriceId"), odr.ReadInt32("ProductId"), odr.ReadInt32("ProductSizeId"), odr.ReadString("ShortName"), odr.ReadString("LongName"), odr.ReadDecimal("Price"));
-                     if (pricing.Id > 0)
+                     Size size = new Size(odr.ReadInt32("SizeId"), odr.ReadString("ShortName"), odr.ReadString("LongName"));
+                     ProductSize productSize = new ProductSize(odr.ReadInt32("ProductSizeId"), product, size, odr.ReadDecimal("Price"));
+                     if (size.Id > 0 && productSize.Id > 0)
                      {
-                        product.PriceList.Add(pricing);
+                        product.ProductSizes.Add(productSize);
                      }
                   }
                }
@@ -145,12 +146,12 @@ namespace Pho84SnackMVC.Services
          return product;
       }
 
-      public async Task<List<ProductSize>> Sizes()
+      public async Task<List<Size>> Sizes()
       {
-         List<ProductSize> availableSizes = new List<ProductSize>();
+         List<Size> availableSizes = new List<Size>();
          using (var con = context.GetConnection())
          {
-            string cmdStr = "select Id, ShortName, LongName from PRODUCTSIZE";
+            string cmdStr = "select Id, ShortName, LongName from SIZE";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                await con.OpenAsync();
@@ -158,7 +159,7 @@ namespace Pho84SnackMVC.Services
                {
                   while (await odr.ReadAsync())
                   {
-                     availableSizes.Add(new ProductSize(odr.ReadInt32("Id"), odr.ReadString("ShortName"), odr.ReadString("LongName")));
+                     availableSizes.Add(new Size(odr.ReadInt32("Id"), odr.ReadString("ShortName"), odr.ReadString("LongName")));
                   }
                }
             }

@@ -98,7 +98,7 @@ namespace Pho84SnackMVC.Controllers
             try
             {
                await productRepository.Update(product);
-               await priceRepository.Update(product.Id, product.PriceList);
+               await priceRepository.Update(product.Id, product.ProductSizes);
                return RedirectToDetailPage(product.Id);
             }
             catch (Exception ex)
