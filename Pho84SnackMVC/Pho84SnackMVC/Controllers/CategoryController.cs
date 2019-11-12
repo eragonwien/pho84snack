@@ -15,14 +15,12 @@ namespace Pho84SnackMVC.Controllers
 {
    public class CategoryController : DefaultController
    {
-      private readonly IErrorService errorService;
       private readonly ICategoryRepository categoryRepository;
       private readonly ILogger<CategoryController> log;
 
-      public CategoryController(ICategoryRepository categoryRepository, IErrorService errorService, ILogger<CategoryController> log)
+      public CategoryController(ICategoryRepository categoryRepository, ILogger<CategoryController> log)
       {
          this.categoryRepository = categoryRepository;
-         this.errorService = errorService;
          this.log = log;
       }
 

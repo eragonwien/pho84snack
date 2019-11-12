@@ -33,7 +33,6 @@ namespace Pho84SnackMVC
          services.AddScoped<ICategoryRepository, CategoryRepository>();
          services.AddScoped<IProductRepository, ProductRepository>();
          services.AddScoped<IPriceRepository, PriceRepository>();
-         services.AddScoped<IErrorService, ErrorService>();
 
          var enCulture = new CultureInfo("en");
          var deCulture = new CultureInfo("de");

@@ -17,14 +17,12 @@ namespace Pho84SnackMVC.Controllers
    {
       private readonly IProductRepository productRepository;
       private readonly IPriceRepository priceRepository;
-      private readonly IErrorService errorService;
       private readonly ILogger<ProductController> log;
 
-      public ProductController(IProductRepository productRepository, IPriceRepository priceRepository, IErrorService errorService, ILogger<ProductController> log)
+      public ProductController(IProductRepository productRepository, IPriceRepository priceRepository, ILogger<ProductController> log)
       {
          this.productRepository = productRepository;
          this.priceRepository = priceRepository;
-         this.errorService = errorService;
          this.log = log;
       }
 

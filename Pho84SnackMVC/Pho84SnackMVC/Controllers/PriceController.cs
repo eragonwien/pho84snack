@@ -14,13 +14,11 @@ namespace Pho84SnackMVC.Controllers
     public class PriceController : DefaultController
     {
       private readonly IPriceRepository priceRepository;
-      private readonly IErrorService errorService;
       private readonly ILogger<PriceController> log;
 
-      public PriceController(IPriceRepository IProductRepository, IErrorService errorService, ILogger<PriceController> log)
+      public PriceController(IPriceRepository IProductRepository, ILogger<PriceController> log)
       {
          this.priceRepository = IProductRepository;
-         this.errorService = errorService;
          this.log = log;
       }
 
@@ -35,12 +33,6 @@ namespace Pho84SnackMVC.Controllers
             {
                long id = await priceRepository.Add(model);
                return Ok();
-            }
-            catch (MySqlException sqlex)
-            {
-               log.LogError("SQL Fehler bei Erstellung vom Preis für die Größe {0} von Produkt {1}: {2}", model.Size.Id, model.Product.Id, sqlex.Message);
-               var modelerror = errorService.HandleException(sqlex);
-               ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
             }
             catch (Exception ex)
             {
@@ -63,12 +55,6 @@ namespace Pho84SnackMVC.Controllers
                await priceRepository.Price(model);
                return Ok();
             }
-            catch (MySqlException sqlex)
-            {
-               log.LogError("SQL Fehler bei der Löschung vom Preis {0}: {1}", model.Id, sqlex.Message);
-               var modelerror = errorService.HandleException(sqlex);
-               ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
-            }
             catch (Exception ex)
             {
                log.LogError("SQL Fehler bei der Löschung vom Preis {0}: {1}", model.Id, ex.Message);
@@ -88,12 +74,6 @@ namespace Pho84SnackMVC.Controllers
             try
             {
                await priceRepository.Remove(id);
-            }
-            catch (MySqlException sqlex)
-            {
-               log.LogError("SQL Fehler bei der Löschung vom Preis {0}: {1}", id, sqlex.Message);
-               var modelerror = errorService.HandleException(sqlex);
-               ModelState.AddModelError(modelerror.Item1, modelerror.Item2);
             }
             catch (Exception ex)
             {
