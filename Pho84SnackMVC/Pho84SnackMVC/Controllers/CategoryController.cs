@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Pho84SnackMVC.Models.ViewModels;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Pho84SnackMVC.Controllers
 {
+   [Authorize]
    public class CategoryController : DefaultController
    {
       private readonly ICategoryRepository categoryRepository;

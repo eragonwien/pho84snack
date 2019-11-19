@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,9 +37,10 @@ namespace Pho84SnackMVC
          services.AddScoped<ICategoryRepository, CategoryRepository>();
          services.AddScoped<IProductRepository, ProductRepository>();
          services.AddScoped<IPriceRepository, PriceRepository>();
+         services.AddScoped<IUserRepository, UserRepository>();
 
-         var enCulture = new CultureInfo("en");
-         var deCulture = new CultureInfo("de");
+         var deCulture = new CultureInfo(Settings.CultureGerman);
+         var enCulture = new CultureInfo(Settings.CultureEnglish);
 
          enCulture.NumberFormat.CurrencyDecimalSeparator = ".";
          enCulture.NumberFormat.NumberDecimalSeparator = ".";
@@ -48,7 +53,28 @@ namespace Pho84SnackMVC
             o.DefaultRequestCulture = new RequestCulture(deCulture);
          });
 
-         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+         services
+            .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie()
+            .AddCookie(Settings.SchemeExternal)
+            .AddFacebook(o =>
+            {
+               o.SignInScheme = Settings.SchemeExternal;
+               o.AppId = Configuration["Facebook:AppId"];
+               o.AppSecret = Configuration["Facebook:AppSecret"];
+               o.SaveTokens = true;
+            });
+
+         services.ConfigureApplicationCookie(o =>
+         {
+            o.LoginPath = "/Account/Login";
+            o.LogoutPath = "/Account/Logout";
+            o.SlidingExpiration = true;
+         });
+
+         services
+            .AddMvc()
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +87,6 @@ namespace Pho84SnackMVC
          else
          {
             app.UseExceptionHandler("/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
          }
 
@@ -69,6 +94,7 @@ namespace Pho84SnackMVC
          app.UseHttpsRedirection();
          app.UseStaticFiles();
          app.UseCookiePolicy();
+         app.UseAuthentication();
 
          app.UseMvc(routes =>
          {
