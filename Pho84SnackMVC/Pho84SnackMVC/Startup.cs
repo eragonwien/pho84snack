@@ -54,8 +54,8 @@ namespace Pho84SnackMVC
          });
 
          services
-            .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie()
+            .AddAuthentication(Settings.SchemeApplication)
+            .AddCookie(Settings.SchemeApplication)
             .AddCookie(Settings.SchemeExternal)
             .AddFacebook(o =>
             {
@@ -70,6 +70,13 @@ namespace Pho84SnackMVC
             o.LoginPath = "/Account/Login";
             o.LogoutPath = "/Account/Logout";
             o.SlidingExpiration = true;
+         });
+
+         services.AddAuthorization(o => 
+         {
+            o.AddPolicy(PolicySettings.AdminOnly, p => p.RequireClaim(ClaimTypes.Role, Role.RoleAdmin));
+            o.AddPolicy(PolicySettings.HasRole, p => p.RequireClaim(ClaimTypes.Role, Role.RoleBasic, Role.RoleAdmin));
+            o.DefaultPolicy = o.GetPolicy(PolicySettings.HasRole);
          });
 
          services

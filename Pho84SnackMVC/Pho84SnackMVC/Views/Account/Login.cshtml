@@ -1,7 +1,13 @@
-﻿
-@{
-    ViewData["Title"] = "Login";
+﻿@{
+   ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
-<a class="button is-info" asp-controller="Account" asp-action="LoginExternal">Login Facebook</a>
+<div class="section h-100">
+   <div class="columns is-mobile is-centered is-vcentered h-100">
+      <div class="column">
+         <p class="bd-notification is-primary has-text-centered">
+            <a class="button is-info" asp-controller="account" asp-action="loginexternal" asp-route-provider="Facebook">Login with Facebook</a>
+         </p>
+      </div>
+   </div>
+</div>

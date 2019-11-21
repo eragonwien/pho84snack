@@ -44,7 +44,7 @@ namespace Pho84SnackMVC.Services
                {
                   while (await odr.ReadAsync())
                   {
-                     categories.Add(new Category(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt32("Id")));
+                     categories.Add(new Category(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt("Id")));
                   }
                }
             }
@@ -69,11 +69,11 @@ namespace Pho84SnackMVC.Services
                   {
                      if (category == null)
                      {
-                        category = new Category(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt32("Id"));
+                        category = new Category(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt("Id"));
                      }
                      if (!odr.IsDbNull("ProductId"))
                      {
-                        int productId = odr.ReadInt32("ProductId");
+                        int productId = odr.ReadInt("ProductId");
                         category.Products.Add(new Product(productId, odr.ReadString("ProductName"), odr.ReadString("ProductDescription")));
                         category.SelectedProductIds.Add(productId);
                      }

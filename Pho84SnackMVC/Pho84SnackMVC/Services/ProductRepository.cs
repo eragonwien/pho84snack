@@ -42,7 +42,7 @@ namespace Pho84SnackMVC.Services
                {
                   while (await odr.ReadAsync())
                   {
-                     products.Add(new Product(odr.ReadInt32("Id"), odr.ReadString("Name"), odr.ReadString("Description")));
+                     products.Add(new Product(odr.ReadInt("Id"), odr.ReadString("Name"), odr.ReadString("Description")));
                   }
                }
             }
@@ -107,7 +107,7 @@ namespace Pho84SnackMVC.Services
                {
                   while (await odr.ReadAsync())
                   {
-                     products.Add(new Product(odr.ReadInt32("Id"), odr.ReadString("Name"), odr.ReadString("Description")));
+                     products.Add(new Product(odr.ReadInt("Id"), odr.ReadString("Name"), odr.ReadString("Description")));
                   }
                }
             }
@@ -131,10 +131,10 @@ namespace Pho84SnackMVC.Services
                   {
                      if (product == null)
                      {
-                        product = new Product(odr.ReadInt32("Id"), odr.ReadString("Name"), odr.ReadString("Description"));
+                        product = new Product(odr.ReadInt("Id"), odr.ReadString("Name"), odr.ReadString("Description"));
                      }
-                     Size size = new Size(odr.ReadInt32("SizeId"), odr.ReadString("ShortName"), odr.ReadString("LongName"));
-                     ProductSize productSize = new ProductSize(odr.ReadInt32("ProductSizeId"), product, size, odr.ReadDecimal("Price"));
+                     Size size = new Size(odr.ReadInt("SizeId"), odr.ReadString("ShortName"), odr.ReadString("LongName"));
+                     ProductSize productSize = new ProductSize(odr.ReadInt("ProductSizeId"), product, size, odr.ReadDecimal("Price"));
                      if (size.Id > 0 && productSize.Id > 0)
                      {
                         product.ProductSizes.Add(productSize);
@@ -159,7 +159,7 @@ namespace Pho84SnackMVC.Services
                {
                   while (await odr.ReadAsync())
                   {
-                     availableSizes.Add(new Size(odr.ReadInt32("Id"), odr.ReadString("ShortName"), odr.ReadString("LongName")));
+                     availableSizes.Add(new Size(odr.ReadInt("Id"), odr.ReadString("ShortName"), odr.ReadString("LongName")));
                   }
                }
             }

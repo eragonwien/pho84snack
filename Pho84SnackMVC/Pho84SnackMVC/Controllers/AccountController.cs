@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Controllers
 {
-   [Authorize]
+   [AllowAnonymous]
    public class AccountController : DefaultController
    {
       private readonly IUserRepository userRepository;
@@ -24,41 +24,39 @@ namespace Pho84SnackMVC.Controllers
          this.log = log;
       }
 
-      [AllowAnonymous]
       public IActionResult Login()
       {
          return View();
       }
 
-      [AllowAnonymous]
-      public IActionResult LoginExternal()
+      public IActionResult LoginExternal(string provider)
       {
          var authProperties = new AuthenticationProperties { RedirectUri = Url.Action(nameof(LoginCallback)) };
-         return Challenge(authProperties, FacebookDefaults.AuthenticationScheme);
+         return Challenge(authProperties, provider);
       }
 
-      [AllowAnonymous]
       public async Task<IActionResult> LoginCallback()
       {
          var authResult = await HttpContext.AuthenticateAsync(Settings.SchemeExternal);
-
          if (!authResult.Succeeded)
          {
             return RedirectToAction(nameof(Login));
          }
 
          string email = authResult.Principal.FindFirstValue(ClaimTypes.Email);
-         if (!userRepository.Exists(email))
+         string name = authResult.Principal.FindFirstValue(ClaimTypes.Name);
+         string surname = authResult.Principal.FindFirstValue(ClaimTypes.Surname);
+         if (! await userRepository.Exists(email))
          {
-            userRepository.Create(email);
+            await userRepository.Create(new AppUser(email, name, surname));
          }
-         UserModel userModel = userRepository.GetOne(email);
-         
+         AppUser appUser = await userRepository.GetOne(email);
+
          var claimsIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-         claimsIdentity.AddClaim(new Claim(ClaimTypes.Email, authResult.Principal.FindFirstValue(ClaimTypes.Email)));
-         claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, authResult.Principal.FindFirstValue(ClaimTypes.Name)));
-         claimsIdentity.AddClaim(new Claim(ClaimTypes.Surname, authResult.Principal.FindFirstValue(ClaimTypes.Surname)));
-         claimsIdentity.AddClaim(new Claim(AuthenticationSettings.ClaimTypeActive, userModel.Active.ToString()));
+         claimsIdentity.AddClaim(new Claim(ClaimTypes.Email, email));
+         claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, name));
+         claimsIdentity.AddClaim(new Claim(ClaimTypes.Surname, surname));
+         claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, appUser.Role.Name));
          claimsIdentity.AddClaim(new Claim(AuthenticationSettings.ClaimTypeAccessToken, authResult.Properties.GetTokenValue(AuthenticationSettings.TokenAccessToken)));
          claimsIdentity.AddClaim(new Claim(AuthenticationSettings.ClaimTypeAccessTokenExpiredAt, authResult.Properties.GetTokenValue(AuthenticationSettings.TokenExpiredAt)));
 
@@ -69,13 +67,12 @@ namespace Pho84SnackMVC.Controllers
             IsPersistent = true
          };
 
-         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+         await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
          await HttpContext.SignOutAsync(Settings.SchemeExternal);
 
-         return RedirectToAction("index", userModel.Active ? "home" : "privacy");
+         return RedirectToAction("index", "home");
       }
 
-      [AllowAnonymous]
       public async Task<IActionResult> Logout()
       {
          await HttpContext.SignOutAsync();

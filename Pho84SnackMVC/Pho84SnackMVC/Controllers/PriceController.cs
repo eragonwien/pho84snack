@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
@@ -11,7 +12,8 @@ using Pho84SnackMVC.Services;
 
 namespace Pho84SnackMVC.Controllers
 {
-    public class PriceController : DefaultController
+   [Authorize]
+   public class PriceController : DefaultController
     {
       private readonly IPriceRepository priceRepository;
       private readonly ILogger<PriceController> log;

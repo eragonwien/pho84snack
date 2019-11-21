@@ -26,4 +26,10 @@ namespace Pho84SnackMVC.Services
       public const string TokenAccessToken = "access_token";
       public const string TokenExpiredAt = "expires_at";
    }
+
+   public class PolicySettings
+   {
+      public const string AdminOnly = "AdminOnly";
+      public const string HasRole = "HasRole";
+   }
 }

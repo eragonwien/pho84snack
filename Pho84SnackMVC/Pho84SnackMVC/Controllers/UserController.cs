@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Pho84SnackMVC.Services;
+using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Controllers
 {
+   [Authorize]
    public class UserController : DefaultController
    {
       private readonly IUserRepository userRepository;
@@ -17,38 +20,15 @@ namespace Pho84SnackMVC.Controllers
       }
 
       // GET: User
-      public ActionResult Index()
+      public async Task<IActionResult> Index()
       {
-         return View();
+         return View(await userRepository.GetAll());
       }
 
       // GET: User/Details/5
       public ActionResult Details(int id)
       {
          return View();
-      }
-
-      // GET: User/Create
-      public ActionResult Create()
-      {
-         return View();
-      }
-
-      // POST: User/Create
-      [HttpPost]
-      [ValidateAntiForgeryToken]
-      public ActionResult Create(IFormCollection collection)
-      {
-         try
-         {
-            // TODO: Add insert logic here
-
-            return RedirectToAction(nameof(Index));
-         }
-         catch
-         {
-            return View();
-         }
       }
 
       // GET: User/Edit/5

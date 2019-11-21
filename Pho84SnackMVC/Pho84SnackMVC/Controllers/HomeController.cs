@@ -30,7 +30,7 @@ namespace Pho84SnackMVC.Controllers
 
       public IActionResult Index()
       {
-         return View();
+         return RedirectToAction("index", "category");
       }
 
       public IActionResult Privacy()
