@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Pho84SnackMVC.Controllers
 {
-   [Authorize]
+   [Authorize(Policy = PolicySettings.Active)]
    public class CategoryController : DefaultController
    {
       private readonly ICategoryRepository categoryRepository;
@@ -116,7 +116,7 @@ namespace Pho84SnackMVC.Controllers
                ModelState.AddModelError("", ex.Message);
             }
          }
-         Notify();
+         NotifyModelStateError();
          return RedirectToIndex();
       }
 

@@ -9,6 +9,3 @@ insert into size(shortname, longname) values('S', 'Small');
 insert into size(shortname, longname) values('M', 'Medium');
 insert into size(shortname, longname) values('L', 'Large');
 insert into size(shortname, longname) values('R', 'Regular');
-
-insert into role(name) values('BASIC');
-insert into role(name) values('ADMIN');

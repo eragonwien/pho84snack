@@ -69,14 +69,14 @@ namespace Pho84SnackMVC
          {
             o.LoginPath = "/Account/Login";
             o.LogoutPath = "/Account/Logout";
+            o.AccessDeniedPath = "/Account/AccessDenied";
             o.SlidingExpiration = true;
          });
 
          services.AddAuthorization(o => 
          {
             o.AddPolicy(PolicySettings.AdminOnly, p => p.RequireClaim(ClaimTypes.Role, Role.RoleAdmin));
-            o.AddPolicy(PolicySettings.HasRole, p => p.RequireClaim(ClaimTypes.Role, Role.RoleBasic, Role.RoleAdmin));
-            o.DefaultPolicy = o.GetPolicy(PolicySettings.HasRole);
+            o.AddPolicy(PolicySettings.Active, p => p.RequireClaim(AuthenticationSettings.ClaimTypeActive, bool.TrueString));
          });
 
          services

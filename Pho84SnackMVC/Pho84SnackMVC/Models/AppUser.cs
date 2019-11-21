@@ -10,31 +10,36 @@ namespace Pho84SnackMVC.Models
       public long Id { get; set; } = 0;
       public string Email { get; set; }
       public string Lastname { get; set; }
-      public string Surname { get; set; }
+      public string Firstname { get; set; }
       public string FacebookAccessToken { get; set; }
-      public Role Role { get; set; }
+      public bool Active { get; set; } = false;
 
       public AppUser()
       {
 
       }
 
-      public AppUser(long id, string email, string lastname, string surname, string facebookAccessToken, Role role)
+      public AppUser(long id, string email, string lastname, string firstname, string facebookAccessToken, bool active)
       {
          Id = id;
          Email = email;
          Lastname = lastname;
-         Surname = surname;
+         Firstname = firstname;
          FacebookAccessToken = facebookAccessToken;
-         Role = role;
+         Active = active;
       }
 
-      public AppUser(string email, string lastname = null, string surname = null, string facebookAccessToken = null)
+      public AppUser(string email, string lastname = null, string firstname = null, string facebookAccessToken = null)
       {
          Email = email;
          Lastname = lastname;
-         Surname = surname;
+         Firstname = firstname;
          FacebookAccessToken = facebookAccessToken;
+      }
+
+      public string Name
+      {
+         get { return Firstname + " " + Lastname; }
       }
    }
 }

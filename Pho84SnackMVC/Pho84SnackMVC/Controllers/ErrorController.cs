@@ -26,5 +26,6 @@ namespace Pho84SnackMVC.Controllers
          log.LogError("[Unhandled Exception] RequestId={0}, MSG={1}, Stack={2}", requestId, ex.Error.Message, ex.Error.StackTrace);
          return View(new ErrorViewModel(requestId));
       }
+
    }
 }

@@ -12,7 +12,7 @@ using Pho84SnackMVC.Services;
 
 namespace Pho84SnackMVC.Controllers
 {
-   [Authorize]
+   [Authorize(Policy = PolicySettings.Active)]
    public class PriceController : DefaultController
     {
       private readonly IPriceRepository priceRepository;

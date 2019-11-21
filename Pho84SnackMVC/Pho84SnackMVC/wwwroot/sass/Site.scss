@@ -12,7 +12,7 @@ $grey-light: #d3d3d3;
 
 @import "bulma/main/utilities/all";
 @import "bulma/main/base/_all";
-/*@import "bulma/main/elements/box";*/
+@import "bulma/main/elements/box";
 @import "bulma/main/elements/button";
 @import "bulma/main/elements/container";
 @import "bulma/main/elements/content";
@@ -120,6 +120,10 @@ $grey-light: #d3d3d3;
    .navbar-item {
       color: $text-in-primary;
    }
+}
+
+.is-hidden-2 {
+   @extend .is-hidden;
 }
 
 

@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "AccessDenied";
+}
+
+<div class="section h-100">
+   <div class="columns is-mobile is-centered is-vcentered h-100">
+      <div class="column">
+         <p class="bd-notification is-primary has-text-centered">
+            You are not allowed to access this endpoint.
+            <a class="button is-primary" asp-controller="home" asp-action="index">Go to Homepage</a>
+            <a class="button is-danger" asp-controller="account" asp-action="logout">Logout</a>
+         </p>
+      </div>
+   </div>
+</div>

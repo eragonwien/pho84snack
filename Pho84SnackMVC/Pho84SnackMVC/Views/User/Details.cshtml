@@ -1,0 +1,41 @@
+﻿@model AppUser
+@{
+   ViewData["Title"] = Model.Name;
+}
+<div class="section">
+   <div class="level">
+      <div class="level-left"></div>
+      <div class="level-right">
+         <div class="level-item">
+            <a class="button is-small is-primary has-icons-left" asp-action="edit" asp-route-id="@Model.Id">
+               <span class="icon is-small"><span class="oi" data-glyph="pencil"></span></span>
+               <span>Edit</span>
+            </a>
+         </div>
+      </div>
+   </div>
+   <div class="columns">
+      <div class="column is-2-desktop">
+         <p class="title is-size-6">@Html.DisplayNameFor(m => m.Firstname)</p>
+      </div>
+      <div class="column">@Html.DisplayFor(m => m.Firstname)</div>
+   </div>
+   <div class="columns">
+      <div class="column is-2-desktop">
+         <p class="title is-size-6">@Html.DisplayNameFor(m => m.Lastname)</p>
+      </div>
+      <div class="column">@Html.DisplayFor(m => m.Lastname)</div>
+   </div>
+   <div class="columns">
+      <div class="column is-2-desktop">
+         <p class="title is-size-6">@Html.DisplayNameFor(m => m.Email)</p>
+      </div>
+      <div class="column">@Html.DisplayFor(m => m.Email)</div>
+   </div>
+   <div class="columns">
+      <div class="column is-2-desktop">
+         <p class="title is-size-6">Activated ?</p>
+      </div>
+      <div class="column">@(Model.Active ? "Yes" : "No")</div>
+   </div>
+</div>

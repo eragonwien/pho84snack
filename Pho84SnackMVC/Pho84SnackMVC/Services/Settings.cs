@@ -30,6 +30,6 @@ namespace Pho84SnackMVC.Services
    public class PolicySettings
    {
       public const string AdminOnly = "AdminOnly";
-      public const string HasRole = "HasRole";
+      public const string Active = "Active";
    }
 }

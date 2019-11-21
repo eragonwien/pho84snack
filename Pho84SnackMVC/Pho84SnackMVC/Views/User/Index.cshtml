@@ -1,59 +1,45 @@
 ﻿@model IEnumerable<Pho84SnackMVC.Models.AppUser>
-
 @{
-    ViewData["Title"] = "Index";
+   ViewData["Title"] = "Users";
+   ViewData["NavbarTitle"] = "Users";
 }
 
-<h1>Index</h1>
+<div class="panel">
+   <p class="panel-heading">Users</p>
+   <div class="panel-block">
+      <div class="field has-addons is-fullwidth">
+         <div class="control is-expanded has-icons-left">
+            <input class="input input-autocomplete" type="text" placeholder="Search">
+            <span class="icon is-left">
+               <span class="oi" data-glyph="magnifying-glass"></span>
+            </span>
+         </div>
+         <div class="control">
+            <span class="select">
+               <select class="filter-select">
+                  <option>All</option>
+                  <option>Activated</option>
+                  <option>Not activated</option>
+               </select>
+            </span>
+         </div>
+      </div>
+   </div>
+   @if (Model.Count() > 0)
+   {
+      @foreach (AppUser appUser in Model)
+      {
+         <a class="panel-block output-autocomplete" asp-controller="user" asp-action="edit" asp-route-id="@appUser.Id" data-activated="@appUser.Active">@appUser.Firstname @appUser.Lastname</a>
+      }
+   }
+   else
+   {
+      <a class="panel-block">
+         <span class="panel-icon">
+            <i class="fas fa-exclamation-circle"></i>
+         </span>
+         No user found
+      </a>
+   }
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Lastname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Surname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FacebookAccessToken)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FacebookAccessToken)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>

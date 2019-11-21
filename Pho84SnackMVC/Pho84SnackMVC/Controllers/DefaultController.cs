@@ -53,12 +53,21 @@ namespace Pho84SnackMVC.Controllers
          return RedirectToActionPermanent(Url.Action("index", "home"));
       }
 
-      public void Notify()
+      public void NotifyModelStateError()
       {
+         var notifications = TempData["Notifications"] != null ? TempData["Notifications"] as List<string> : new List<string>();
          if (!ModelState.IsValid)
          {
-            TempData["Notifications"] = ModelState.SelectMany(v => v.Value.Errors.Select(e => string.Format("{0}: {1}", v.Key, e.ErrorMessage))).ToList();
+            notifications = ModelState.SelectMany(v => v.Value.Errors.Select(e => string.Format("{0}: {1}", v.Key, e.ErrorMessage))).ToList();
          }
+         TempData["Notifications"] = notifications;
+      }
+
+      public void Notify(string message)
+      {
+         var notifications = TempData["Notifications"] != null ? TempData["Notifications"] as List<string> : new List<string>();
+         notifications.Add(message);
+         TempData["Notifications"] = notifications;
       }
    }
 }

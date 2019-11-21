@@ -23,6 +23,23 @@ if (inputAutocomplete) {
    });
 }
 
+const filterSelect = document.querySelector('.filter-select');
+if (filterSelect) {
+   filterSelect.addEventListener('change', function () {
+      let selectedValue = this.value.toLowerCase();
+      const outputs = document.querySelectorAll('.output-autocomplete');
+      forEach(outputs, function (index, value) {
+         let activated = outputs[index].dataset.activated.toLowerCase() === 'true';
+         if (selectedValue === 'all' || (selectedValue === 'activated' && activated) || (selectedValue === 'not activated' && !activated)) {
+            outputs[index].classList.remove('is-hidden-2');
+         }
+         else {
+            outputs[index].classList.add('is-hidden-2');
+         }
+      });
+   });
+}
+
 
 // General
 $('.modal-trigger').click(function (e) {

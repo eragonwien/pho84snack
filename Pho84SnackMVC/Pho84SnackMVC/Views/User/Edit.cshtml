@@ -1,0 +1,68 @@
+﻿@model AppUser
+@{
+   ViewData["Title"] = Model.Name;
+
+   string removeModalId = string.Format("remove-modal-appuser-{0}", Model.Id);
+   var removeModal = new RemoveModalViewModel(removeModalId, Url.Action("delete", "user", new { id = Model.Id }), Model.Name, nameof(AppUser), Context.Request.Path);
+   string authenticatedId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+<form class="section" asp-action="edit">
+   @Html.HiddenFor(m => m.Id)
+
+   <div class="field">
+      <label class="label" asp-for="Firstname"></label>
+      <div class="control">
+         <input class="input" type="text" asp-for="Firstname">
+      </div>
+      <p class="help is-danger"><span asp-validation-for="Firstname"></span></p>
+   </div>
+
+   <div class="field">
+      <label class="label" asp-for="Lastname"></label>
+      <div class="control">
+         <input class="input" type="text" asp-for="Lastname">
+      </div>
+      <p class="help is-danger"><span asp-validation-for="Lastname"></span></p>
+   </div>
+
+   <div class="field">
+      <label class="label" asp-for="Email"></label>
+      <div class="control">
+         <input class="input" type="email" asp-for="Email">
+      </div>
+      <p class="help is-danger"><span asp-validation-for="Email"></span></p>
+   </div>
+
+   <div class="field">
+      <label class="label" asp-for="Active"></label>
+      <div class="control">
+         <label class="radio">
+            <input type="radio" asp-for="Active" value="@bool.TrueString">
+            Yes
+         </label>
+         <label class="radio">
+            <input type="radio" asp-for="Active" value="@bool.FalseString">
+            No
+         </label>
+      </div>
+      <p class="help is-danger"><span asp-validation-for="Active"></span></p>
+   </div>
+
+   <div class="field">
+      <div class="control">
+         <div class="buttons">
+            <button type="submit" class="button is-primary">
+               <span class="icon is-small"><span class="oi" data-glyph="check"></span></span>
+               <span>Save</span>
+            </button>
+            @if (authenticatedId != Model.Id.ToString())
+            {
+               <a class="button is-danger is-outlined modal-trigger" data-target="@removeModalId">Delete</a>
+               <partial name="_RemoveModalPartial" model="removeModal" />
+            }
+            <a class="button is-light" asp-action="index">Cancel</a>
+         </div>
+      </div>
+   </div>
+</form>

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Controllers
 {
-   [Authorize]
+   [Authorize(Policy = PolicySettings.Active)]
    public class ProductController : DefaultController
    {
       private readonly IProductRepository productRepository;
@@ -76,7 +76,7 @@ namespace Pho84SnackMVC.Controllers
                ModelState.AddModelError("", ex.Message);
             }
          }
-         Notify();
+         NotifyModelStateError();
          return RedirectToIndex();
       }
 

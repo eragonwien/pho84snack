@@ -2,6 +2,7 @@
    string editLink = ViewData["Edit"]?.ToString();
    string title = ViewData["NavbarTitle"] != null ? ViewData["NavbarTitle"].ToString() : "Pho84Snack";
    var user = Context.User;
+   bool isUserActive = bool.TryParse(user.FindFirstValue(AuthenticationSettings.ClaimTypeActive), out isUserActive) && isUserActive;
 }
 
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
@@ -19,10 +20,13 @@
 
    <div id="navbar-menu" class="navbar-menu">
       <div class="navbar-end">
-         <a class="navbar-item" asp-controller="category" asp-action="index">Categories</a>
-         <a class="navbar-item" asp-controller="product" asp-action="index">Products</a>
-         <a class="navbar-item" asp-controller="user" asp-action="index">Users</a>
          <hr class="navbar-divider">
+         @if (user.Identity.IsAuthenticated && isUserActive)
+         {
+            <a class="navbar-item" asp-controller="category" asp-action="index">Categories</a>
+            <a class="navbar-item" asp-controller="product" asp-action="index">Products</a>
+            <a class="navbar-item" asp-controller="user" asp-action="index">Users</a>
+         }
          @if (user.Identity.IsAuthenticated)
          {
             <a class="navbar-item" asp-controller="account" asp-action="logout">Logout</a>

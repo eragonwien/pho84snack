@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Pho84SnackMVC.Models;
 using Pho84SnackMVC.Services;
+using System;
 using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Controllers
 {
-   [Authorize]
+   [Authorize(Policy = PolicySettings.Active)]
    public class UserController : DefaultController
    {
       private readonly IUserRepository userRepository;
@@ -26,55 +27,60 @@ namespace Pho84SnackMVC.Controllers
       }
 
       // GET: User/Details/5
-      public ActionResult Details(int id)
+      public async Task<IActionResult> Details(long id)
       {
-         return View();
+         if (!await userRepository.Exists(id))
+         {
+            return NotFound();
+         }
+         return View(await userRepository.GetOne(id));
       }
 
       // GET: User/Edit/5
-      public ActionResult Edit(int id)
+      public async Task<IActionResult> Edit(long id)
       {
-         return View();
+         if (!await userRepository.Exists(id))
+         {
+            return NotFound();
+         }
+         return View(await userRepository.GetOne(id));
       }
 
       // POST: User/Edit/5
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Edit(int id, IFormCollection collection)
+      public async Task<IActionResult> Edit(int id, AppUser appUser)
       {
-         try
+         if (ModelState.IsValid)
          {
-            // TODO: Add update logic here
-
-            return RedirectToAction(nameof(Index));
+            try
+            {
+               await userRepository.Update(appUser);
+               return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+               log.LogError("Fehler bei Bearbeitung von Benutzer {0}: {1}", appUser.Name, ex.Message);
+               ModelState.AddModelError("", ex.Message);
+            }
          }
-         catch
-         {
-            return View();
-         }
-      }
-
-      // GET: User/Delete/5
-      public ActionResult Delete(int id)
-      {
-         return View();
+         return View(appUser);
       }
 
       // POST: User/Delete/5
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Delete(int id, IFormCollection collection)
+      public ActionResult Delete(int id, string returnUrl)
       {
          try
          {
-            // TODO: Add delete logic here
-
-            return RedirectToAction(nameof(Index));
+            ;
          }
-         catch
+         catch (Exception ex)
          {
-            return View();
+            log.LogError("Fehler bei Löschen von Benutzer {0}: {1}", id, ex.Message);
          }
+         return LocalRedirect(returnUrl);
       }
    }
 }
