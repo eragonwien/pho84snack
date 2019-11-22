@@ -1,4 +1,4 @@
-CREATE VIEW `v_category` AS
+CREATE or replace VIEW v_category AS
 select 
 	c.id,
     c.name,

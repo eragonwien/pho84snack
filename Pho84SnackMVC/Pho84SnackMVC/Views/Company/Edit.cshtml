@@ -1,0 +1,41 @@
+﻿@model Company
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<form class="section" method="post" asp-action="edit" asp-route-id="@Model.Id">
+   @Html.HiddenFor(m => m.Id)
+   @Html.EditorFor(m => m.Name, "Text")
+
+   <div class="field-body">
+      @Html.EditorFor(m => m.Address, "Text")
+      @Html.EditorFor(m => m.AddressExtra, "Text")
+   </div>
+
+   <div class="field-body">
+      @Html.EditorFor(m => m.Zip, "Text")
+      @Html.EditorFor(m => m.City, "Text")
+   </div>
+
+   <div class="field-body">
+      @Html.EditorFor(m => m.Phone, "Text")
+      @Html.EditorFor(m => m.Email, "Text")
+   </div>
+   
+   
+   @Html.EditorFor(m => m.Facebook, "Text")
+   @Html.EditorFor(m => m.Description, "Textarea")
+
+   <div class="field">
+      <div class="control">
+         <div class="buttons">
+            <button type="submit" class="button is-primary">
+               <span class="icon is-small"><span class="oi" data-glyph="check"></span></span>
+               <span>Save</span>
+            </button>
+            <a class="button is-light" asp-controller="home" asp-action="index">Cancel</a>
+         </div>
+      </div>
+   </div>
+</form>
+

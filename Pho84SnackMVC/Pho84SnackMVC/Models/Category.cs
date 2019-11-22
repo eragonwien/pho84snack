@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Pho84SnackMVC.Models.ViewModels;
+using Pho84SnackMVC.Services;
 
 namespace Pho84SnackMVC.Models
 {
@@ -23,7 +25,7 @@ namespace Pho84SnackMVC.Models
 
       }
 
-      public Category(string name, string description, int id = 0)
+      public Category(int id, string name, string description)
       {
          Id = id;
          Name = name;

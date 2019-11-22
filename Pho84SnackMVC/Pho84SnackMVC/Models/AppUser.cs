@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,8 +9,11 @@ namespace Pho84SnackMVC.Models
    public class AppUser
    {
       public long Id { get; set; } = 0;
+      [DataType(DataType.EmailAddress)]
       public string Email { get; set; }
+      [DataType(DataType.Text)]
       public string Lastname { get; set; }
+      [DataType(DataType.Text)]
       public string Firstname { get; set; }
       public string FacebookAccessToken { get; set; }
       public bool Active { get; set; } = false;

@@ -4,22 +4,8 @@
 }
 <form class="section" asp-controller="category" asp-action="edit">
    @Html.HiddenFor(m => m.Id)
-
-   <div class="field">
-      <label class="label" asp-for="Name"></label>
-      <div class="control">
-         <input class="input" type="text" asp-for="Name">
-      </div>
-      <p class="help is-danger"><span asp-validation-for="Name"></span></p>
-   </div>
-
-   <div class="field">
-      <label class="label" asp-for="Description"></label>
-      <div class="control">
-         <textarea class="textarea" rows="5" asp-for="Description"></textarea>
-      </div>
-      <p class="help is-danger"><span asp-validation-for="Description"></span></p>
-   </div>
+   @Html.EditorFor(m => m.Name, "Text")
+   @Html.EditorFor(m => m.Description, "Textarea")
 
    <div class="field">
       <label class="label" asp-for="Products"></label>

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Pho84SnackMVC.Models
 {
-   public class CompanyInfo
+   public class Company
    {
       public long Id { get; set; }
       public string Name { get; set; }

@@ -36,7 +36,7 @@ namespace Pho84SnackMVC.Services
          List<Category> categories = new List<Category>();
          using (var con = context.GetConnection())
          {
-            string cmdStr = "select Id, Name, Description from CATEGORY";
+            string cmdStr = "select Id, Name, Description from V_CATEGORY";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                await con.OpenAsync();
@@ -44,7 +44,7 @@ namespace Pho84SnackMVC.Services
                {
                   while (await odr.ReadAsync())
                   {
-                     categories.Add(new Category(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt("Id")));
+                     categories.Add(new Category(odr.ReadInt("Id"), odr.ReadString("Name"), odr.ReadString("Description")));
                   }
                }
             }
@@ -57,7 +57,7 @@ namespace Pho84SnackMVC.Services
          Category category = null;
          using (var con = context.GetConnection())
          {
-            string cmdStr = "select Id, Name, Description, ProductId, ProductName, ProductDescription from V_CATEGORY where Id=@Id";
+            string cmdStr = "select * from V_CATEGORY where Id=@Id";
             using (var cmd = new MySqlCommand(cmdStr, con))
             {
                cmd.Parameters.Add(new MySqlParameter("@Id", id));
@@ -69,7 +69,7 @@ namespace Pho84SnackMVC.Services
                   {
                      if (category == null)
                      {
-                        category = new Category(odr.ReadString("Name"), odr.ReadString("Description"), odr.ReadInt("Id"));
+                        category = new Category(odr.ReadInt("Id"), odr.ReadString("Name"), odr.ReadString("Description"));
                      }
                      if (!odr.IsDbNull("ProductId"))
                      {

@@ -1,8 +1,7 @@
 use pho84snack;
-drop table role;
-drop table if exists ProductSize, Size, ProductMap, Product, Category, CompanyInfo, AppUser;
+drop table if exists ProductSize, Size, ProductMap, Product, Category, AppUser, Company;
 
-create table CompanyInfo (
+create table Company (
 	Id int not null auto_increment,
     Name varchar(32) unique not null,
     Description varchar(256),
@@ -10,9 +9,19 @@ create table CompanyInfo (
     AddressExtra varchar(64),
     Zip varchar(32),
     City varchar(32),
-    Phone varchar(16),
+    Phone varchar(32),
     Email varchar(32),
     Facebook varchar(32),
+    primary key (Id)
+);
+
+create table AppUser (
+	Id int not null auto_increment,
+    Email varchar(32) unique not null, 
+    Lastname varchar(16),
+    Firstname varchar(16),
+    Active tinyint(1) default 0,
+    FacebookAccessToken varchar(1024),
     primary key (Id)
 );
 
@@ -56,15 +65,5 @@ create table ProductSize (
     foreign key (SizeId) references Size(Id),
     foreign key (ProductId) references Product(Id),
     constraint Unique_ProductSizeMap unique (SizeId, ProductId)
-);
-
-create table AppUser (
-	Id int not null auto_increment,
-    Email varchar(32) unique not null, 
-    Lastname varchar(16),
-    Firstname varchar(16),
-    Active tinyint(1) default 0,
-    FacebookAccessToken varchar(1024),
-    primary key (Id)
 );
 

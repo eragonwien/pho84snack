@@ -9,30 +9,9 @@
 
 <form class="section" asp-action="edit">
    @Html.HiddenFor(m => m.Id)
-
-   <div class="field">
-      <label class="label" asp-for="Firstname"></label>
-      <div class="control">
-         <input class="input" type="text" asp-for="Firstname">
-      </div>
-      <p class="help is-danger"><span asp-validation-for="Firstname"></span></p>
-   </div>
-
-   <div class="field">
-      <label class="label" asp-for="Lastname"></label>
-      <div class="control">
-         <input class="input" type="text" asp-for="Lastname">
-      </div>
-      <p class="help is-danger"><span asp-validation-for="Lastname"></span></p>
-   </div>
-
-   <div class="field">
-      <label class="label" asp-for="Email"></label>
-      <div class="control">
-         <input class="input" type="email" asp-for="Email">
-      </div>
-      <p class="help is-danger"><span asp-validation-for="Email"></span></p>
-   </div>
+   @Html.EditorFor(m => m.Firstname, "Text")
+   @Html.EditorFor(m => m.Lastname, "Text")
+   @Html.EditorFor(m => m.Email, "Text")
 
    <div class="field">
       <label class="label" asp-for="Active"></label>

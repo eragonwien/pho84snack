@@ -33,7 +33,7 @@ namespace Pho84SnackMVC
       public void ConfigureServices(IServiceCollection services)
       {
          services.Add(new ServiceDescriptor(typeof(Pho84SnackContext), new Pho84SnackContext(Configuration.GetConnectionString(Settings.DefaultConnectionString))));
-         services.AddScoped<ICompanyInfoRepository, CompanyInfoRepository>();
+         services.AddScoped<ICompanyRepository, CompanyRepository>();
          services.AddScoped<ICategoryRepository, CategoryRepository>();
          services.AddScoped<IProductRepository, ProductRepository>();
          services.AddScoped<IPriceRepository, PriceRepository>();
